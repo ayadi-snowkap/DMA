@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en" data-ver="2026" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Double materiality workbook</title>
+<style>
+/* Visual system taken from "The DACH Reporting Lattice": navy ink on grey paper, white panels with
+   hairline borders, Georgia headings, monospace labels, pill chips, navy table heads.
+   Green = impact lens. EU blue = financial lens. Red / gold = things that need a decision. */
+:root{
+  color-scheme:light;
+  --ink:#0B1F33; --fill:#0B1F33; --fill-2:#132A45; --on-fill:#fff; --fill-soft:#9FB4CE;
+  --paper:#EEF0F1; --paper-2:#E2E5E7; --panel:#fff; --line:#C7CCD1;
+  --text:#12181F; --muted:#5B6570; --ink-2:#132A45; --ink-3:#5B6570;
+  --eu:#1E4FBB; --gl:#2E7D6B; --at:#8B2635; --ch:#D52B1E; --gold:#B8862D;
+  --accent:#8B2635; --accent-text:#7C2230; --accent-tint:#F1DFE2; --on-accent:#fff;
+  --fin:#0B1F33; --fin-text:#132A45; --fin-tint:#E2E5E7; --gold-tint:#F6ECD6;
+  --bg:var(--paper); --surface:var(--paper-2); --hair:var(--paper-2); --divider:var(--line); --on-ink:#fff;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;line-height:1.08;margin:0}
+h1{font-size:clamp(30px,4.2vw,50px);line-height:1.04}
+h1 em,h2 em{font-style:italic;color:var(--ink-2)}
+h2{font-size:clamp(23px,2.6vw,30px)}
+h3{font-size:19px;line-height:1.2}
+h4{font-family:var(--sans);font-weight:700;font-size:13.5px;line-height:1.3;margin:0}
+p{margin:0 0 11px;max-width:74ch}
+a{color:var(--eu);text-decoration:none;border-bottom:1px dotted var(--muted)}
+a:hover{border-bottom-style:solid}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--eu);outline-offset:2px}
+::selection{background:var(--accent-tint)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+@media (max-width:640px){.wrap{padding:0 14px}}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--fill)}
+.top .wrap{display:flex;align-items:center;gap:12px 22px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+.brand{font-family:var(--serif);font-size:18px;margin-right:auto;white-space:nowrap}
+.brand em{font-style:italic;color:var(--ink-2)}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;order:3;width:100%;padding:2px 0}
+.tabs::-webkit-scrollbar{display:none}
+.tab,.seg button,.subtab{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--fill);border-radius:20px;cursor:pointer;background:var(--panel);color:var(--text);white-space:nowrap;transition:background-color .15s,color .15s}
+.tab:hover,.seg button:hover,.subtab:hover{opacity:.85}
+.tab[aria-selected="true"],.seg button[aria-pressed="true"],.subtab[aria-selected="true"]{background:var(--fill);color:var(--on-fill)}
+.ver{display:flex;align-items:center;gap:8px}
+.ver-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;gap:5px}
+.seg button{font-size:10.5px;padding:4px 10px}
+
+.view{display:none;padding:34px 0 80px}
+.view.on{display:block}
+.block{margin-top:44px;border-top:2px solid var(--fill);padding-top:20px}
+.block>h2,.block>h3{margin-bottom:6px}
+.block>h3{font-size:24px}
+.lede{font-size:14.5px;line-height:1.55;color:var(--muted);max-width:68ch;margin-top:8px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.small{font-size:12.5px;line-height:1.5;color:var(--muted)}
+.muted{color:var(--muted)}
+.rule{height:2px;background:var(--fill);border:0;margin:0}
+.frame{border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+.scroll.frame{border-color:var(--fill);overflow-y:hidden}
+.note{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:2px;padding:11px 14px;background:var(--panel);font-size:13px;margin:16px 0;max-width:90ch}
+.note p:last-child{margin-bottom:0}
+.dr{font-family:var(--mono);font-weight:700;font-size:.92em;white-space:nowrap}
+html[data-ver="2026"] .v23,html[data-ver="2023"] .v26{display:none}
+.btn{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;padding:7px 13px;border:1px solid var(--fill);border-radius:20px;background:var(--panel);color:var(--text);cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{opacity:.85;border-bottom-style:solid}
+.btn-fill{background:var(--fill);color:var(--on-fill)}
+.btn-sm{padding:4px 10px;font-size:10.5px}
+.btn-row{display:flex;flex-wrap:wrap;gap:7px}
+.chip{display:inline-block;font-family:var(--mono);font-size:9.5px;padding:2px 8px;border-radius:10px;color:#fff;background:#7A7F86;white-space:nowrap;border:1px solid transparent;cursor:default}
+.chip-imp{background:var(--accent)}
+.chip-fin{background:var(--fin)}
+.chip-off{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
+
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:12.5px;background:var(--panel)}
+thead th{background:var(--fill);color:var(--on-fill);text-align:left;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:10px 12px;line-height:1.35;vertical-align:bottom}
+thead th.hl{background:var(--fill-2)}
+td{padding:10px 12px;border-bottom:1px solid var(--paper-2);vertical-align:top;line-height:1.45}
+td p{margin-bottom:6px}
+tbody tr:hover{background:var(--paper)}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:700;white-space:nowrap}
+td.hl{background:var(--paper)}
+
+/* grids of cards (fw-node pattern: grey card, coloured 4px left edge) */
+.cols{display:grid;gap:10px}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:900px){.cols-3,.cols-4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}}
+.frame.cols{padding:14px}
+.cols>.cell{padding:12px 14px 13px;border:1.4px solid var(--line);border-left:4px solid var(--line);border-radius:2px;background:var(--paper)}
+.cell h4{margin-bottom:5px}
+.cell h3{margin-bottom:4px}
+.cell p{font-size:12.5px;color:var(--muted);margin-bottom:0}
+.cell p b{color:var(--text)}
+ul.dash{list-style:none;margin:8px 0 0;padding:0}
+ul.dash li{position:relative;padding-left:16px;margin-bottom:6px;font-size:13px}
+ul.dash li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:2px;background:var(--muted)}
+
+/* switchboard: fw-node pattern — light card, 4px coded left edge, status in the edge style */
+.board{display:grid;grid-template-columns:repeat(12,1fr);gap:7px;margin-top:22px;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
+.sw{position:relative;padding:9px 10px 10px 13px;min-height:100px;display:flex;flex-direction:column;gap:1px;text-align:left;cursor:pointer;border:1.4px solid var(--line);border-radius:2px;background:var(--paper);color:var(--text);transition:background-color .15s}
+.sw::before{content:"";position:absolute;left:0;top:-1.4px;bottom:-1.4px;width:4px;background:var(--line)}
+.sw:hover{background:var(--panel);box-shadow:0 0 0 1px var(--fill) inset}
+.sw-code{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.sw-name{font-family:var(--serif);font-size:13.5px;line-height:1.15;margin-top:2px}
+.sw-state{margin-top:auto;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:8px}
+.sw[data-s="imp"]::before{background:var(--accent)}
+.sw[data-s="imp"] .sw-state{color:var(--accent-text)}
+.sw[data-s="fin"]::before{background:var(--fin)}
+.sw[data-s="fin"] .sw-state{color:var(--fin-text)}
+.sw[data-s="both"]::before{background:linear-gradient(180deg,var(--accent) 0 50%,var(--fin) 50% 100%)}
+.sw[data-s="both"] .sw-state{color:var(--text)}
+.sw[data-s="always"]{background:var(--paper-2)}
+.sw[data-s="always"]::before{background:var(--fill)}
+.sw[data-s="closed"]{background:var(--panel)}
+.sw[data-s="closed"] .sw-name{color:var(--muted)}
+.sw[data-s="closed"]::before{background:var(--line)}
+.sw[data-s="none"]{background:var(--panel);border-style:dashed;opacity:.8}
+.sw[data-s="none"]::before{background:repeating-linear-gradient(180deg,var(--line) 0 4px,transparent 4px 8px)}
+@media (max-width:1100px){.board{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:560px){.board{grid-template-columns:repeat(3,1fr);padding:10px}.sw{min-height:90px}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12px;margin-top:12px;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:5px;vertical-align:-1px;border:1px solid var(--line)}
+
+/* situations */
+#situations{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:4px 18px}
+.situ{display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:center;padding:13px 0;border-top:1px solid var(--paper-2)}
+.situ:first-of-type{border-top:0}
+.situ h4{font-size:14px}
+.situ p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.situ{grid-template-columns:1fr}}
+
+/* steps */
+.step{display:grid;grid-template-columns:230px 1fr;gap:26px;padding:22px 0 26px;border-top:1px solid var(--line)}
+.step:first-child{border-top:0;padding-top:0}
+.step-n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.step-n::before{content:"STEP "}
+.step h3{margin-top:6px;font-size:23px}
+.step-grid{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--fill);border-radius:4px;overflow:hidden;background:var(--panel)}
+.step-grid>div{padding:13px 16px;border-top:1px solid var(--paper-2)}
+.step-grid>div:nth-child(even){border-right:1px solid var(--paper-2)}
+.step-grid>div:first-child{border-top:0}
+.step-grid .wide{grid-column:1/-1;border-right:0!important}
+.step-grid h4{font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.step-grid p{font-size:13px;margin:0;max-width:95ch}
+.step-grid .ask{background:var(--fill);color:var(--on-fill)}
+.step-grid .ask h4{color:var(--fill-soft)}
+.step-grid .ask p{font-family:var(--serif);font-size:15px;font-style:italic;line-height:1.35}
+.step-grid .v26{background:var(--accent-tint)!important}
+@media (max-width:820px){.step{grid-template-columns:1fr;gap:12px}.step-grid{grid-template-columns:1fr}.step-grid>div{border-right:0!important}}
+
+/* workbook */
+.wb-bar{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:end;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:4px;margin-top:18px}
+.field label,.lbl{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.input,select.input{width:100%;min-height:34px;padding:6px 9px;background:var(--panel);border:1px solid var(--fill);border-radius:2px;font-size:13px}
+.input:focus-visible{outline-offset:0}
+.input:disabled{opacity:.4}
+.thr{display:flex;align-items:center;gap:8px}
+.thr input[type=range]{width:130px}
+#t-imp{accent-color:var(--accent)}#t-fin{accent-color:var(--fill)}
+.thr output{font-family:var(--mono);font-weight:700;font-size:15px;min-width:2.2em}
+.wb-main{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;margin-top:18px;align-items:start}
+@media (max-width:1020px){.wb-main{grid-template-columns:minmax(0,1fr)}}
+.wb-main>*{min-width:0}
+.reg{min-width:520px}
+.reg td,.reg thead th{padding:8px 10px}
+.reg tbody tr{cursor:pointer}
+.reg tbody tr.sel{background:var(--accent-tint)}
+.reg .n{font-family:var(--mono);color:var(--muted);width:30px}
+.score{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+td.score.hit:nth-child(3){color:var(--accent-text)}
+td.score.hit:nth-child(4){color:var(--fin-text)}
+.empty{padding:28px 22px;border:1.4px dashed var(--line);border-radius:4px;background:var(--panel)}
+.editor{border:1px solid var(--fill);border-radius:4px;background:var(--panel);margin-top:18px;display:none;scroll-margin-top:120px;overflow:hidden}
+.editor.on{display:block}
+.editor-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 18px;background:var(--fill);color:var(--on-fill)}
+.editor-head b{font-family:var(--serif);font-weight:400;font-size:17px}
+.editor-head .btn{background:transparent;color:var(--fill-soft);border-color:var(--fill-soft)}
+.editor-body{padding:16px 18px 18px;display:grid;grid-template-columns:repeat(6,1fr);gap:13px 16px}
+.editor-body .c2{grid-column:span 2}.editor-body .c3{grid-column:span 3}.editor-body .c4{grid-column:span 4}.editor-body .c6{grid-column:1/-1}
+@media (max-width:760px){.editor-body{grid-template-columns:repeat(2,1fr)}.editor-body .c2,.editor-body .c3,.editor-body .c4{grid-column:1/-1}}
+.lens{grid-column:span 3;border:1.4px solid var(--line);border-left-width:4px;border-radius:2px;background:var(--paper)}
+.lens.imp{border-left-color:var(--accent)}.lens.fin{border-left-color:var(--fin)}
+@media (max-width:760px){.lens{grid-column:1/-1}}
+.lens-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px 0;font-family:var(--serif);font-size:16px}
+.lens.imp .lens-head>span{color:var(--accent-text)}.lens.fin .lens-head>span{color:var(--fin-text)}
+.lens-head label{font-family:var(--sans)}
+.lens-body{padding:10px 12px 12px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 12px}
+.lens-body.off{opacity:.35;pointer-events:none}
+.lens-out{grid-column:1/-1;font-family:var(--mono);font-size:11px;color:var(--muted);padding-top:8px;border-top:1px solid var(--line)}
+.lens-out b{color:var(--text)}
+.checks{display:flex;flex-wrap:wrap;gap:6px 16px}
+.field .checks label,.checks label,.lens-head label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;letter-spacing:0;font-family:var(--sans);font-size:13px;color:var(--text);margin:0}
+input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
+.plot{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:12px}
+.plot svg{display:block;width:100%;height:auto}
+.subtabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:40px;padding-top:20px;border-top:2px solid var(--fill)}
+.subtab .ct{display:inline-block;min-width:16px;padding:0 5px;margin-left:6px;border-radius:9px;background:var(--accent);color:#fff;font-size:10px;text-align:center}
+.out{padding:16px 0 0;display:none}.out.on{display:block}
+.out>.frame{padding:4px 18px}
+.per{display:grid;grid-template-columns:170px 130px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--paper-2);align-items:start}
+.per:first-child{border-top:0}
+.per-code{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted)}
+.per-code+.small{font-family:var(--serif);font-size:15.5px;color:var(--text);line-height:1.2}
+.per ul{margin:0;padding:0;list-style:none;columns:2;column-gap:24px;font-size:12.5px}
+.per li{break-inside:avoid;margin-bottom:4px}
+.per li b{font-family:var(--mono);font-size:11.5px}
+.per li.dim{color:var(--muted);opacity:.75}
+@media (max-width:820px){.per{grid-template-columns:1fr;gap:8px}.per ul{columns:1}}
+.flag{display:block;margin:10px 0;padding:10px 14px;border:1.4px solid var(--line);border-left:4px solid var(--accent);border-radius:2px;background:var(--paper)}
+.flag:has(.flag-dot.soft){border-left-color:var(--gold);border-left-style:dashed}
+.flag-dot{display:none}
+.flag h4{margin-bottom:3px}
+.flag p{margin:0;font-size:12.5px;color:var(--muted);max-width:110ch}
+.flag p b{color:var(--text)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--fill);color:var(--on-fill);padding:9px 16px;border-radius:20px;font-family:var(--mono);font-size:11.5px;z-index:50;display:none;max-width:90vw}
+.toast.on{display:block}
+.backup{display:none;margin-top:12px;padding:14px 16px;background:var(--panel);border:1px solid var(--line);border-radius:4px}.backup.on{display:block}
+.backup textarea{width:100%;min-height:150px;font-family:var(--mono);font-size:11.5px}
+
+/* interlinkage matrix */
+.mx{border-collapse:separate;border-spacing:3px;min-width:900px;font-size:12px;background:var(--panel)}
+.mx-wrap{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:12px}
+.mx th,.mx td{border:0;padding:0;text-align:center;height:44px;min-width:60px;background:transparent}
+.mx thead th{background:transparent;color:var(--muted);padding:4px;border-bottom:1px solid var(--paper-2)}
+.mx th.rowh{text-align:left;white-space:nowrap;padding:4px 12px 4px 4px;text-transform:none;letter-spacing:0;font-family:var(--mono);font-size:11px;color:var(--text);font-weight:700}
+.mx th.rowh .muted{font-family:var(--serif);font-size:13px;font-weight:400;margin-left:4px}
+.mx tbody tr:hover{background:transparent}
+.mx td.self{background:var(--paper-2);border-radius:2px;opacity:.6}
+.mx button{all:unset;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;width:100%;height:44px;cursor:pointer;line-height:1.2;border-radius:2px}
+.mx button b{font-family:var(--mono);font-size:11px}
+.mx button span{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;opacity:.8}
+.mx button:hover,.mx button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--text)}
+.mx button:focus-visible{outline:2px solid var(--eu);outline-offset:2px}
+.mx button{border:1px solid var(--line)}
+.mx .t-STRC button{background:var(--paper);color:var(--muted)}
+.mx .t-DRV button,.mx .t-RCPT button{background:var(--accent-tint);color:var(--accent-text);border-color:var(--accent)}
+.mx .t-DATA button,.mx .t-PLAN button{background:var(--fin-tint);color:var(--fin-text);border-color:var(--fill)}
+.mx .t-JUST button,.mx .t-BNDY button{background:var(--gold-tint);color:var(--gold);border-color:var(--gold)}
+.mx-note{border:1px solid var(--fill);border-radius:4px;background:var(--panel);padding:14px 18px;margin-top:14px;min-height:92px}
+.mx-note h4{font-family:var(--serif);font-weight:400}
+.chain{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.chain>div{padding:10px 11px;border:1.4px solid var(--line);border-left:4px solid var(--line);border-radius:2px;background:var(--panel);font-size:12px;color:var(--muted)}
+.chain b{display:block;font-size:13px;margin:2px 0 3px;color:var(--text)}
+.chain .n{font-family:var(--mono);font-size:10px;color:var(--muted)}
+@media (max-width:1000px){.chain{grid-template-columns:repeat(2,1fr)}}
+.band-ink{background:var(--fill);color:var(--on-fill);padding:18px 22px;border-radius:4px}
+.band-ink p{color:var(--on-fill);font-family:var(--serif);font-size:16px;line-height:1.45}
+.band-ink .kicker{color:var(--fill-soft)}
+.tri>.cell{border-left-color:var(--line)}
+.tri>.cell:first-child{border-left-color:var(--fill);background:var(--panel)}
+.foot{border-top:1px solid var(--line);margin-top:40px;padding-top:14px;font-size:11.5px;color:var(--muted)}
+.scope{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.scope>div{padding:18px 20px}
+.scope>div+div{border-left:1px solid var(--line)}
+@media (max-width:820px){.scope{grid-template-columns:1fr}.scope>div+div{border-left:0;border-top:1px solid var(--line)}}
+.scope-out{font-family:var(--serif);font-size:24px;line-height:1.15;margin:2px 0 8px}
+.aside-tag{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);padding:9px 12px;border-radius:2px;background:var(--panel);max-width:270px;line-height:1.5}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+@media print{.top,.btn-row{display:none}.view{display:block!important;padding:20px 0}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Double materiality <em>workbook</em></div>
+    <div class="ver">
+      <span class="ver-label">Disclosure codes</span>
+      <div class="seg" role="group" aria-label="ESRS version for disclosure codes">
+        <button type="button" data-ver="2023" aria-pressed="false">ESRS 2023</button>
+        <button type="button" data-ver="2026" aria-pressed="true">ESRS 2026</button>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" data-view="start" aria-selected="true">Start here</button>
+      <button class="tab" role="tab" data-view="workbook" aria-selected="false">Workbook</button>
+      <button class="tab" role="tab" data-view="assess" aria-selected="false">Run the assessment</button>
+      <button class="tab" role="tab" data-view="report" aria-selected="false">Turn it into the report</button>
+      <button class="tab" role="tab" data-view="frameworks" aria-selected="false">GRI and ISSB</button>
+      <button class="tab" role="tab" data-view="reference" aria-selected="false">Reference</button>
+    </nav>
+  </div>
+</header>
+<main>
+<!-- ============ START ============ -->
+<section class="view on" id="v-start" role="tabpanel">
+<div class="wrap">
+  <div class="hero"><div>
+  <div class="kicker">Double materiality · ESRS, with GRI and ISSB read-across</div>
+  <h1>Your materiality assessment<br><em>decides what you report.</em></h1>
+  </div>
+  <div class="aside-tag">Rules as of 18 Sep 2026: revised ESRS adopted 3 July 2026, mandatory from FY2027. Switch disclosure codes between versions at the top of the page.</div></div>
+  <p class="lede" style="margin-top:14px">A process diagram can't do anything for you. What the process leaves behind can: a scored list of sustainability matters, a line drawn through it, and from that line the exact set of disclosures you owe and the ones you are allowed to drop. This page lets you produce those outputs, then gives you the rules behind them.</p>
+
+  <div class="board" id="board-start" aria-label="Which ESRS standards are open"></div>
+  <div class="legend">
+    <span><i style="background:var(--accent);border-color:var(--accent)"></i>Open, impact material</span>
+    <span><i style="background:var(--fin);border-color:var(--fin)"></i>Open, financially material</span>
+    <span><i style="background:linear-gradient(90deg,var(--accent) 50%,var(--fin) 50%);border-color:var(--fill)"></i>Open on both</span>
+    <span><i style="background:var(--panel)"></i>Assessed, not material</span>
+    <span><i style="border-style:dashed;background:var(--paper)"></i>Not assessed yet</span>
+  </div>
+  <p class="small" style="margin-top:14px" id="board-caption"></p>
+  <div class="btn-row" style="margin-top:14px">
+    <button class="btn btn-fill" data-go="workbook">Open the workbook</button>
+    <button class="btn" id="load-example-start">Load the example company</button>
+  </div>
+
+  <div class="block">
+    <h2>What the assessment decides</h2>
+    <p class="lede">Five things get settled by the assessment and nowhere else. If you are asked why it is worth the effort, this is the answer.</p>
+    <div class="frame cols cols-3" style="margin-top:16px">
+      <div class="cell"><h4>Which standards you report</h4><p>Each of the ten topical standards opens only if a matter under it is material. Everything else stays closed, and you are entitled to keep it closed.</p></div>
+      <div class="cell"><h4>How deep each disclosure goes</h4><p>The lens that made a matter material, its subtopic and its severity set how much you say about it. <span class="v26">Under ESRS 2026 you report only the material subtopic, not the whole standard.</span></p></div>
+      <div class="cell"><h4>What data you collect, and from whom</h4><p>Material matters in the value chain mean supplier or customer data. Not material means no request goes out. The assessment is your data budget.</p></div>
+      <div class="cell"><h4>What the assurer tests</h4><p>Limited assurance covers the process, not only the numbers. The assurer reads your method note, thresholds and evidence before any metric.</p></div>
+      <div class="cell"><h4>What management has to answer for</h4><p>Every material matter must be tied to strategy and have a policy, action and target, or a plain statement that there is none yet.</p></div>
+      <div class="cell"><h4>Your GRI and ISSB lists too</h4><p>Score both lenses once to the ESRS standard and the GRI topic list and the ISSB risk list fall out as filters of the same register.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>What you should have on file when you finish</h2>
+    <p class="lede">Seven files. If you have these, you have done a double materiality assessment, whatever route you took. The workbook on this page produces the fourth and drafts the sixth.</p>
+    <div class="scroll frame" style="margin-top:22px"><table id="files-table"></table></div>
+  </div>
+
+  <div class="block">
+    <h2>Start from where you are</h2>
+    <div id="situations" style="margin-top:18px"></div>
+  </div>
+
+  <div class="block">
+    <h2>Which rules apply to you</h2>
+    <p class="lede">Two things changed in 2026: who has to report, and which version of the standards they use. Check both before you plan anything.</p>
+    <div class="frame scope" style="margin-top:22px">
+      <div>
+        <h3>Are you in scope?</h3>
+        <p class="small" style="margin:8px 0 14px">Omnibus I (Directive (EU) 2026/470, in force since 18 March 2026) narrowed the CSRD to undertakings above both thresholds, on an individual or group basis.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field"><label for="sc-emp">Average employees</label><input class="input" id="sc-emp" type="number" min="0" inputmode="numeric" placeholder="e.g. 1400"></div>
+          <div class="field"><label for="sc-rev">Net turnover, € million</label><input class="input" id="sc-rev" type="number" min="0" inputmode="numeric" placeholder="e.g. 520"></div>
+        </div>
+        <div style="margin-top:16px" aria-live="polite">
+          <div class="lbl">Result</div>
+          <div class="scope-out" id="sc-out">Enter both figures</div>
+          <p class="small" id="sc-why" style="margin:0"></p>
+        </div>
+      </div>
+      <div>
+        <h3>Which standards, which year</h3>
+        <ul class="dash" style="margin-top:12px">
+          <li><b>Financial year 2027 onward:</b> ESRS 2026, the simplified set the Commission adopted on 3 July 2026. About 60% fewer mandatory datapoints, no voluntary ones.</li>
+          <li><b>Financial year 2026, if you already report:</b> three routes. Stay on ESRS 2023 with the quick-fix reliefs; adopt ESRS 2026 early in full; or stay on ESRS 2023 and borrow selected 2026 reliefs, including the top-down assessment. Say in the statement which you chose.</li>
+          <li><b>Status today:</b> the 2026 act is in Parliament and Council scrutiny. Entry into force is expected around November 2026. It applies directly, with no national transposition.</li>
+          <li><b>Non-EU groups:</b> in scope above €450m EU turnover with an EU subsidiary or branch above €200m.</li>
+        </ul>
+        <p class="small" style="margin-top:12px">The toggle at the top of the page switches every disclosure code between the two versions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ WORKBOOK ============ -->
+<section class="view" id="v-workbook" role="tabpanel">
+<div class="wrap">
+  <div class="kicker">The scored register</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)">The <em>workbook</em></h1>
+  <p class="lede">List your sustainability matters, score each one on both lenses, and the page works out what is material, which standards open, what you then owe, and what an assurer would question. Your entries are saved in this browser only.</p>
+
+  <div class="wb-bar">
+    <div>
+      <label class="lbl" for="t-imp">Impact threshold</label>
+      <div class="thr"><input type="range" id="t-imp" min="1" max="5" step="0.1"><output id="t-imp-o"></output></div>
+    </div>
+    <div>
+      <label class="lbl" for="t-fin">Financial threshold</label>
+      <div class="thr"><input type="range" id="t-fin" min="1" max="5" step="0.1"><output id="t-fin-o"></output></div>
+    </div>
+    <div class="btn-row" style="margin-left:auto">
+      <button class="btn btn-fill" id="add-matter">Add a matter</button>
+      <button class="btn" id="load-example">Load example</button>
+      <button class="btn" id="export-csv">Export CSV</button>
+      <button class="btn" id="toggle-backup">Back up or restore</button>
+      <button class="btn" id="clear-all">Clear all</button>
+    </div>
+  </div>
+  <div class="backup" id="backup">
+    <p class="small">Copy this text to keep a backup or move the register to another browser. To restore, paste a backup here and choose Restore.</p>
+    <textarea class="input" id="backup-text" spellcheck="false" aria-label="Register backup as JSON"></textarea>
+    <div class="btn-row" style="margin-top:8px"><button class="btn btn-sm" id="backup-copy">Copy</button><button class="btn btn-sm" id="backup-restore">Restore from this text</button></div>
+  </div>
+
+  <div class="board" id="board-wb" aria-label="Which ESRS standards are open"></div>
+
+  <div class="editor" id="editor" aria-live="polite"></div>
+
+  <div class="wb-main">
+    <div>
+      <div id="reg-wrap"></div>
+    </div>
+    <aside>
+      <div class="plot" id="plot"></div>
+      <p class="small" style="margin-top:8px">Numbers match the register. Anything above or to the right of a dashed line is material. How scores are built is explained under <a href="#assess" data-go="assess">Run the assessment</a>.</p>
+    </aside>
+  </div>
+
+  <div class="subtabs" role="tablist" aria-label="Workbook outputs">
+    <button class="subtab" role="tab" data-out="perimeter" aria-selected="true">What you must report</button>
+    <button class="subtab" role="tab" data-out="flags" aria-selected="false">Checks<span class="ct" id="flag-ct">0</span></button>
+    <button class="subtab" role="tab" data-out="links" aria-selected="false">Linked topics<span class="ct" id="link-ct">0</span></button>
+    <button class="subtab" role="tab" data-out="gri" aria-selected="false">GRI view</button>
+    <button class="subtab" role="tab" data-out="issb" aria-selected="false">ISSB view</button>
+  </div>
+  <div class="out on" id="out-perimeter"></div>
+  <div class="out" id="out-flags"></div>
+  <div class="out" id="out-links"></div>
+  <div class="out" id="out-gri"></div>
+  <div class="out" id="out-issb"></div>
+
+  <div class="note" style="margin-top:40px"><p><b>What this workbook is and isn't.</b> The scales, formulas and default thresholds are one reasonable convention. ESRS prescribes the criteria (scale, scope, irremediability, likelihood; magnitude, likelihood) and leaves the scales and thresholds to you. Change them to match your own method note, and treat the outputs as a draft for people to challenge, not as a conclusion.</p></div>
+</div>
+</section>
+<!-- ============ ASSESS ============ -->
+<section class="view" id="v-assess" role="tabpanel">
+<div class="wrap">
+  <div class="kicker">ESRS 1, chapter 3, and EFRAG IG 1</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)">Run the <em>assessment</em></h1>
+  <p class="lede">Four steps. For each: what you do, who needs to be in the room, the file you keep, the question the assurer will ask about it, and the usual way it goes wrong.</p>
+
+  <div class="frame cols cols-2" style="margin-top:26px">
+    <div class="cell">
+      <h4>Bottom-up route</h4>
+      <p>List individual impacts, risks and opportunities across every topic, score each, then roll up to topics. Thorough, slow, and what most first-wave reporters did under ESRS 2023. Still valid, and still the better route for topics where you expect a fight over the conclusion.</p>
+    </div>
+    <div class="cell" style="border-left-color:var(--fill)">
+      <h4>Top-down route, endorsed in ESRS 2026</h4>
+      <p>Start from the topic list and your business model. Rule out topics that plainly don't apply, with a reason. Conclude at topic level where the answer is obvious either way. Only go down to individual matters where it is a judgement call. You may mix both routes. For financial year 2026 this relief can be borrowed while staying on ESRS 2023.</p>
+    </div>
+  </div>
+
+  <div class="block"><h2>The four steps</h2><div id="steps" style="margin-top:18px"></div></div>
+
+  <div class="block">
+    <h2>How to score</h2>
+    <p class="lede">The workbook uses the scales below. They are anchors to argue from. If your enterprise risk matrix already has magnitude and likelihood bands, reuse those bands for the financial lens so the two systems agree.</p>
+    <div class="scroll frame" style="margin-top:22px"><table id="scales"></table></div>
+
+    <div class="frame cols cols-2" style="margin-top:22px">
+      <div class="cell" style="border-left-color:var(--accent)">
+        <span class="chip chip-imp">Impact lens</span>
+        <h4 style="margin-top:10px">How the impact score is built</h4>
+        <ul class="dash">
+          <li>Severity is the average of scale, scope and irremediability. For positive impacts, scale and scope only.</li>
+          <li>Actual impact: score equals severity.</li>
+          <li>Potential impact: score is the square root of severity times likelihood, which keeps it on the 1 to 5 scale.</li>
+          <li>Potential negative human-rights impact: score equals severity. Likelihood is recorded but is not allowed to pull the score down.</li>
+        </ul>
+      </div>
+      <div class="cell" style="border-left-color:var(--fin)">
+        <span class="chip chip-fin">Financial lens</span>
+        <h4 style="margin-top:10px">How the financial score is built</h4>
+        <ul class="dash">
+          <li>Score is the square root of magnitude times likelihood.</li>
+          <li>Magnitude covers effects on cash flows, performance, position, cost of capital and access to finance, over the horizons you tick.</li>
+          <li>Think about dependencies on natural, human and social resources. They are where most risks come from.</li>
+          <li>Score it separately. A severe impact can carry no financial consequence, and the reverse.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>Judgement rules that are easy to get wrong</h2>
+    <div class="frame cols cols-3" style="margin-top:22px">
+      <div class="cell"><h4>Set the threshold before you score</h4><p>Have the scales and thresholds approved and dated first. A threshold chosen after the results are in is the first thing an assurer looks for.</p></div>
+      <div class="cell"><h4>Audit materiality is not a DMA threshold</h4><p>A percentage of profit before tax is tuned to misstatement risk. It says nothing about whether an impact is severe.</p></div>
+      <div class="cell"><h4>Severity outranks likelihood for human rights</h4><p>An unlikely but grave harm to people stays on the list. Both ESRS and GRI take this from the UN Guiding Principles.</p></div>
+      <div class="cell"><h4>Be careful what mitigation you net off</h4><p><span class="v26">ESRS 2026 spells it out: for actual negative impacts, count only mitigation already applied in earlier periods, not this year's remediation. For potential ones, count only measures that demonstrably reduce severity or likelihood.</span><span class="v23">ESRS 2023 is silent on gross versus net, which led to inconsistent practice. The 2026 text clarifies it; applying the same discipline now is sensible.</span> A well-managed impact can still be material information.</p></div>
+      <div class="cell"><h4>Time horizons</h4><p>Short is the reporting period, medium runs to five years, long is beyond five. You may use other horizons if you explain why. Match them to financial planning so the financial lens is consistent with the accounts.</p></div>
+      <div class="cell"><h4>Overrides are allowed, silently is not</h4><p>Stakeholder concern or expert judgement can carry a matter over the line, or keep a borderline one out. Write the reason down. The workbook has a field for it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h2>Who to involve, throughout</h2>
+    <div class="scroll frame" style="margin-top:18px"><table>
+      <thead><tr><th style="width:210px">Group</th><th>Who they are</th><th>What they give you</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Affected stakeholders</td><td>Workers, value chain workers, communities, consumers. Nature, through credible proxies such as scientific bodies and NGOs.</td><td>Evidence of severity for the impact lens. Unions, works councils and grievance logs count; you don't need a survey for everything.</td></tr>
+        <tr><td class="k">Users of the statement</td><td>Investors, lenders, insurers, key business partners.</td><td>What they price and ask about, which informs the financial threshold and disclosure priorities.</td></tr>
+        <tr><td class="k">Internal experts</td><td>Sustainability, risk, finance, procurement, operations, HR, legal.</td><td>The scores themselves, the value chain view, and the challenge that stops one team's view dominating.</td></tr>
+      </tbody></table></div>
+    <p class="small" style="margin-top:12px">Record who was consulted, how, and what changed as a result. That log is what [[SBM-2]] is written from.</p>
+  </div>
+
+  <div class="block">
+    <h2>How often</h2>
+    <p><span class="v26">ESRS 2026 drops the expectation of a full annual re-run. Confirm at each reporting date that the conclusions still hold, and redo the affected parts when something changes: an acquisition or disposal, a new market or product line, a new regulation, a serious incident, or a shift in what stakeholders raise.</span><span class="v23">Under ESRS 2023, practice has been to review the assessment every year and re-run it when the business, its value chain or its context changes.</span> Either way, keep a change log against the prior year. Additions and drops nobody explained are visible to any reader holding last year's statement.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ REPORT ============ -->
+<section class="view" id="v-report" role="tabpanel">
+<div class="wrap">
+  <div class="kicker">From the material list to the sustainability statement</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)">Turn it into the <em>report</em></h1>
+  <p class="lede">The material list is a switch. It turns each topical standard on or off, sets how deep each disclosure goes, and is itself reportable. This section is the wiring.</p>
+
+  <div class="block">
+    <h3>The gate</h3>
+    <div class="frame cols cols-3" style="margin-top:14px">
+      <div class="cell" style="border-left-color:var(--fill)"><h4>Material: report it</h4><p>The disclosure requirements of that standard apply, filtered by whether each piece of information is itself material. Policies, actions, targets, metrics, and value chain data where the matter sits.</p></div>
+      <div class="cell" style="border-left-color:#7A7F86;border-left-style:dotted"><h4>Not material: say so</h4><p><span class="v23">List the topics you assessed and found not material. For climate, ESRS 2023 asks for a detailed explanation of the conclusion.</span><span class="v26">You shall not report information that isn't material. If you add some anyway, label it clearly as outside the materiality assessment. Check the final 2026 text for what explanation a not-material conclusion on climate still needs.</span></p></div>
+      <div class="cell" style="border-left-color:var(--muted);border-left-style:dashed"><h4>Not covered by any standard: build it</h4><p>A material matter no ESRS covers gets entity-specific disclosure, in the same shape: policy, action, target, metric. <span class="v26">ISSB industry guidance is an accepted source for these.</span></p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Where the assessment itself is disclosed</h3>
+    <p>All of it sits in ESRS 2, which applies whatever the materiality outcome. The right-hand column is what your files from the <a href="#start" data-go="start">Start here</a> list feed into each requirement.</p>
+    <div class="scroll frame" style="margin-top:14px"><table id="esrs2-map"></table></div>
+    <div class="note"><p class="v26"><b>Changed in ESRS 2026.</b> The list of material impacts, risks and opportunities moved from SBM-3 to IRO-2. SBM-3 now holds only their interaction with strategy and the financial effects. Governance went from five requirements to four. The topic-specific additions to IRO-1 and SBM-3 that used to sit inside each topical standard have been pulled into ESRS 2 or deleted, and climate scenario analysis is no longer mandatory.</p><p class="v23"><b>Under ESRS 2023</b> each topical standard adds its own layer to IRO-1 or SBM-3: climate scenario analysis for E1, site and basin screening for E2 to E5, affected groups for S1 to S4, conduct exposure for G1. These sit in the general disclosures, which is why the method has to be documented topic by topic from the start.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>The lens decides the emphasis</h3>
+    <div class="frame cols cols-2" style="margin-top:14px">
+      <div class="cell" style="border-left-color:var(--accent)"><span class="chip chip-imp">Impact material</span>
+        <p style="margin-top:10px">Opens the management story and the impact metrics. Show what you do about the impact, not only what it costs.</p>
+        <ul class="dash"><li>[[MDR-P, MDR-A, MDR-T|GDR-P, GDR-A, GDR-T]] for the matter<span class="v26">, at matter level or grouped, whichever matches how you manage it</span></li><li>Topic metrics: GHG [[E1-6|E1-8]], pollutants [[E2-4]], water [[E3-4]], biodiversity [[E4-5]], material flows [[E5-4]] and [[E5-5]]</li><li>Social: engagement and channels [[S1-2, S1-3|S1-2]], actions [[S1-4|S1-3]], workforce metrics from [[S1-6|S1-5]] on</li><li>Severity sets how much you say about actions and targets</li></ul></div>
+      <div class="cell" style="border-left-color:var(--fin)"><span class="chip chip-fin">Financially material</span>
+        <p style="margin-top:10px">Opens the financial-effects disclosures and the connection to the accounts.</p>
+        <ul class="dash"><li>Current and anticipated financial effects: <span class="v23">[[SBM-3]] plus [[E1-9]], [[E2-6]], [[E3-5]], [[E4-6]], [[E5-6]]</span><span class="v26">[[SBM-3]] for every topic, plus [[E1-11]] for climate. The separate requirements in E2 to E5 are gone.</span></li><li>Internal carbon price [[E1-8|E1-10]]; resources behind actions in [[E1-3|E1-5]]</li><li>Consistency with provisions, impairment, useful lives and going concern</li><li class="v26">Quantitative effects may be left out when they can't be separated, are too uncertain to be useful, or exceed your capabilities. Explain which.</li></ul></div>
+    </div>
+    <p class="small" style="margin-top:12px">Material on both lenses is the usual case for climate, own workforce and business conduct. Say which parts of the disclosure answer which lens, and don't let the financial framing crowd out the impact story.</p>
+  </div>
+
+  <div class="block">
+    <h3>Material topics pull each other in</h3>
+    <p>Read a row against a column. A filled cell means a material matter in the row standard forces content into, or shares a datapoint with, the column standard. The code is the requirement in the row standard that carries the link. Select a cell for the explanation. The workbook runs these checks against your register under <b>Linked topics</b>.</p>
+    <div class="scroll mx-wrap" style="margin-top:14px"><table class="mx" id="matrix"></table></div>
+    <div class="legend">
+      <span><i style="background:var(--accent-tint);border-color:var(--accent)"></i>Impact driver or receptor shift</span>
+      <span><i style="background:var(--fin-tint);border-color:var(--fill)"></i>Shared datapoint or plan</span>
+      <span><i style="background:var(--gold-tint);border-color:var(--gold)"></i>Just transition or boundary split</span>
+      <span><i style="background:var(--paper)"></i>Structural, applies to every topic</span>
+    </div>
+    <div class="mx-note" id="mx-note" aria-live="polite"><p class="muted" style="margin:0">Select a filled cell.</p></div>
+  </div>
+
+  <div class="block">
+    <h3>Every number has to trace back</h3>
+    <p>The statement is a chain. Each disclosed figure leads back to a scored matter, and each scored matter leads forward to a tag and an evidence file. A break anywhere is a reporting defect.</p>
+    <div class="chain" style="margin-top:14px">
+      <div><span class="n">1</span><b>Scored matter</b>Severity, likelihood, lens, horizon, place in the chain.</div>
+      <div><span class="n">2</span><b>[[SBM-3|IRO-2]] entry</b>The matter named in the statement.</div>
+      <div><span class="n">3</span><b>[[IRO-1]]</b>How it was identified and assessed.</div>
+      <div><span class="n">4</span><b>Topical requirements</b>Policy, action, target, metric.</div>
+      <div><span class="n">5</span><b>Datapoints</b>Values with boundary and method notes.</div>
+      <div><span class="n">6</span><b>Digital tag</b>XHTML, tagged to the ESRS taxonomy.</div>
+      <div><span class="n">7</span><b>Evidence file</b>The working paper the assurer tests.</div>
+    </div>
+    <p class="small" style="margin-top:12px">The three breaks found most often: a topical metric with no matching material matter; a material matter with no policy and no statement that there is none; a value chain estimate with no explanation in [[BP-2]].</p>
+  </div>
+
+  <div class="block">
+    <h3>Structure of the statement</h3>
+    <div class="scroll frame" style="margin-top:14px"><table>
+      <thead><tr><th style="width:190px">Part</th><th>Contents</th><th>What must reconcile with the assessment</th></tr></thead>
+      <tbody>
+        <tr><td class="k">General information<br><span class="small muted">ESRS 2, always</span></td><td>Basis of preparation, governance, strategy, and the impact, risk and opportunity disclosures.</td><td>The material list, the method, thresholds, the stakeholder record and the index of what is reported. Nothing in the topical parts should appear here for the first time.</td></tr>
+        <tr><td class="k">Environmental<br><span class="small muted">E1 to E5, if material</span></td><td>Transition plan where one exists, then policies, actions, targets, metrics. EU Taxonomy Article 8 tables<span class="v23"> sit alongside</span><span class="v26"> may now go in an appendix</span>.</td><td>The site and basin screening from step 1. Shared datapoints must carry the same value in every standard that uses them.</td></tr>
+        <tr><td class="k">Social<br><span class="small muted">S1 to S4, if material</span></td><td>Engagement, channels to raise concerns, remediation, and the metrics for each material group.</td><td>The own workforce versus value chain boundary, the severity of human-rights impacts, and the same engagement log cited under SBM-2.</td></tr>
+        <tr><td class="k">Governance<br><span class="small muted">G1 and entity-specific</span></td><td>Conduct culture, anti-corruption, whistleblowing, payment practices, then anything no ESRS covers.</td><td>Entity-specific matters should be traceable to the register. They are the clearest sign the assessment wasn't a checklist.</td></tr>
+      </tbody></table></div>
+    <p class="small v26" style="margin-top:12px">ESRS 2026 loosens this. You may open with an executive summary, present policies, actions, targets and metrics in aggregate, describe material matters next to how they are managed, move detailed calculations to appendices, and use another structure altogether if you can justify it.</p>
+  </div>
+
+  <div class="block">
+    <h3>Reliefs and phase-ins under ESRS 2026</h3>
+    <p>A phase-in defers the disclosure, not the assessment. Wave one means companies that had to report for financial years 2024 to 2026. Record per entity and per year which reliefs you use.</p>
+    <div class="scroll frame" style="margin-top:14px"><table>
+      <thead><tr><th>What can wait</th><th>Wave one</th><th>Everyone else</th></tr></thead>
+      <tbody>
+        <tr><td class="k">All of E4, S2, S3, S4 and some own-workforce datapoints</td><td>May be omitted through financial year 2026</td><td>First two reporting years</td></tr>
+        <tr><td class="k">Anticipated financial effects</td><td>Nothing before FY2027; qualitative only through FY2029; quantitative from FY2030</td><td>Nothing for two years, then qualitative only for two more</td></tr>
+        <tr><td class="k">Substances of concern, quantitative [[E2-5]]</td><td>From FY2030</td><td>After the first three years</td></tr>
+        <tr><td class="k">Substances of very high concern, as a user of articles</td><td>From FY2028</td><td>After the first year</td></tr>
+        <tr><td class="k">Value chain information you couldn't get</td><td colspan="2">First three years in scope: explain the effort made and the plan to obtain it. Suppliers with up to 1,000 employees may refuse requests that go beyond the voluntary standard, and you must tell them so.</td></tr>
+        <tr><td class="k">Comparatives for changed metrics</td><td colspan="2">Not required in the first year of applying ESRS 2026</td></tr>
+        <tr><td class="k">Wave-one companies now under the thresholds</td><td colspan="2">May omit all topical disclosures for years before FY2027, and their Member State may exempt them altogether</td></tr>
+      </tbody></table></div>
+    <p class="small" style="margin-top:12px">There is no relief for the core disclosures on climate-related physical and transition risk. Narrow exemptions remain for intellectual property, matters under negotiation, and information seriously prejudicial to your commercial position. Each use must be stated.</p>
+  </div>
+
+  <div class="block">
+    <h3>The same evidence serves other regimes</h3>
+    <div class="frame cols cols-3" style="margin-top:14px">
+      <div class="cell"><h4>EU Taxonomy</h4><p>Article 8 turnover, capex and opex reporting shares the activity mapping from step 1 and still applies to companies inside the narrowed CSRD scope.</p></div>
+      <div class="cell"><h4>SFDR indicators</h4><p>Investors read principal adverse impact figures out of E1 to E5, S1 and G1. If a topic is not material for you, they get no figure. Expect to be asked.</p></div>
+      <div class="cell"><h4>Due diligence law</h4><p>The severity-based impact assessment and the S2 and S3 remediation content are what the CSDDD asks for. Its scope is now 5,000 employees and €1.5bn turnover, applying from July 2029.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- ============ FRAMEWORKS ============ -->
+<section class="view" id="v-frameworks" role="tabpanel">
+<div class="wrap">
+  <div class="kicker">Three frameworks, three meanings of "material"</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)">ESRS, GRI and ISSB <em>compared</em></h1>
+  <p class="lede">ESRS asks two questions. GRI asks only about your impact on the world. IFRS asks only what would change an investor's decision. The assessment work is close enough to run once. The conclusions are not interchangeable.</p>
+
+  <div class="frame cols cols-3 tri" style="margin-top:28px">
+    <div class="cell"><div class="lbl">ESRS, under the CSRD</div><h3>Double materiality</h3>
+      <p style="margin-top:10px"><b>Test.</b> Material if it passes either lens: a significant actual or potential impact on people or the environment, or a risk or opportunity with a significant financial effect.</p>
+      <p style="margin-top:8px"><b>For whom.</b> Affected stakeholders and providers of capital, on equal footing.</p>
+      <p style="margin-top:8px"><b>Force.</b> Law for in-scope companies. Documented, justified, under limited assurance.</p></div>
+    <div class="cell"><div class="lbl">GRI 3 (2021)</div><h3>Impact materiality</h3>
+      <p style="margin-top:10px"><b>Test.</b> Material if it reflects the organisation's most significant impacts on the economy, environment and people, including human rights. Financial consequence plays no part.</p>
+      <p style="margin-top:8px"><b>For whom.</b> Anyone affected, and the public. Accountability, not valuation.</p>
+      <p style="margin-top:8px"><b>Force.</b> Voluntary unless a regulator or stakeholder demands it. No assurance requirement.</p></div>
+    <div class="cell"><div class="lbl">IFRS: IASB and ISSB</div><h3>Financial materiality</h3>
+      <p style="margin-top:10px"><b>Test.</b> Material if omitting, misstating or obscuring it could reasonably be expected to influence primary users' decisions. IFRS S1 applies the same test to sustainability information.</p>
+      <p style="margin-top:8px"><b>For whom.</b> Investors, lenders and other creditors.</p>
+      <p style="margin-top:8px"><b>Force.</b> Accounting standards mandatory where adopted; ISSB standards by jurisdiction.</p></div>
+  </div>
+  <div class="note"><p><b>"IFRS materiality" means two things.</b> The accounting concept that governs what goes in the financial statements, and the ISSB's sustainability version in IFRS S1 and S2. Both are single-lens and investor-facing. ESRS overlaps with the second and has to reconcile with the first.</p></div>
+
+  <div class="block">
+    <h3>The same four steps, up to a point</h3>
+    <p>GRI 3 and EFRAG's guidance describe the same four steps in the same order, which is why one assessment can serve both if the ESRS financial lens is added as a second scoring pass.</p>
+    <div class="scroll frame" style="margin-top:14px"><table>
+      <thead><tr><th style="width:120px">Framework</th><th>1. Context</th><th>2. Identify</th><th>3. Assess</th><th>4. Disclose</th></tr></thead>
+      <tbody>
+        <tr><td class="k hl">ESRS</td><td class="hl">Business model, value chain, stakeholders, sector and regulation.</td><td class="hl">Matters across all ten topical standards plus entity-specific ones. <span class="v26">Topic-level screening allowed.</span></td><td class="hl">Two passes: severity and likelihood for impact; magnitude and likelihood for financial. Thresholds documented.</td><td class="hl">Mandatory: [[IRO-1]] method, [[SBM-3|IRO-2]] material list, [[IRO-2]] index of what is reported.</td></tr>
+        <tr><td class="k">GRI 3</td><td>Same: activities, sectors, geographies, value chain, stakeholders.</td><td>Actual and potential impacts, negative or positive, caused, contributed to or directly linked.</td><td>One pass: scale, scope, irremediability, plus likelihood. Qualitative; scoring models optional.</td><td>3-1 process, 3-2 topic list, 3-3 how each topic is managed.</td></tr>
+        <tr><td class="k">IFRS Practice Statement 2</td><td>Identify the primary users and their decisions. No value chain or stakeholder mapping.</td><td>Identify potentially material information, item by item, against the standards.</td><td>Quantitative and qualitative, individually and in aggregate, from the user's perspective.</td><td>Organise so material items are clear and not obscured by immaterial detail.</td></tr>
+      </tbody></table></div>
+    <p class="small" style="margin-top:12px">Where it breaks: the IFRS process is applied to information once transactions exist. ESRS and GRI are applied to topics before any data is collected. That is why a financial-reporting threshold can't be reused as an assessment threshold.</p>
+  </div>
+
+  <div class="block">
+    <h3>What lines up and what doesn't</h3>
+    <div class="frame cols cols-2" style="margin-top:14px">
+      <div class="cell"><h4>Lines up</h4><ul class="dash">
+        <li>Severity criteria are identical in ESRS and GRI: scale, scope, irremediability, plus likelihood.</li>
+        <li>Value chain is in scope in both, upstream and downstream.</li>
+        <li>Severity outweighs likelihood for human-rights impacts in both.</li>
+        <li>The context step is the same work.</li>
+        <li>The ESRS financial lens and IFRS S1 both test effects on cash flows, access to finance and cost of capital over short, medium and long term.</li>
+        <li>Neither IFRS nor ESRS sets a universal number. Both want entity-specific judgement.</li>
+        <li class="v26">ESRS 2026 moves closer to ISSB: fair presentation, "reasonable and supportable information without undue cost or effort", the reliefs on quantifying financial effects, and a choice of GHG consolidation approach.</li></ul></div>
+      <div class="cell"><h4>Doesn't</h4><ul class="dash">
+        <li>Lenses: GRI one, IFRS one, ESRS two. Passing either one is enough under ESRS, so its list is the longest.</li>
+        <li>Topic universe: GRI lets you define it. ESRS expects all ten topical standards to be considered.</li>
+        <li>Engagement: central and required in GRI. Expected in ESRS, weighed alongside expert judgement.</li>
+        <li>Exclusions: GRI lets you drop a topic silently. <span class="v23">ESRS 2023 wants it stated, and explained for climate.</span><span class="v26">ESRS wants the conclusion to be defensible and the index of reported requirements to show it.</span></li>
+        <li>Floor: GRI reports only material topics. ESRS 2 applies regardless.</li>
+        <li>Assurance: none required for GRI. Limited assurance for ESRS, covering the process.</li>
+        <li class="v26">Scenario analysis: required by IFRS S2, not by ESRS 2026.</li></ul></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three traps when you reuse one assessment</h3>
+    <div class="frame cols cols-3" style="margin-top:14px">
+      <div class="cell"><h4>Threshold transfer</h4><p>Audit materiality, a small share of profit before tax, tells you nothing about whether a climate impact is material. It was set for misstatement risk.</p></div>
+      <div class="cell"><h4>Silent drop</h4><p>A topic left out of a GRI report without comment becomes a gap under ESRS, where the conclusion has to be documented and defensible.</p></div>
+      <div class="cell"><h4>Single-pass scoring</h4><p>Scoring impact and inferring the financial score from it. The lenses often disagree. The workbook warns you when every matter carries the same score on both.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Side by side</h3>
+    <div class="scroll frame" style="margin-top:14px"><table id="axes"></table></div>
+  </div>
+
+  <div class="block">
+    <h3>One assessment for all three</h3>
+    <p>Build to the strictest requirement and derive the others. In practice: design for ESRS and treat GRI and ISSB as views of the same register. The workbook's GRI view and ISSB view do exactly this.</p>
+    <div class="frame cols cols-4" style="margin-top:14px">
+      <div class="cell" style="border-left-color:var(--fill);background:var(--panel)"><div class="lbl">Design for</div><h4>The ESRS perimeter</h4><p>Consider all ten topical standards, score both lenses separately, record thresholds, evidence and stakeholder input.</p></div>
+      <div class="cell"><div class="lbl">Derive</div><h4>The GRI view</h4><p>Filter to impact-material matters and map to GRI topic standards. Method under 3-1, list under 3-2, management under 3-3.</p></div>
+      <div class="cell"><div class="lbl">Derive</div><h4>The ISSB view</h4><p>Filter to financially material risks and opportunities. The horizons and magnitude scoring already match IFRS S1.</p></div>
+      <div class="cell"><div class="lbl">Reconcile</div><h4>The accounts</h4><p>Check financially material matters against provisions, impairment, useful lives and going concern. An assurer finds a mismatch here first.</p></div>
+    </div>
+    <div class="band-ink" style="margin-top:22px"><div class="kicker">A one-way street</div><p style="max-width:90ch;margin:0">An ESRS-grade assessment satisfies GRI 3 and gives you most of an ISSB assessment. A GRI assessment does not satisfy ESRS: no financial lens, no duty to consider the full topic list, no need to justify what was left out. Upgrading is a new scoring pass and a new documentation standard, not a relabelling.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ============ REFERENCE ============ -->
+<section class="view" id="v-reference" role="tabpanel">
+<div class="wrap">
+  <div class="kicker">Look things up</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)"><em>Reference</em></h1>
+
+  <div class="block">
+    <h3>What changed between ESRS 2023 and ESRS 2026</h3>
+    <p>Only the changes that touch the assessment or its link to reporting. Double materiality itself is unchanged.</p>
+    <div class="scroll frame" style="margin-top:14px"><table id="changes"></table></div>
+  </div>
+
+  <div class="block">
+    <h3>Timeline</h3>
+    <div class="scroll frame" style="margin-top:14px"><table>
+      <tbody>
+        <tr><td class="k" style="width:150px">31 Jul 2023</td><td>First ESRS adopted as Delegated Regulation (EU) 2023/2772.</td></tr>
+        <tr><td class="k">Apr 2025</td><td>"Stop-the-clock" directive delays waves two and three by two years.</td></tr>
+        <tr><td class="k">Nov 2025</td><td>"Quick fix" Delegated Regulation (EU) 2025/1416 extends wave-one reliefs for FY2025 and FY2026.</td></tr>
+        <tr><td class="k">Dec 2025</td><td>EFRAG delivers its technical advice on simplified ESRS to the Commission.</td></tr>
+        <tr><td class="k">18 Mar 2026</td><td>Omnibus I, Directive (EU) 2026/470, enters into force. Member States transpose by 19 March 2027.</td></tr>
+        <tr><td class="k">3 Jul 2026</td><td>Commission adopts the revised ESRS and a voluntary standard for companies outside scope.</td></tr>
+        <tr><td class="k">Around Nov 2026</td><td>Expected entry into force after Parliament and Council scrutiny, which can only accept or reject.</td></tr>
+        <tr><td class="k">FY2027</td><td>ESRS 2026 mandatory. Second-wave companies still in scope report for the first time, in 2028. Value chain cap applies.</td></tr>
+      </tbody></table></div>
+  </div>
+
+  <div class="block">
+    <h3>Terms</h3>
+    <div class="scroll frame" style="margin-top:14px"><table id="glossary"></table></div>
+  </div>
+
+  <div class="block">
+    <h3>Sources and limits</h3>
+    <ul class="dash" style="max-width:85ch">
+      <li>ESRS 1 and ESRS 2, Delegated Regulation (EU) 2023/2772; EFRAG Implementation Guidance 1, Materiality Assessment.</li>
+      <li>Revised ESRS as adopted by the Commission on 3 July 2026, read through EFRAG's December 2025 technical advice and published summaries by EFRAG, KPMG and PwC. The 2026 disclosure codes on this page come from those sources, not from the Official Journal text, which isn't published yet. Check each code against the final act before you cite it in a statement.</li>
+      <li>Omnibus I, Directive (EU) 2026/470.</li>
+      <li>GRI 3: Material Topics 2021. IFRS Practice Statement 2, the IFRS definition of material, IFRS S1 and S2.</li>
+      <li>This consolidates and updates three earlier one-page diagrams: the DMA process, DMA to ESRS reporting, and Materiality compared. Where they conflict with this page, this page reflects the later rules.</li>
+      <li>General information, not legal or assurance advice. Scoring conventions in the workbook are illustrative.</li>
+    </ul>
+  </div>
+  <div class="foot">Checked against published sources on 18 September 2026.</div>
+</div>
+</section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+"use strict";
+/* ---------- reference data ---------- */
+var STD_ORDER=["ESRS2","E1","E2","E3","E4","E5","S1","S2","S3","S4","G1","ES"];
+var STD={
+ ESRS2:{code:"ESRS 2",name:"General disclosures",short:"General"},
+ E1:{code:"E1",name:"Climate change",short:"Climate",subs:["Climate change mitigation","Climate change adaptation","Energy"]},
+ E2:{code:"E2",name:"Pollution",subs:["Pollution of air","Pollution of water","Pollution of soil","Pollution of living organisms and food resources","Substances of concern","Substances of very high concern","Microplastics"]},
+ E3:{code:"E3",name:"Water",subs:["Water withdrawals","Water consumption","Water discharges"]},
+ E4:{code:"E4",name:"Biodiversity and ecosystems",short:"Biodiversity",subs:["Direct drivers of biodiversity loss","State of species","Extent and condition of ecosystems","Ecosystem services"]},
+ E5:{code:"E5",name:"Resource use and circular economy",short:"Circular economy",subs:["Resource inflows","Resource outflows","Waste"]},
+ S1:{code:"S1",name:"Own workforce",subs:["Working conditions","Equal treatment and opportunities","Other work-related rights"]},
+ S2:{code:"S2",name:"Workers in the value chain",short:"Value chain workers",subs:["Working conditions","Equal treatment and opportunities","Other work-related rights"]},
+ S3:{code:"S3",name:"Affected communities",short:"Communities",subs:["Economic, social and cultural rights","Civil and political rights","Rights of indigenous peoples"]},
+ S4:{code:"S4",name:"Consumers and end-users",short:"Consumers",subs:["Information-related impacts","Personal safety","Social inclusion"]},
+ G1:{code:"G1",name:"Business conduct",short:"Conduct",subs:["Corporate culture","Whistleblower protection","Animal welfare","Political engagement and lobbying","Supplier relationships and payment practices","Corruption and bribery"]},
+ ES:{code:"Own",name:"Entity-specific matters",short:"Entity-specific",subs:[]}
+};
+/* disclosure requirements: [code, label, kind]  kind: s strategy, p policy/action/target, m metric, f financial */
+var PAT23=function(x){return [[x+"-1","Policies","p"],[x+"-2","Actions and resources","p"],[x+"-3","Targets","p"]];};
+var SOC23=function(x){return [[x+"-1","Policies","p"],[x+"-2","Engaging with the people affected","p"],[x+"-3","Channels to raise concerns and remediation","p"],[x+"-4","Actions","p"],[x+"-5","Targets","p"]];};
+var SOC26=function(x){return [[x+"-1","Policies","p"],[x+"-2","Engagement, channels to raise concerns and remediation","p"],[x+"-3","Actions","p"],[x+"-4","Targets","p"]];};
+var DRS={
+ "2023":{
+  ESRS2:[["BP-1, BP-2","Basis of preparation","s"],["GOV-1 to GOV-5","Governance, incentives, due diligence statement, risk management","s"],["SBM-1, SBM-2","Strategy, business model, value chain; stakeholder views","s"],["SBM-3","Material impacts, risks and opportunities and their link to strategy","s"],["IRO-1","How material matters were identified and assessed","s"],["IRO-2","Disclosure requirements covered by the statement","s"],["MDR-P, -A, -M, -T","Minimum content for policies, actions, metrics and targets","p"]],
+  E1:[["E1-1","Transition plan for climate change mitigation","s"],["E1-2","Policies","p"],["E1-3","Actions and resources","p"],["E1-4","Targets","p"],["E1-5","Energy consumption and mix","m"],["E1-6","Gross Scope 1, 2, 3 and total GHG emissions","m"],["E1-7","GHG removals and carbon credits","m"],["E1-8","Internal carbon pricing","f"],["E1-9","Anticipated financial effects","f"]],
+  E2:PAT23("E2").concat([["E2-4","Pollution of air, water and soil","m"],["E2-5","Substances of concern and of very high concern","m"],["E2-6","Anticipated financial effects","f"]]),
+  E3:PAT23("E3").concat([["E3-4","Water consumption","m"],["E3-5","Anticipated financial effects","f"]]),
+  E4:[["E4-1","Transition plan and consideration of biodiversity in strategy","s"],["E4-2","Policies","p"],["E4-3","Actions and resources","p"],["E4-4","Targets","p"],["E4-5","Impact metrics","m"],["E4-6","Anticipated financial effects","f"]],
+  E5:PAT23("E5").concat([["E5-4","Resource inflows","m"],["E5-5","Resource outflows and waste","m"],["E5-6","Anticipated financial effects","f"]]),
+  S1:SOC23("S1").concat([["S1-6 to S1-9","Employees, non-employees, collective bargaining, diversity","m"],["S1-10 to S1-12","Adequate wages, social protection, persons with disabilities","m"],["S1-13 to S1-15","Training, health and safety, work-life balance","m"],["S1-16","Remuneration: pay gap and total remuneration ratio","m"],["S1-17","Incidents, complaints and severe human-rights impacts","m"]]),
+  S2:SOC23("S2"),S3:SOC23("S3"),S4:SOC23("S4"),
+  G1:[["G1-1","Business conduct policies and corporate culture","p"],["G1-2","Management of relationships with suppliers","p"],["G1-3","Prevention and detection of corruption and bribery","p"],["G1-4","Incidents of corruption or bribery","m"],["G1-5","Political influence and lobbying","m"],["G1-6","Payment practices","m"]],
+  ES:[["ESRS 1","Entity-specific disclosure built on the ESRS 1 qualitative characteristics","s"],["MDR-P, -A, -T, -M","Same shape as any topic: policy, action, target, metric","p"]]
+ },
+ "2026":{
+  ESRS2:[["BP-1, BP-2","Basis of preparation, including which ESRS version was applied","s"],["GOV-1 to GOV-4","Role of governing bodies, incentives, due diligence, risk management","s"],["SBM-1, SBM-2","Strategy, business model, value chain; stakeholder views","s"],["SBM-3","How material matters interact with strategy; current and anticipated financial effects","f"],["IRO-1","How material matters were identified and assessed","s"],["IRO-2","The material impacts, risks and opportunities, and the requirements reported","s"],["GDR-P, -A, -M, -T","General content for policies, actions, metrics and targets","p"]],
+  E1:[["E1-1","Transition plan for climate change mitigation","s"],["E1-2, E1-3","Climate-related risks and resilience of the strategy","s"],["E1-4","Policies","p"],["E1-5","Actions and resources","p"],["E1-6","Targets","p"],["E1-7","Energy consumption and mix","m"],["E1-8","Gross Scope 1, 2, 3 and total GHG emissions","m"],["E1-9","GHG removals and carbon credits","m"],["E1-10","Internal carbon pricing","f"],["E1-11","Anticipated financial effects of physical and transition risk","f"]],
+  E2:PAT23("E2").concat([["E2-4","Pollutants to air, water and soil, including primary microplastics","m"],["E2-5","Substances of concern and of very high concern","m"]]),
+  E3:PAT23("E3").concat([["E3-4","Water withdrawal, consumption and discharge","m"]]),
+  E4:[["E4-1","Transition plan, only if you have published one","s"],["E4-2","Policies","p"],["E4-3","Actions and resources","p"],["E4-4","Targets","p"],["E4-5","Locations, sensitive areas and impact metrics","m"]],
+  E5:PAT23("E5").concat([["E5-4","Resource inflows by key material","m"],["E5-5","Resource outflows and waste, including unknown destinations","m"]]),
+  S1:SOC26("S1").concat([["S1-5 to S1-8","Employees, non-employees, collective bargaining, diversity","m"],["S1-9 to S1-11","Adequate wages, social protection, persons with disabilities","m"],["S1-12 to S1-14","Training, health and safety, work-life balance","m"],["S1-15","Remuneration: unadjusted gender pay gap","m"],["S1-16","Substantiated incidents and severe human-rights impacts","m"]]),
+  S2:SOC26("S2"),S3:SOC26("S3"),S4:SOC26("S4"),
+  G1:[["G1-1 to G1-3","Policies, actions and targets on culture, suppliers, corruption and whistleblowing","p"],["G1-4","Confirmed incidents of corruption or bribery","m"],["G1-5","Political influence and lobbying","m"],["G1-6","Payment practices, entity-specific where material","m"]],
+  ES:[["ESRS 1","Entity-specific disclosure; ISSB industry guidance is an accepted source","s"],["GDR-P, -A, -T, -M","Same shape as any topic: policy, action, target, metric","p"]]
+ }
+};
+var GRI={E1:"GRI 302 Energy, GRI 305 Emissions (GRI 102 Climate Change and GRI 103 Energy from 2027)",E2:"GRI 305 (other air emissions), GRI 303 (effluents), GRI 306",E3:"GRI 303 Water and Effluents",E4:"GRI 101 Biodiversity 2024",E5:"GRI 301 Materials, GRI 306 Waste",S1:"GRI 401 to 407, including 403 Occupational Health and Safety and 405 Diversity",S2:"GRI 408 Child Labor, 409 Forced Labor, 414 Supplier Social Assessment",S3:"GRI 411 Rights of Indigenous Peoples, 413 Local Communities",S4:"GRI 416 Customer Health and Safety, 417 Marketing and Labeling, 418 Customer Privacy",G1:"GRI 205 Anti-corruption, 206 Anti-competitive Behavior, 415 Public Policy",ES:"No topic standard: report under GRI 3-3 with your own indicators"};
+
+/* matrix: row -> col : [code2023|code2026, type, note] */
+var MXCOLS=["ESRS2","E1","E2","E3","E4","E5","S1","S2","S3","S4","G1"];
+var MX={
+ ESRS2:{E1:["SBM-3|IRO-2","STRC",12],E2:["SBM-3|IRO-2","STRC",12],E3:["SBM-3|IRO-2","STRC",12],E4:["SBM-3|IRO-2","STRC",12],E5:["SBM-3|IRO-2","STRC",12],S1:["SBM-3|IRO-2","STRC",12],S2:["SBM-3|IRO-2","STRC",12],S3:["SBM-3|IRO-2","STRC",12],S4:["SBM-3|IRO-2","STRC",12],G1:["SBM-3|IRO-2","STRC",12]},
+ E1:{ESRS2:["SBM-3|IRO-2","STRC",12],E4:["E1-1","PLAN",1],E5:["E1-6|E1-8","DATA",3],S1:["E1-1","JUST",2],S2:["E1-1","JUST",2],S3:["E1-1","JUST",2],G1:["MDR-P|GDR-P","STRC",11]},
+ E2:{ESRS2:["SBM-3|IRO-2","STRC",12],E3:["E2-4","DATA",4],E4:["E2-4","DRV",5],E5:["E2-4","DATA",8],S3:["E2-5","RCPT",6],S4:["E2-5","RCPT",6],G1:["MDR-P|GDR-P","STRC",11]},
+ E3:{ESRS2:["SBM-3|IRO-2","STRC",12],E2:["E3-4","DATA",4],E4:["E3-4","DRV",7],S3:["E3-4","RCPT",10],G1:["MDR-P|GDR-P","STRC",11]},
+ E4:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["E4-1","PLAN",1],E2:["E4-5","DRV",5],E3:["E4-5","DRV",7],S3:["E4-5","RCPT",10],G1:["MDR-P|GDR-P","STRC",11]},
+ E5:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["E5-4","DATA",3],E2:["E5-4","DATA",8],S4:["E5-5","RCPT",6],G1:["MDR-P|GDR-P","STRC",11]},
+ S1:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["S1-4|S1-3","JUST",2],S2:["SBM-3|IRO-2","BNDY",9],G1:["MDR-P|GDR-P","STRC",11]},
+ S2:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["S2-4|S2-3","JUST",2],S1:["SBM-3|IRO-2","BNDY",9],G1:["MDR-P|GDR-P","STRC",11]},
+ S3:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["S3-4|S3-3","JUST",2],E2:["S3-2","RCPT",10],E3:["S3-2","RCPT",10],E4:["S3-2","RCPT",10],G1:["MDR-P|GDR-P","STRC",11]},
+ S4:{ESRS2:["SBM-3|IRO-2","STRC",12],E2:["S4-4|S4-3","RCPT",6],E5:["S4-4|S4-3","RCPT",6],G1:["MDR-P|GDR-P","STRC",11]},
+ G1:{ESRS2:["SBM-3|IRO-2","STRC",12],E1:["G1-1","STRC",11],E2:["G1-1","STRC",11],E3:["G1-1","STRC",11],E4:["G1-1","STRC",11],E5:["G1-1","STRC",11],S1:["G1-1","STRC",11],S2:["G1-1","STRC",11],S3:["G1-1","STRC",11],S4:["G1-1","STRC",11]}
+};
+var TYPES={DRV:"Impact driver",DATA:"Shared datapoint",PLAN:"Shared transition plan",JUST:"Just transition",RCPT:"Receptor shift",BNDY:"Boundary split",STRC:"Structural"};
+/* the twelve linkages. from/to drive the workbook's "Linked topics" check */
+var LINKS=[
+ {n:1,pair:"E1 and E4",type:"DRV",from:["E1"],to:["E4"],why:"Climate change is a recognised driver of biodiversity loss, so a material climate impact carries into the biodiversity assessment. Where both standards ask for a transition plan, it should be one plan disclosed in two places.",anchor:"Biodiversity screening lists climate change among impact drivers; [[E1-1]] and [[E4-1]] cover transition plans.",ask:"Did the biodiversity screening consider climate as a driver?"},
+ {n:2,pair:"E1 and S1, S2, S3",type:"JUST",from:["E1"],to:["S1","S2","S3"],why:"Decarbonisation has social consequences: site closures, reskilling, supplier switching, effects on communities. The climate plan has to name them; the detail on affected people goes under the social standards.",anchor:"[[E1-1]] transition plan; effects carried into actions under [[S1-4|S1-3]], [[S2-4|S2-3]], [[S3-4|S3-3]].",ask:"Who is affected by your transition plan, and is that group assessed?"},
+ {n:3,pair:"E1 and E5",type:"DATA",from:["E1","E5"],to:["E5","E1"],why:"Purchased materials carry embodied emissions, and circular measures are a decarbonisation lever. The same procurement data produces both figures, so they must reconcile.",anchor:"Scope 3 in [[E1-6|E1-8]] and resource inflows in [[E5-4]] draw on the same supplier data.",ask:"Do Scope 3 purchased goods and material inflows come from one dataset?"},
+ {n:4,pair:"E2 and E3",type:"DATA",from:["E2","E3"],to:["E3","E2"],why:"A discharge to water is at once a pollutant release and a water-quality effect. One measurement, two standards: disclose once and cross-reference.",anchor:"Pollutants to water in [[E2-4]]; discharges in [[E3-4]].",ask:"Is the discharge measured once and cross-referenced?"},
+ {n:5,pair:"E2 and E4",type:"DRV",from:["E2"],to:["E4"],why:"Pollution is an ecosystem impact driver. Emissions to air, water or soil near a sensitive site turn a pollution finding into a biodiversity impact that must be assessed.",anchor:"Releases under [[E2-4]]; ecosystem effect under [[E4-5]].",ask:"Were sites with material releases screened against sensitive areas?"},
+ {n:6,pair:"E2, E5 and S3, S4",type:"RCPT",from:["E2","E5"],to:["S3","S4"],why:"Substances of concern reach people. The same substance list shows up as a pollutant, as a product-safety matter for consumers, and as a human-rights impact on communities near the release.",anchor:"[[E2-5]] substances of concern; consumer effects under S4, community effects under S3; product composition touches [[E5-4]] and [[E5-5]].",ask:"Do the substances you report also reach consumers or neighbours?"},
+ {n:7,pair:"E3 and E4",type:"DRV",from:["E3"],to:["E4"],why:"Withdrawal in a water-stressed basin degrades habitat. Both standards rest on the same site-level screening from step 1, so the site list must be identical.",anchor:"Volumes under [[E3-4]]; habitat effect under [[E4-5]].",ask:"Is the water-stress site list the same one used for biodiversity?"},
+ {n:8,pair:"E5 and E2",type:"DATA",from:["E5"],to:["E2"],why:"Waste is both a resource outflow and a pollution pathway. Reported separately the two figures routinely disagree. Fix one waste dataset for both.",anchor:"[[E5-5]] outflows and waste against [[E2-4]] pollutants to soil and water.",ask:"Does hazardous waste reconcile with reported pollutant releases?"},
+ {n:9,pair:"S1 and S2",type:"BNDY",from:["S1","S2"],to:["S2","S1"],why:"Two near-identical standards separated by one judgement: is this worker in your own workforce or in the value chain? Agency and self-employed workers sit on the line. Get it wrong and a population is counted twice or missed.",anchor:"Scope definitions in S1 (including non-employees) and S2; the boundary is disclosed in [[SBM-3|IRO-2]] and [[BP-1]].",ask:"Where do agency, contract and outsourced workers sit, and is it written down?"},
+ {n:10,pair:"E2, E3, E4 and S3",type:"RCPT",from:["E2","E3","E4"],to:["S3"],why:"Communities are the receptor of environmental impacts. Once an environmental impact has an identifiable affected community, it is also a human-rights impact and inherits the engagement and remediation requirements of S3.",anchor:"Engagement and channels under [[S3-2]]<span class='v23'>, remediation under [[S3-3]]</span>; consistent with [[SBM-2]].",ask:"Is there an identifiable community on the receiving end?"},
+ {n:11,pair:"G1 and every topic",type:"STRC",from:[],to:[],why:"Business conduct carries every other topic's machinery: how policies are governed and approved, the whistleblowing channel through which grievances on any topic arrive, and payment practices affecting suppliers. This is why G1 is rarely concluded not material.",anchor:"[[G1-1]] policies and culture; policy governance under [[MDR-P|GDR-P]] and [[GOV-1]].",ask:""},
+ {n:12,pair:"ESRS 2 and every topic",type:"STRC",from:[],to:[],why:"No topical disclosure stands alone. Each must trace to a named material matter, a described process, recorded oversight, and an entry in the index of what is reported.",anchor:"[[SBM-3|IRO-2]] material matters, [[IRO-1]] process, [[IRO-2]] index, [[GOV-2|GOV-1]] oversight. ESRS 2 applies whatever the outcome.",ask:""}
+];
+
+var FILES=[
+ ["1","Context file","Business model, value chain map with the tiers you covered, site list with water-stress and biodiversity screening, stakeholder map.","[[SBM-1]], [[BP-1]]","How do you know the value chain map is complete? Where did you stop, and why?"],
+ ["2","Long list","Every matter considered, in a sentence each, with its source. Plus the topics ruled out early and the reason.","[[IRO-1]]","Show me a topic you dropped and the evidence for dropping it."],
+ ["3","Method note","Scales, formulas, thresholds, time horizons, who scores and who approves. Dated before scoring began.","[[IRO-1]]","Who set the threshold, when, and what changes if it moves half a point?"],
+ ["4","Scored register","Each matter scored on both lenses, with place in the chain, horizon, evidence and any override. This is the workbook.","[[SBM-3|IRO-2]]","Why is this one a 3 and that one a 4?"],
+ ["5","Engagement log","Who was consulted, how, when, what they said, what changed as a result.","[[SBM-2]]","Which affected stakeholders informed the severity scores?"],
+ ["6","Material list and reporting index","The material matters and, from them, the standards, requirements and datapoints you will report or omit.","[[IRO-2]]","Pick a number in the statement and walk me back to the matter that requires it."],
+ ["7","Sign-off and change log","Minute of the governing body's review and approval. Differences from last year and why.","[[GOV-2|GOV-1]], [[BP-2]]","What did the board challenge?"]
+];
+var SITUATIONS=[
+ ["We have never done one","Read the four steps, then load the example company to see what a finished register looks like before you start your own.","assess","Go to the steps"],
+ ["We did one under ESRS 2023 and need to know what to change","The changes table lists what moved, and the toggle at the top re-labels every disclosure code on the page.","reference","See what changed"],
+ ["We have a material list and need to build the report","Put the list in the workbook to get the requirements each topic opens, then use the wiring section for where everything goes.","report","Go to reporting"],
+ ["We already report under GRI or ISSB","See what carries over and the three traps, then use the GRI and ISSB views in the workbook.","frameworks","Compare frameworks"],
+ ["I need to explain this to a board or a colleague","The switchboard and the matrix in the workbook, loaded with the example, make the point faster than any diagram.","workbook","Open the workbook"],
+ ["We may have dropped out of scope","Check the thresholds below. If you are out, the voluntary standard is what customers and banks can still ask you for.","start","Check scope"]
+];
+var STEPS=[
+ {n:"01",t:"Understand the context",s:"What the company does, where, and who it affects. Every later judgement rests on this.",
+  do_:"Map the business model, activities, geographies and value chain tiers. List your sites and screen them for water stress and biodiversity-sensitive areas. Map affected stakeholders and users of the statement. Collect what already exists: policies, targets, the risk register, grievance and incident logs.",
+  who:"Sustainability lead, strategy, procurement, site or operations managers, risk, finance, legal.",
+  file:"Context file: value chain map, screened site list, stakeholder map.",
+  ask:"How do you know the value chain map is complete? Which tiers did you stop at, and why?",
+  wrong:"Own operations only. A site list that differs between water and biodiversity. A stakeholder map drawn after the scoring.",
+  v26:"You may concentrate on the value chain actors where material matters exist or are likely, and rely on reasonable and supportable information you can get without undue cost or effort. No exhaustive search is required."},
+ {n:"02",t:"Identify the matters",s:"Actual and potential impacts, risks and opportunities, across the ten topics and anything specific to you.",
+  do_:"Start from the ESRS topic and subtopic list. Add matters specific to your business. Write each as a sentence: what happens, to whom or what, where in the chain, actual or potential. Include positive impacts and opportunities. Look at your dependencies on natural, human and social resources, because that is where risks come from.",
+  who:"Internal experts in workshops; affected stakeholders or credible proxies; the risk team for risks and opportunities.",
+  file:"Long list with a source for each entry, and the list of topics ruled out with reasons.",
+  ask:"Show me a topic you dropped and the evidence for dropping it.",
+  wrong:"Copying a peer's list. Listing topics (\"climate\") instead of matters (\"Scope 3 emissions from purchased dairy\"). Forgetting opportunities.",
+  v26:"Top-down is allowed: screen at topic level first, and identify individual matters only for the topics that survive."},
+ {n:"03",t:"Assess and draw the line",s:"Score each matter on both lenses. Material if it crosses the threshold on either.",
+  do_:"Get the scales and thresholds approved first. Score the impact lens: scale, scope, irremediability, and likelihood for potential impacts. Score the financial lens separately: magnitude and likelihood across your time horizons. Apply overrides with a written reason. Play the result back to stakeholders and management before it is final.",
+  who:"Topic experts score impact; finance and risk score the financial lens; the sustainability lead challenges; the executive committee validates.",
+  file:"Method note, scored register, engagement log, override log.",
+  ask:"Who set the threshold, when, and what would have changed if it were half a point lower?",
+  wrong:"Threshold set after seeing the results. Financial score inferred from the impact score. Audit materiality reused. Likelihood used to discount a grave human-rights harm. Existing mitigation used to make an impact disappear.",
+  v26:"You can conclude at topic level where the answer is clear, and you need not assess every individual matter. Report at subtopic level: a material matter under one subtopic opens only that subtopic's information."},
+ {n:"04",t:"Report and keep the file",s:"Turn the list into the reporting perimeter, disclose the process, get it approved, archive it.",
+  do_:"Translate the material list into standards, requirements and datapoints. Write up the process, the outcome, its link to strategy, and the stakeholder input. Where a material matter has no policy, action or target, say so. Have the governing body review and approve. Archive the working papers.",
+  who:"Reporting lead, finance for connectivity with the accounts, legal, audit committee or board.",
+  file:"Material list, reporting index, sign-off minute, change log against last year.",
+  ask:"Pick a number in the statement and walk me back to the scored matter that requires it.",
+  wrong:"A metric with no matching material matter. Topics added or dropped since last year without explanation. Different values for a datapoint shared by two standards.",
+  v26:"Non-material information shall not be reported unless clearly labelled as additional. The materiality filter now applies to ESRS 2 as well."}
+];
+var SCALES=[
+ ["Scale","How grave or beneficial","Negligible, no lasting effect","Minor, short-lived harm","Moderate harm, noticeable to those affected","Serious harm to health, livelihood or ecosystem function","Death, severe lasting harm, or loss of an ecosystem"],
+ ["Scope","How widespread","One site, a handful of people","A few sites or a small group","Several sites, a community or product line","Most operations, a region, large groups","Global, the whole workforce or customer base"],
+ ["Irremediability","How hard to put right","Easily reversed at once","Reversible within a year","Reversible with effort over years","Very hard, only partly reversible","Irreversible"],
+ ["Likelihood","Potential impacts, risks, opportunities","Remote","Unlikely","Possible","Likely","Almost certain or recurring"],
+ ["Financial magnitude","Effect on cash flows, position, cost of capital","Negligible","Absorbed in normal variation","Visible in a business unit's results","Changes group results or financing terms","Threatens the business model or access to finance"]
+];
+var ESRS2MAP=[
+ ["[[IRO-1]]","How material matters were identified and assessed","Method note: scope, sources, criteria, thresholds, use of judgement, how the value chain was covered.<span class='v26'> Say if you used the top-down route.</span>"],
+ ["[[SBM-3|IRO-2]]","The material impacts, risks and opportunities","The scored register: each material matter, where it sits in the chain, its horizon."],
+ ["[[SBM-3]]","Interaction with strategy and business model; financial effects","How each material matter connects to strategy, resilience and financial planning. The financial-lens scores must agree with the accounts."],
+ ["[[SBM-2]]","Interests and views of stakeholders","Engagement log: who, how, and what changed because of it."],
+ ["[[IRO-2]]","What the statement covers","Reporting index: the requirements reported and those omitted as not material. It is the proof of completeness."],
+ ["[[BP-1]], [[BP-2]]","Basis of preparation","Value chain coverage, estimates and proxies, sources of uncertainty, changes since last year<span class='v26'>, and which ESRS version you applied</span>."],
+ ["[[GOV-2|GOV-1]]","Governing bodies and what reaches them","Sign-off minute: how the board or its committee reviewed and approved the outcome."],
+ ["[[GOV-4|GOV-3]], [[GOV-5|GOV-4]]","Due diligence; risk management and internal control","How the impact assessment maps to your due diligence process, and what controls sit over the assessment itself."],
+ ["[[MDR-P, -A, -T|GDR-P, -A, -T]]","Policies, actions and targets for each material matter","The management fields in the register. If one is missing, the absence has to be stated."]
+];
+var AXES=[
+ ["Lens","Double: impact and financial, either is enough","Impact only","Financial only"],
+ ["Primary user","Stakeholders and capital providers together","Affected stakeholders and the public","Investors, lenders, other creditors"],
+ ["Legal force","Binding under the CSRD for companies above 1,000 employees and €450m turnover","Voluntary unless adopted by a regulator","Accounting standards mandatory where adopted; ISSB by jurisdiction"],
+ ["Topic universe","Prescribed: ten topical standards and the ESRS 1 list of matters, plus entity-specific","Self-defined, informed by Sector Standards","Not topic-based; driven by the standards and the entity's transactions"],
+ ["Impact criteria","Scale, scope, irremediability, likelihood","The same set","Not applicable"],
+ ["Financial criteria","Magnitude and likelihood of effect on cash flows, performance, position, cost of capital, access to finance","Not applicable","Influence on primary users' decisions; ISSB adds effects on prospects"],
+ ["Time horizons","Short, medium, long; defined and disclosed","None prescribed","Reporting period, with judgement in estimates; ISSB uses short, medium, long"],
+ ["Quantitative threshold","None prescribed; you set and document your own","None; assessment is qualitative","None in the standards; practice uses a share of profit, EBITDA, assets or equity"],
+ ["Qualitative override","Yes: severity and stakeholder concern can carry a matter over","Yes: significance is inherently qualitative","Yes: a deliberate misstatement is material whatever its size"],
+ ["Aggregation","<span class='v23'>Matters assessed individually; grouping allowed if explained</span><span class='v26'>Topic-level conclusions allowed; assessing at one level doesn't force reporting at that level</span>","Impacts may be clustered into topics","Individually and collectively; immaterial items can be material together"],
+ ["Obscuring","<span class='v23'>Handled indirectly through structure and tagging</span><span class='v26'>Non-material information shall not be reported unless labelled as such</span>","Not addressed","Explicit: scattering, vague language or burying material items all count"],
+ ["Stakeholder engagement","Expected, disclosed under SBM-2, combined with expert judgement","Required and central","Not part of the concept"],
+ ["Non-material topics","<span class='v23'>Must be stated; climate must be explained in detail</span><span class='v26'>Left out; the reporting index shows what was covered</span>","May be omitted without comment","Immaterial disclosures may be omitted even where labelled minimum"],
+ ["Mandatory floor","ESRS 2 applies regardless<span class='v26'>, itself filtered for material information</span>","None: only material topics","Recognition and measurement still apply; only disclosure gets relief"],
+ ["Governance","Board oversight expected and disclosed","Management ownership is enough","Those charged with governance oversee the financial statements"],
+ ["Assurance","Limited assurance, including the process. The planned move to reasonable assurance was dropped by Omnibus I","Voluntary","Audit of the accounts; assurance on ISSB reporting by jurisdiction"],
+ ["Scenario analysis","<span class='v23'>Expected for climate risk identification</span><span class='v26'>Not mandatory; explain how resilience was assessed</span>","Not required","Required by IFRS S2"],
+ ["Matrix","Not required; common, and must be evidence-backed","Dropped as a requirement in 2021; still common","Not used"]
+];
+var CHANGES=[
+ ["Route","Practice was bottom-up, every impact, risk and opportunity scored","Top-down explicitly endorsed; conclude at topic level; mix routes","Far less scoring for obviously material or obviously irrelevant topics"],
+ ["Non-material information","\"Not required\" to disclose it","\"Shall not\" report it, unless clearly labelled as additional","Defensive over-reporting is no longer safe"],
+ ["Reach of the filter","Mainly topical standards","All disclosures, ESRS 2 included","Revisit what you report under ESRS 2"],
+ ["Granularity","Whole standard once the topic is material","Only the material subtopic's information","Record the subtopic for every matter. The workbook does"],
+ ["Mitigation","Silent on gross versus net","Only prior-period mitigation for actual impacts; only effective measures for potential ones","Re-check scores that leaned on this year's remediation"],
+ ["Frequency","Annual in practice","When circumstances change or management judges it necessary","Keep a trigger list and a change log"],
+ ["Where the material list sits","SBM-3","IRO-2; SBM-3 keeps strategy interaction and financial effects","Re-map your statement structure"],
+ ["Policies, actions, targets","Minimum disclosure requirements, per matter","General disclosure requirements, per matter or grouped","Report at the level you actually manage"],
+ ["Topical add-ons to ESRS 2","Inside each topical standard","Moved into ESRS 2 or deleted","One place to document method"],
+ ["Anticipated financial effects","ESRS 2 plus E1-9, E2-6, E3-5, E4-6, E5-6","ESRS 2 plus E1-11 only; reliefs on quantification; estimates can be updated without being errors","Financial lens still matters; the disclosure is lighter"],
+ ["Climate","E1-1 to E1-9; GHG in E1-6; financial-control boundary","E1-1 to E1-11; GHG in E1-8; operational control or equity share also allowed; scenario analysis optional; say whether targets are 1.5°C-compatible","Re-label your data model"],
+ ["Water","E3 Water and marine resources","E3 Water; marine resources move to E4 and E5","Re-home any marine matters"],
+ ["Social standards","Five core requirements each","Four: engagement and channels merged; actions become -3, targets -4","Codes shift by one from the third requirement"],
+ ["Statement layout","Four parts in a fixed order","Flexible: executive summary, aggregated presentation, appendices","Structure around your material matters if that reads better"],
+ ["Datapoints","About 1,100, many voluntary","About 60% fewer mandatory, no voluntary","The assessment now controls nearly all of the remaining volume"],
+ ["Value chain","Request what you need","Cap: suppliers up to 1,000 employees can refuse beyond the voluntary standard","Design supplier questionnaires to the cap"],
+ ["Assurance","Limited, moving to reasonable","Limited only","The process stays in scope either way"]
+];
+var GLOSSARY=[
+ ["IRO","Impact, risk or opportunity. This page calls each one a \"matter\"."],
+ ["DMA","Double materiality assessment."],
+ ["Disclosure requirement","A numbered block of a standard, such as E1-8. Each contains datapoints."],
+ ["Impact materiality","Inside-out: the company's effect on people and the environment. Scored on severity, plus likelihood if potential."],
+ ["Financial materiality","Outside-in: a sustainability matter's effect on the company's cash flows, position, cost of capital or access to finance."],
+ ["Severity","Scale, scope and irremediability taken together."],
+ ["Top-down approach","Concluding on materiality at topic level from the business model, without scoring every matter. Endorsed in ESRS 2026."],
+ ["Entity-specific","A material matter no ESRS covers, disclosed using the same policy, action, target, metric shape."],
+ ["MDR and GDR","Minimum disclosure requirements (2023), renamed general disclosure requirements (2026): the common content for any policy, action, target or metric."],
+ ["Anticipated financial effects","Expected future effects of material risks and opportunities on financial position, performance and cash flows."],
+ ["Value chain cap","The limit on what in-scope companies may ask of suppliers with up to 1,000 employees for reporting purposes."],
+ ["Voluntary standard","The Commission's standard for companies outside CSRD scope, based on EFRAG's VSME."],
+ ["Wave one","Companies required to report for financial years 2024 to 2026: large public-interest entities."],
+ ["Limited assurance","The assurer states nothing came to their attention suggesting material misstatement. Lighter than an audit, and it covers the materiality process."]
+];
+var EXAMPLE=[
+ {title:"GHG emissions from plants and purchased ingredients",std:"E1",sub:"Climate change mitigation",hr:false,own:true,up:true,down:false,hs:true,hm:true,hl:true,iOn:true,iKind:"neg",iState:"actual",scale:4,scope:5,irr:4,iLik:5,fOn:true,fKind:"risk",mag:4,fLik:4,evidence:"measured",stake:true,pat:"yes",ovr:"",ovrWhy:"",note:"Carbon pricing and customer Scope 3 requirements."},
+ {title:"Drought disrupting supply of key crops",std:"E1",sub:"Climate change adaptation",hr:false,own:false,up:true,down:false,hs:false,hm:true,hl:true,iOn:false,iKind:"neg",iState:"potential",scale:0,scope:0,irr:0,iLik:0,fOn:true,fKind:"risk",mag:4,fLik:3,evidence:"estimate",stake:false,pat:"partial",ovr:"",ovrWhy:"",note:"Dependency on rain-fed wheat and tomato growers."},
+ {title:"Ammonia refrigerant leak at a plant",std:"E2",sub:"Pollution of air",hr:false,own:true,up:false,down:false,hs:true,hm:true,hl:false,iOn:true,iKind:"neg",iState:"potential",scale:5,scope:3,irr:4,iLik:1,fOn:true,fKind:"risk",mag:3,fLik:1,evidence:"expert",stake:false,pat:"yes",ovr:"",ovrWhy:"",note:""},
+ {title:"Water withdrawal at the plant in a water-stressed basin",std:"E3",sub:"Water withdrawals",hr:false,own:true,up:false,down:false,hs:true,hm:true,hl:true,iOn:true,iKind:"neg",iState:"actual",scale:3,scope:3,irr:3,iLik:5,fOn:true,fKind:"risk",mag:3,fLik:3,evidence:"measured",stake:true,pat:"partial",ovr:"",ovrWhy:"",note:"Permit renewal due in three years."},
+ {title:"Land conversion in palm oil and cocoa sourcing regions",std:"E4",sub:"Direct drivers of biodiversity loss",hr:false,own:false,up:true,down:false,hs:false,hm:true,hl:true,iOn:true,iKind:"neg",iState:"potential",scale:5,scope:4,irr:5,iLik:3,fOn:true,fKind:"risk",mag:3,fLik:3,evidence:"estimate",stake:false,pat:"no",ovr:"",ovrWhy:"",note:"Deforestation regulation applies to these commodities."},
+ {title:"Packaging that can't be recycled where it is sold",std:"E5",sub:"Waste",hr:false,own:false,up:false,down:true,hs:true,hm:true,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:3,scope:4,irr:3,iLik:5,fOn:true,fKind:"risk",mag:3,fLik:4,evidence:"measured",stake:false,pat:"yes",ovr:"",ovrWhy:"",note:""},
+ {title:"Conditions of seasonal agency workers at own plants",std:"S1",sub:"Working conditions",hr:true,own:true,up:false,down:false,hs:true,hm:false,hl:false,iOn:true,iKind:"neg",iState:"potential",scale:4,scope:3,irr:3,iLik:2,fOn:false,fKind:"risk",mag:0,fLik:0,evidence:"stakeholder",stake:true,pat:"partial",ovr:"",ovrWhy:"",note:"Raised by the works council."},
+ {title:"Child and forced labour in the cocoa supply chain",std:"S2",sub:"Other work-related rights",hr:true,own:false,up:true,down:false,hs:true,hm:true,hl:true,iOn:true,iKind:"neg",iState:"potential",scale:5,scope:3,irr:5,iLik:3,fOn:true,fKind:"risk",mag:3,fLik:2,evidence:"estimate",stake:true,pat:"partial",ovr:"",ovrWhy:"",note:""},
+ {title:"Odour and noise affecting neighbours of one plant",std:"S3",sub:"Economic, social and cultural rights",hr:false,own:true,up:false,down:false,hs:true,hm:false,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:2,scope:1,irr:1,iLik:5,fOn:false,fKind:"risk",mag:0,fLik:0,evidence:"stakeholder",stake:true,pat:"yes",ovr:"",ovrWhy:"",note:"Four complaints in the grievance log last year."},
+ {title:"Undeclared allergens reaching consumers",std:"S4",sub:"Personal safety",hr:true,own:true,up:false,down:true,hs:true,hm:true,hl:true,iOn:true,iKind:"neg",iState:"potential",scale:5,scope:3,irr:4,iLik:2,fOn:true,fKind:"risk",mag:5,fLik:2,evidence:"expert",stake:false,pat:"yes",ovr:"",ovrWhy:"",note:"Recall history: one in five years."},
+ {title:"Demand for reformulated, lower-sugar products",std:"S4",sub:"Social inclusion",hr:false,own:false,up:false,down:true,hs:false,hm:true,hl:true,iOn:true,iKind:"pos",iState:"potential",scale:3,scope:4,irr:0,iLik:4,fOn:true,fKind:"opp",mag:4,fLik:4,evidence:"expert",stake:false,pat:"partial",ovr:"",ovrWhy:"",note:""},
+ {title:"Late payment to small farm suppliers",std:"G1",sub:"Supplier relationships and payment practices",hr:false,own:true,up:true,down:false,hs:true,hm:false,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:2,scope:3,irr:1,iLik:5,fOn:true,fKind:"risk",mag:2,fLik:2,evidence:"measured",stake:false,pat:"yes",ovr:"",ovrWhy:"",note:""},
+ {title:"Nutritional profile of the portfolio and public health",std:"ES",sub:"",hr:false,own:false,up:false,down:true,hs:true,hm:true,hl:true,iOn:true,iKind:"neg",iState:"actual",scale:3,scope:4,irr:3,iLik:5,fOn:true,fKind:"risk",mag:3,fLik:3,evidence:"expert",stake:true,pat:"no",ovr:"",ovrWhy:"",note:"Not squarely covered by S4; treated as entity-specific."}
+];
+window.__DMA={STD_ORDER:STD_ORDER,STD:STD,DRS:DRS,GRI:GRI,MXCOLS:MXCOLS,MX:MX,TYPES:TYPES,LINKS:LINKS,FILES:FILES,SITUATIONS:SITUATIONS,STEPS:STEPS,SCALES:SCALES,ESRS2MAP:ESRS2MAP,AXES:AXES,CHANGES:CHANGES,GLOSSARY:GLOSSARY,EXAMPLE:EXAMPLE};
+})();
+</script>
+<script>
+(function(){
+"use strict";
+var D=window.__DMA, $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+var KEY="dma-workbook-v1";
+var state={ver:"2026",tImp:3,tFin:3,matters:[],sel:null,isExample:false};
+
+/* ---------- storage (per-viewer convenience; page works without it) ---------- */
+function load(){try{var raw=localStorage.getItem(KEY);if(!raw)return;var o=JSON.parse(raw);if(o&&typeof o==="object"){["ver","tImp","tFin","isExample"].forEach(function(k){if(o[k]!==undefined)state[k]=o[k];});if(Array.isArray(o.matters))state.matters=o.matters.map(norm);}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:state.ver,tImp:state.tImp,tFin:state.tFin,matters:state.matters,isExample:state.isExample}));}catch(e){}}
+function blank(){return {title:"",std:"E1",sub:"",hr:false,own:true,up:false,down:false,hs:false,hm:false,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:0,scope:0,irr:0,iLik:0,fOn:true,fKind:"risk",mag:0,fLik:0,evidence:"expert",stake:false,pat:"no",ovr:"",ovrWhy:"",note:""};}
+function norm(m){var b=blank();for(var k in b){if(m&&m[k]!==undefined)b[k]=m[k];}if(!D.STD[b.std]||b.std==="ESRS2")b.std="E1";return b;}
+
+/* ---------- helpers ---------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function dr(s){return String(s).replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,function(_,a,b){b=b||a;return '<span class="dr" data-a="'+a+'" data-b="'+b+'">'+(state.ver==="2023"?a:b)+'</span>';});}
+function code(pair){var p=pair.split("|");return state.ver==="2023"?p[0]:(p[1]||p[0]);}
+function f1(x){return (Math.round(x*10)/10).toFixed(1);}
+function toast(t){var el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove("on");},2600);}
+
+/* ---------- scoring ---------- */
+function calc(m){
+  var r={sev:null,i:null,f:null,iMat:false,fMat:false,screened:false};
+  if(m.iOn&&m.scale&&m.scope&&(m.iKind==="pos"||m.irr)){
+    r.sev=m.iKind==="pos"?(m.scale+m.scope)/2:(m.scale+m.scope+m.irr)/3;
+    if(m.iState==="actual")r.i=r.sev;
+    else if(m.iLik){r.i=(m.hr&&m.iKind==="neg")?r.sev:Math.sqrt(r.sev*m.iLik);}
+    if(r.i!==null){r.iMat=r.i>=state.tImp-1e-9;r.screened=(m.iKind==="neg"&&m.iState==="potential"&&r.sev>=4&&!r.iMat);}
+  }
+  if(m.fOn&&m.mag&&m.fLik){r.f=Math.sqrt(m.mag*m.fLik);r.fMat=r.f>=state.tFin-1e-9;}
+  r.scored=(r.i!==null||r.f!==null);
+  r.mat=r.iMat||r.fMat;
+  if(m.ovr==="in"){r.mat=true;if(!r.iMat&&!r.fMat){if(m.iOn)r.iMat=true;else r.fMat=true;}}
+  if(m.ovr==="out"){r.mat=false;r.iMat=false;r.fMat=false;}
+  return r;
+}
+function statusOf(std){
+  if(std==="ESRS2")return "always";
+  var ms=state.matters.filter(function(m){return m.std===std;});
+  if(!ms.length)return "none";
+  var i=false,f=false;ms.forEach(function(m){var c=calc(m);if(c.mat){if(c.iMat)i=true;if(c.fMat)f=true;}});
+  return i&&f?"both":i?"imp":f?"fin":"closed";
+}
+var STATE_LABEL={always:"Always on",none:"Not assessed",closed:"Closed",imp:"Open: impact",fin:"Open: financial",both:"Open: both"};
+
+/* ---------- switchboard ---------- */
+function renderBoards(){
+  var html=D.STD_ORDER.map(function(k){var s=statusOf(k),d=D.STD[k];
+    return '<button type="button" class="sw" data-s="'+s+'" data-std="'+k+'" aria-label="'+esc(d.code+" "+d.name+": "+STATE_LABEL[s])+'"><span class="sw-code">'+d.code+'</span><span class="sw-name">'+d.name+'</span><span class="sw-state">'+STATE_LABEL[s]+'</span></button>';}).join("");
+  $("#board-start").innerHTML=html;$("#board-wb").innerHTML=html;
+  var n=state.matters.length,open=D.STD_ORDER.filter(function(k){return ["imp","fin","both"].indexOf(statusOf(k))>-1;}).length;
+  $("#board-caption").textContent=!n?"Nothing scored yet, so every topical standard shows as not assessed. Load the example to see the switchboard respond, or open the workbook and add your own matters."
+   :(state.isExample?"Showing the example company, a mid-sized food manufacturer. ":"Showing your register. ")+n+" matters scored, "+open+" of 11 topic areas open. ESRS 2 is always on. Move a threshold in the workbook and watch standards open and close.";
+}
+
+/* ---------- register ---------- */
+function renderRegister(){
+  var w=$("#reg-wrap");
+  if(!state.matters.length){w.innerHTML='<div class="empty"><h3>No matters yet</h3><p style="margin-top:8px">Add your first sustainability matter, or load the example company to see how a finished register behaves. You can clear it afterwards.</p><div class="btn-row" style="margin-top:12px"><button class="btn btn-fill" data-act="add">Add a matter</button><button class="btn" data-act="example">Load example</button></div></div>';return;}
+  var rows=state.matters.map(function(m,ix){var c=calc(m);
+    var res=c.mat?(c.iMat?'<span class="chip chip-imp">Impact</span> ':'')+(c.fMat?'<span class="chip chip-fin">Financial</span>':''):(c.scored||m.ovr?'<span class="chip chip-off">Not material</span>':'<span class="muted small">Not scored</span>');
+    if(m.ovr)res+=' <span class="small muted">override</span>';
+    return '<tr data-ix="'+ix+'"'+(state.sel===ix?' class="sel"':'')+' tabindex="0"><td class="n">'+(ix+1)+'</td><td><b>'+(esc(m.title)||'<span class="muted">Untitled matter</span>')+'</b><div class="small muted">'+D.STD[m.std].code+(m.sub?" · "+esc(m.sub):"")+(m.hr?" · human rights":"")+'</div></td><td class="score'+(c.iMat?' hit':'')+'">'+(c.i===null?"–":f1(c.i))+'</td><td class="score'+(c.fMat?' hit':'')+'">'+(c.f===null?"–":f1(c.f))+'</td><td>'+res+'</td></tr>';}).join("");
+  w.innerHTML='<div class="scroll frame"><table class="reg"><thead><tr><th>#</th><th>Matter</th><th>Impact</th><th>Financial</th><th>Result</th></tr></thead><tbody>'+rows+'</tbody></table></div><p class="small" style="margin-top:8px">Select a row to edit it.</p>';
+}
+
+/* ---------- editor ---------- */
+function opt(v,l,cur){return '<option value="'+esc(v)+'"'+(String(cur)===String(v)?" selected":"")+'>'+esc(l)+'</option>';}
+function sel15(name,cur){var o=opt(0,"Not scored",cur);for(var i=1;i<=5;i++)o+=opt(i,i+" · "+["","very low","low","medium","high","very high"][i],cur);return '<select class="input" data-f="'+name+'" data-num="1" id="ed-'+name+'">'+o+'</select>';}
+function renderEditor(){
+  var ed=$("#editor"),ix=state.sel;
+  if(ix===null||!state.matters[ix]){ed.classList.remove("on");ed.innerHTML="";return;}
+  var m=state.matters[ix];ed.classList.add("on");
+  var stdOpts=D.STD_ORDER.filter(function(k){return k!=="ESRS2";}).map(function(k){return opt(k,D.STD[k].code+" "+D.STD[k].name,m.std);}).join("");
+  var subs=[opt("","Whole topic",m.sub)].concat((D.STD[m.std].subs||[]).map(function(s){return opt(s,s,m.sub);})).join("");
+  ed.innerHTML='<div class="editor-head"><b>Matter '+(ix+1)+'</b><div class="btn-row"><button class="btn btn-sm" data-act="del">Delete</button><button class="btn btn-sm" data-act="close">Done</button></div></div><div class="editor-body">'
+  +'<div class="field c6"><label for="ed-title">The matter, in one sentence</label><input class="input" id="ed-title" data-f="title" value="'+esc(m.title)+'" placeholder="What happens, to whom or what, and where"></div>'
+  +'<div class="field c2"><label for="ed-std">Topic</label><select class="input" id="ed-std" data-f="std">'+stdOpts+'</select></div>'
+  +'<div class="field c2"><label for="ed-sub">Subtopic</label><select class="input" id="ed-sub" data-f="sub">'+subs+'</select></div>'
+  +'<div class="field c2"><span class="lbl">Flags</span><div class="checks"><label><input type="checkbox" data-f="hr"'+(m.hr?" checked":"")+'>Human-rights impact</label></div></div>'
+  +'<div class="field c3"><span class="lbl">Where in the value chain</span><div class="checks"><label><input type="checkbox" data-f="up"'+(m.up?" checked":"")+'>Upstream</label><label><input type="checkbox" data-f="own"'+(m.own?" checked":"")+'>Own operations</label><label><input type="checkbox" data-f="down"'+(m.down?" checked":"")+'>Downstream</label></div></div>'
+  +'<div class="field c3"><span class="lbl">Time horizon</span><div class="checks"><label><input type="checkbox" data-f="hs"'+(m.hs?" checked":"")+'>Short</label><label><input type="checkbox" data-f="hm"'+(m.hm?" checked":"")+'>Medium</label><label><input type="checkbox" data-f="hl"'+(m.hl?" checked":"")+'>Long</label></div></div>'
+  +'<div class="lens imp"><div class="lens-head"><span>Impact lens</span><label style="font-weight:400;font-size:13px;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-f="iOn"'+(m.iOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.iOn?"":" off")+'" id="lens-i">'
+   +'<div class="field"><label for="ed-iKind">Direction</label><select class="input" id="ed-iKind" data-f="iKind">'+opt("neg","Negative",m.iKind)+opt("pos","Positive",m.iKind)+'</select></div>'
+   +'<div class="field"><label for="ed-iState">Actual or potential</label><select class="input" id="ed-iState" data-f="iState">'+opt("actual","Actual",m.iState)+opt("potential","Potential",m.iState)+'</select></div>'
+   +'<div class="field"><label for="ed-scale">Scale</label>'+sel15("scale",m.scale)+'</div>'
+   +'<div class="field"><label for="ed-scope">Scope</label>'+sel15("scope",m.scope)+'</div>'
+   +'<div class="field"><label for="ed-irr">Irremediability</label>'+sel15("irr",m.irr)+'</div>'
+   +'<div class="field"><label for="ed-iLik">Likelihood</label>'+sel15("iLik",m.iLik)+'</div>'
+   +'<div class="lens-out" id="out-i"></div></div></div>'
+  +'<div class="lens fin"><div class="lens-head"><span>Financial lens</span><label style="font-weight:400;font-size:13px;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-f="fOn"'+(m.fOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.fOn?"":" off")+'" id="lens-f">'
+   +'<div class="field" style="grid-column:1/-1"><label for="ed-fKind">Risk or opportunity</label><select class="input" id="ed-fKind" data-f="fKind">'+opt("risk","Risk",m.fKind)+opt("opp","Opportunity",m.fKind)+'</select></div>'
+   +'<div class="field"><label for="ed-mag">Magnitude</label>'+sel15("mag",m.mag)+'</div>'
+   +'<div class="field"><label for="ed-fLik">Likelihood</label>'+sel15("fLik",m.fLik)+'</div>'
+   +'<div class="lens-out" id="out-f"></div></div></div>'
+  +'<div class="field c2"><label for="ed-evidence">Main evidence</label><select class="input" id="ed-evidence" data-f="evidence">'+opt("measured","Measured data",m.evidence)+opt("estimate","Estimate or sector proxy",m.evidence)+opt("expert","Internal expert judgement",m.evidence)+opt("stakeholder","Stakeholder input",m.evidence)+'</select></div>'
+  +'<div class="field c2"><label for="ed-pat">Policy, action and target in place?</label><select class="input" id="ed-pat" data-f="pat">'+opt("yes","Yes, all three",m.pat)+opt("partial","Some",m.pat)+opt("no","None yet",m.pat)+'</select></div>'
+  +'<div class="field c2"><span class="lbl">Engagement</span><div class="checks"><label><input type="checkbox" data-f="stake"'+(m.stake?" checked":"")+'>Affected stakeholders informed the score</label></div></div>'
+  +'<div class="field c2"><label for="ed-ovr">Override the result</label><select class="input" id="ed-ovr" data-f="ovr">'+opt("","No override",m.ovr)+opt("in","Treat as material",m.ovr)+opt("out","Treat as not material",m.ovr)+'</select></div>'
+  +'<div class="field c4"><label for="ed-ovrWhy">Reason for the override</label><input class="input" id="ed-ovrWhy" data-f="ovrWhy" value="'+esc(m.ovrWhy)+'" placeholder="Required if you override"></div>'
+  +'<div class="field c6"><label for="ed-note">Notes and sources</label><input class="input" id="ed-note" data-f="note" value="'+esc(m.note)+'"></div>'
+  +'</div>';
+  lensOut();
+}
+function lensOut(){
+  var m=state.matters[state.sel];if(!m)return;var c=calc(m),oi=$("#out-i"),of=$("#out-f");
+  if(oi){var ir=$("#ed-irr"),il=$("#ed-iLik");if(ir)ir.disabled=m.iKind==="pos";if(il)il.disabled=m.iState==="actual";
+    oi.innerHTML=c.sev===null?"Score scale, scope"+(m.iKind==="neg"?", irremediability":"")+" to get a result.":"Severity <b>"+f1(c.sev)+"</b>"+(c.i===null?". Add a likelihood.":" · score <b>"+f1(c.i)+"</b> against a threshold of "+f1(state.tImp)+(m.hr&&m.iKind==="neg"&&m.iState==="potential"?" · human rights: likelihood not applied":""));}
+  if(of)of.innerHTML=c.f===null?"Score magnitude and likelihood to get a result.":"Score <b>"+f1(c.f)+"</b> against a threshold of "+f1(state.tFin);
+  $("#lens-i")&&$("#lens-i").classList.toggle("off",!m.iOn);$("#lens-f")&&$("#lens-f").classList.toggle("off",!m.fOn);
+}
+
+/* ---------- plot ---------- */
+function renderPlot(){
+  var W=320,H=320,P=34,sx=function(v){return P+(v-1)/4*(W-P-10);},sy=function(v){return H-P-(v-1)/4*(H-P-10);};
+  var g='';for(var i=1;i<=5;i++){g+='<line x1="'+sx(i)+'" y1="'+sy(1)+'" x2="'+sx(i)+'" y2="'+sy(5)+'" stroke="var(--paper-2)"/><line x1="'+sx(1)+'" y1="'+sy(i)+'" x2="'+sx(5)+'" y2="'+sy(i)+'" stroke="var(--paper-2)"/><text x="'+sx(i)+'" y="'+(H-P+16)+'" text-anchor="middle" font-size="10" fill="var(--ink-3)">'+i+'</text><text x="'+(P-10)+'" y="'+(sy(i)+3)+'" text-anchor="end" font-size="10" fill="var(--ink-3)">'+i+'</text>';}
+  g+='<rect x="'+sx(1)+'" y="'+sy(5)+'" width="'+(sx(5)-sx(1))+'" height="'+(sy(1)-sy(5))+'" fill="none" stroke="var(--line)" stroke-width="1"/>';
+  g+='<line x1="'+sx(state.tFin)+'" y1="'+sy(1)+'" x2="'+sx(state.tFin)+'" y2="'+sy(5)+'" stroke="var(--fin)" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="'+sx(1)+'" y1="'+sy(state.tImp)+'" x2="'+sx(5)+'" y2="'+sy(state.tImp)+'" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 4"/>';
+  g+='<text x="'+((sx(1)+sx(5))/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="11" font-weight="700" fill="var(--fin-text)">Financial score</text><text transform="translate(10 '+((sy(1)+sy(5))/2)+') rotate(-90)" text-anchor="middle" font-size="11" font-weight="700" fill="var(--accent-text)">Impact score</text>';
+  var seen={};
+  state.matters.forEach(function(m,ix){var c=calc(m);if(!c.scored)return;var x=c.f===null?1:c.f,y=c.i===null?1:c.i,k=f1(x)+"/"+f1(y);seen[k]=(seen[k]||0)+1;var off=(seen[k]-1)*9;
+    var fill=c.mat?(c.iMat&&c.fMat?"var(--fill)":c.iMat?"var(--accent)":"var(--fin)"):"var(--panel)",stroke=c.mat?fill:"var(--ink-3)",tc=c.mat?"#fff":"var(--ink-2)";
+    g+='<g class="pt" data-ix="'+ix+'" style="cursor:pointer"><title>'+esc((ix+1)+". "+m.title)+'</title><circle cx="'+(sx(x)+off)+'" cy="'+(sy(y)-off)+'" r="9.5" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.5"/><text x="'+(sx(x)+off)+'" y="'+(sy(y)-off+3.5)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="'+tc+'">'+(ix+1)+'</text></g>';});
+  $("#plot").innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Materiality matrix: financial score across, impact score up" font-family="ui-monospace, SFMono-Regular, Consolas, Menlo, monospace">'+g+'</svg>';
+}
+
+/* ---------- outputs ---------- */
+function mattersOf(std){return state.matters.map(function(m,ix){return {m:m,ix:ix,c:calc(m)};}).filter(function(o){return o.m.std===std;});}
+function renderPerimeter(){
+  var drs=D.DRS[state.ver];
+  var html=D.STD_ORDER.map(function(k){var s=statusOf(k),d=D.STD[k],ms=mattersOf(k),mat=ms.filter(function(o){return o.c.mat;});
+    var chips=s==="always"?'<span class="chip">Always</span>':s==="none"?'<span class="chip chip-off">Not assessed</span>':s==="closed"?'<span class="chip chip-off">Closed</span>':(s!=="fin"?'<span class="chip chip-imp">Impact</span> ':'')+(s!=="imp"?'<span class="chip chip-fin">Financial</span>':'');
+    var body;
+    if(s==="none")body='<p class="small muted" style="margin:0">No matter recorded under this topic. It still needs a conclusion, even if that is "not relevant to our business model, because…".</p>';
+    else if(s==="closed")body='<p class="small" style="margin:0">'+ms.length+' matter'+(ms.length>1?'s':'')+' assessed, none over a threshold. No topical disclosures. '+(k==="E1"?(state.ver==="2023"?'For climate, ESRS 2023 requires a detailed explanation of this conclusion in IRO-2.':'A not-material conclusion on climate draws attention. Keep the reasoning on file and check what the final 2026 text asks you to disclose.'):'Keep the reasoning on file.')+'</p>';
+    else{
+      var subs={};mat.forEach(function(o){subs[o.m.sub||"Whole topic"]=1;});
+      var lis=drs[k].map(function(r){var on=s==="always"||s==="both"||r[2]==="s"||r[2]==="p"||(r[2]==="m"&&s==="imp")||(r[2]==="f"&&s==="fin");return '<li'+(on?'':' class="dim"')+'><b>'+r[0]+'</b> '+r[1]+(on?'':' <span class="small">(secondary for this lens)</span>')+'</li>';}).join("");
+      body='<div>'+(s==="always"?'':'<p class="small" style="margin:0 0 8px">Because of: '+mat.map(function(o){return '<a href="#" data-edit="'+o.ix+'">'+(o.ix+1)+'. '+esc(o.m.title||"Untitled")+'</a>';}).join("; ")+'.'+(state.ver==="2026"&&k!=="ES"?' Subtopic'+(Object.keys(subs).length>1?'s':'')+' to report: <b>'+Object.keys(subs).map(esc).join(", ")+'</b>.':'')+'</p>')+'<ul>'+lis+'</ul></div>';
+    }
+    return '<div class="per"><div><div class="per-code">'+d.code+'</div><div class="small">'+d.name+'</div></div><div>'+chips+'</div>'+body+'</div>';}).join("");
+  $("#out-perimeter").innerHTML='<p class="small" style="max-width:80ch">Requirements shown for <b>ESRS '+state.ver+'</b>. Every requirement is still filtered by whether the information in it is material for you. Dimmed items matter less for the lens that opened the topic.</p><div class="frame" style="padding:4px 18px;margin-top:12px">'+html+'</div>';
+}
+function flags(){
+  var F=[],ms=state.matters.map(function(m,ix){return {m:m,ix:ix,c:calc(m)};});
+  if(!ms.length)return F;
+  var ref=function(o){return '<a href="#" data-edit="'+o.ix+'">'+(o.ix+1)+'. '+esc(o.m.title||"Untitled")+'</a>';};
+  var list=function(a){return a.map(ref).join("; ");};
+  var a;
+  a=ms.filter(function(o){return o.c.screened;});if(a.length)F.push([1,"Grave but unlikely, and screened out","Severity of 4 or more, pushed under the threshold by a low likelihood: "+list(a)+". Decide on purpose. If people could be harmed, tick the human-rights flag so severity leads, or override with a reason."]);
+  a=ms.filter(function(o){return o.m.ovr&&!o.m.ovrWhy.trim();});if(a.length)F.push([1,"Override without a reason","An assurer will ask for the reasoning on "+list(a)+"."]);
+  a=ms.filter(function(o){return o.c.mat&&o.m.pat==="no";});if(a.length)F.push([1,"Material, with no policy, action or target","For "+list(a)+" you have to say so in the statement, and may say when you expect to have them. "+dr("[[MDR-P|GDR-P]]")+" and its siblings cover this."]);
+  a=ms.filter(function(o){return o.c.mat&&o.m.pat==="partial";});if(a.length)F.push([0,"Material, only partly managed","State which of policy, action and target is missing for "+list(a)+"."]);
+  a=ms.filter(function(o){return o.c.iMat&&!o.m.stake;});if(a.length)F.push([0,"Impact-material without stakeholder input","No affected-stakeholder evidence recorded for "+list(a)+". Proxies count: unions, NGOs, grievance logs, scientific bodies. "+dr("[[SBM-2]]")+" is written from this."]);
+  a=ms.filter(function(o){return o.c.mat&&(o.m.up||o.m.down)&&o.m.evidence==="estimate";});if(a.length)F.push([0,"Value chain matter resting on estimates","Explain the estimates and proxies behind "+list(a)+" in "+dr("[[BP-2]]")+(state.ver==="2026"?". In your first three years you may instead explain the effort made and the plan to get the data.":".")]);
+  a=ms.filter(function(o){return o.c.fMat&&!(o.m.hs||o.m.hm||o.m.hl);});if(a.length)F.push([0,"Financially material with no time horizon","Tick short, medium or long for "+list(a)+". Financial effects are disclosed by horizon."]);
+  a=ms.filter(function(o){return !(o.m.own||o.m.up||o.m.down);});if(a.length)F.push([0,"No place in the value chain","Say where "+list(a)+" sits. It decides whose data you need."]);
+  a=ms.filter(function(o){return !o.c.scored&&!o.m.ovr;});if(a.length)F.push([0,"Not scored yet",list(a)+"."]);
+  a=ms.filter(function(o){return o.c.i!==null&&o.c.f!==null;});if(a.length>=4&&a.every(function(o){return Math.abs(o.c.i-o.c.f)<0.05;}))F.push([1,"Both lenses give identical scores everywhere","That usually means the financial score was inferred from the impact score. Score the financial lens separately, with finance and risk in the room."]);
+  var none=D.STD_ORDER.filter(function(k){return k!=="ESRS2"&&k!=="ES"&&statusOf(k)==="none";});
+  if(none.length)F.push([0,"Topics with no conclusion yet",none.map(function(k){return D.STD[k].code;}).join(", ")+". Every topical standard needs a conclusion. Under the top-down route a one-line reason is enough where a topic plainly doesn't apply."]);
+  if(statusOf("ES")==="none")F.push([0,"No entity-specific matter considered","Ask what matters in your sector that the ten standards don't squarely cover. Finding none is fine. Not having looked isn't."]);
+  if(statusOf("E1")==="closed")F.push([1,"Climate concluded not material","Rare, and closely read. "+(state.ver==="2023"?"ESRS 2023 requires a detailed explanation.":"Keep a full explanation on file.")]);
+  if(statusOf("G1")==="closed"||statusOf("G1")==="none")F.push([0,"Business conduct is not open","G1 carries whistleblowing, policy governance and supplier payment for every other topic, which is why it is rarely closed. Check the conclusion."]);
+  return F;
+}
+function renderFlags(){
+  var F=flags();$("#flag-ct").textContent=F.length;$("#flag-ct").style.display=F.length?"":"none";
+  $("#out-flags").innerHTML=!state.matters.length?'<p class="muted">Checks appear once you have matters in the register.</p>':!F.length?'<p><b>Nothing flagged.</b> That means the register is internally consistent, not that the judgements are right.</p>':'<p class="small" style="max-width:80ch">What a reviewer or assurer would raise, based on what is in the register. Filled squares need a decision; outlined ones need tidying.</p><div class="frame" style="padding:4px 18px;margin-top:12px">'+F.map(function(f){return '<div class="flag"><div class="flag-dot'+(f[0]?'':' soft')+'"></div><div><h4>'+f[1]+'</h4><p>'+f[2]+'</p></div></div>';}).join("")+'</div>';
+}
+function isOpen(k){return ["imp","fin","both"].indexOf(statusOf(k))>-1;}
+function linkHits(){
+  var H=[];D.LINKS.forEach(function(L){if(!L.from.length)return;var seen={};
+    L.from.forEach(function(fr){if(!isOpen(fr))return;L.to.forEach(function(to){if(to===fr||isOpen(to))return;var key=L.n+to;if(seen[key])return;
+      seen[key]=1;H.push({L:L,fr:fr,to:to,st:statusOf(to)});});});});
+  return H;
+}
+function renderLinks(){
+  var H=linkHits();$("#link-ct").textContent=H.length;$("#link-ct").style.display=H.length?"":"none";
+  var both=D.LINKS.filter(function(L){return L.from.some(function(fr){return isOpen(fr)&&L.to.some(function(to){return to!==fr&&isOpen(to);});});});
+  var html=!state.matters.length?'<p class="muted">Linked-topic checks appear once you have matters in the register.</p>':'';
+  if(H.length)html+='<p class="small" style="max-width:80ch">An open topic pulls on a topic that is closed or not assessed. None of these forces the second topic to be material. Each is a question you should be able to answer.</p><div class="frame" style="padding:4px 18px;margin-top:12px">'+H.map(function(h){return '<div class="flag"><div class="flag-dot'+(h.st==="none"?'':' soft')+'"></div><div><h4>'+D.STD[h.fr].code+' is open; '+D.STD[h.to].code+' '+D.STD[h.to].name.toLowerCase()+' is '+(h.st==="none"?'not assessed':'closed')+'</h4><p><b>'+D.TYPES[h.L.type]+'.</b> '+h.L.why+' <b>'+h.L.ask+'</b></p></div></div>';}).join("")+'</div>';
+  else if(state.matters.length)html+='<p><b>No open topic pulls on a closed one.</b></p>';
+  if(both.length)html+='<h4 style="margin:26px 0 8px">Both sides open: keep these consistent</h4><ul class="dash" style="max-width:85ch">'+both.map(function(L){return '<li><b>'+L.pair+'.</b> '+dr(L.anchor)+'</li>';}).join("")+'</ul>';
+  $("#out-links").innerHTML=html;
+}
+function renderViews(){
+  var ms=state.matters.map(function(m,ix){return {m:m,ix:ix,c:calc(m)};});
+  var imp=ms.filter(function(o){return o.c.iMat;}),fin=ms.filter(function(o){return o.c.fMat;});
+  var t=function(rows,cols){return '<div class="scroll frame" style="margin-top:12px"><table><thead><tr>'+cols.map(function(c){return '<th>'+c+'</th>';}).join("")+'</tr></thead><tbody>'+rows+'</tbody></table></div>';};
+  $("#out-gri").innerHTML='<p class="small" style="max-width:80ch">GRI asks only the impact question, so this is your register filtered to impact-material matters. Report the process under GRI 3-1, this list under 3-2, and how each is managed under 3-3. The topic standards are a starting map: confirm against the GRI and ESRS interoperability index.</p>'+(imp.length?t(imp.map(function(o){return '<tr><td class="k">'+(o.ix+1)+'</td><td>'+esc(o.m.title)+'</td><td>'+f1(o.c.i===null?0:o.c.i)+'</td><td>'+D.GRI[o.m.std]+'</td></tr>';}).join(""),["#","Material topic","Impact score","Likely GRI topic standards"]):'<p class="muted">No impact-material matters yet.</p>')+(fin.filter(function(o){return !o.c.iMat;}).length?'<p class="small" style="margin-top:12px">Left out of the GRI list because they are material on the financial lens only: '+fin.filter(function(o){return !o.c.iMat;}).map(function(o){return esc(o.m.title);}).join("; ")+'.</p>':'');
+  $("#out-issb").innerHTML='<p class="small" style="max-width:80ch">ISSB asks only the investor question, so this is your register filtered to financially material risks and opportunities. IFRS S1 covers all of them; IFRS S2 adds the climate requirements, including scenario analysis, which ESRS 2026 doesn\'t require.</p>'+(fin.length?t(fin.map(function(o){var hz=[o.m.hs?"short":"",o.m.hm?"medium":"",o.m.hl?"long":""].filter(Boolean).join(", ")||"not set";return '<tr><td class="k">'+(o.ix+1)+'</td><td>'+esc(o.m.title)+'</td><td>'+(o.m.fKind==="opp"?"Opportunity":"Risk")+'</td><td>'+f1(o.c.f===null?0:o.c.f)+'</td><td>'+hz+'</td><td>'+(o.m.std==="E1"?"IFRS S1 and S2":"IFRS S1, with SASB industry guidance")+'</td></tr>';}).join(""),["#","Risk or opportunity","Type","Score","Horizon","Standard"]):'<p class="muted">No financially material matters yet.</p>')+(imp.filter(function(o){return !o.c.fMat;}).length?'<p class="small" style="margin-top:12px">Left out of the ISSB list because they are material on the impact lens only: '+imp.filter(function(o){return !o.c.fMat;}).map(function(o){return esc(o.m.title);}).join("; ")+'.</p>':'');
+}
+function renderWorkbook(){renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();}
+
+/* ---------- static tables ---------- */
+function renderStatic(){
+  $("#files-table").innerHTML='<thead><tr><th>#</th><th>File</th><th>What is in it</th><th>Feeds</th><th>What the assurer asks</th></tr></thead><tbody>'+D.FILES.map(function(r){return '<tr><td class="k">'+r[0]+'</td><td class="k" style="white-space:normal;min-width:150px">'+r[1]+'</td><td style="min-width:280px">'+r[2]+'</td><td style="white-space:nowrap">'+dr(r[3])+'</td><td style="min-width:240px"><i>'+r[4]+'</i></td></tr>';}).join("")+'</tbody>';
+  $("#situations").innerHTML=D.SITUATIONS.map(function(s){return '<div class="situ"><div><h4>'+s[0]+'</h4><p>'+s[1]+'</p></div><button class="btn" data-go="'+s[2]+'">'+s[3]+'</button></div>';}).join("");
+  $("#steps").innerHTML=D.STEPS.map(function(s){return '<div class="step"><div><div class="step-n">'+s.n+'</div><h3>'+s.t+'</h3><p class="small" style="margin-top:8px">'+s.s+'</p></div><div class="step-grid"><div class="wide"><h4>What you do</h4><p>'+s.do_+'</p></div><div><h4>Who is in the room</h4><p>'+s.who+'</p></div><div><h4>What you file</h4><p>'+s.file+'</p></div><div class="ask"><h4>The assurer asks</h4><p>'+s.ask+'</p></div><div><h4>How it goes wrong</h4><p>'+s.wrong+'</p></div><div class="wide v26"><h4>Lighter under ESRS 2026</h4><p>'+s.v26+'</p></div></div></div>';}).join("");
+  $("#scales").innerHTML='<thead><tr><th>Criterion</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>'+D.SCALES.map(function(r){return '<tr><td class="k" style="white-space:normal">'+r[0]+'<div class="small muted" style="font-weight:400">'+r[1]+'</div></td>'+r.slice(2).map(function(c){return '<td style="min-width:130px">'+c+'</td>';}).join("")+'</tr>';}).join("")+'</tbody>';
+  $("#esrs2-map").innerHTML='<thead><tr><th>Requirement</th><th>What it covers</th><th>What the assessment supplies</th></tr></thead><tbody>'+D.ESRS2MAP.map(function(r){return '<tr><td style="white-space:nowrap">'+dr(r[0])+'</td><td style="min-width:220px">'+r[1]+'</td><td style="min-width:300px">'+r[2]+'</td></tr>';}).join("")+'</tbody>';
+  $("#axes").innerHTML='<thead><tr><th>Axis</th><th class="hl">ESRS</th><th>GRI</th><th>IFRS: IASB and ISSB</th></tr></thead><tbody>'+D.AXES.map(function(r){return '<tr><td class="k" style="white-space:normal">'+r[0]+'</td><td class="hl" style="min-width:240px">'+r[1]+'</td><td style="min-width:200px">'+r[2]+'</td><td style="min-width:220px">'+r[3]+'</td></tr>';}).join("")+'</tbody>';
+  $("#changes").innerHTML='<thead><tr><th>Area</th><th>ESRS 2023</th><th class="hl">ESRS 2026</th><th>What it means for you</th></tr></thead><tbody>'+D.CHANGES.map(function(r){return '<tr><td class="k" style="white-space:normal">'+r[0]+'</td><td style="min-width:200px">'+r[1]+'</td><td class="hl" style="min-width:240px">'+r[2]+'</td><td style="min-width:200px">'+r[3]+'</td></tr>';}).join("")+'</tbody>';
+  $("#glossary").innerHTML='<tbody>'+D.GLOSSARY.map(function(r){return '<tr><td class="k" style="white-space:normal;width:220px">'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join("")+'</tbody>';
+  renderMatrix();
+}
+function renderMatrix(){
+  var head='<thead><tr><th class="rowh" style="border-bottom:2px solid var(--ink)">Row pulls on column</th>'+D.MXCOLS.map(function(c){return '<th>'+D.STD[c].code+'</th>';}).join("")+'</tr></thead>';
+  var body=D.MXCOLS.map(function(r){return '<tr><th class="rowh" scope="row">'+D.STD[r].code+' <span class="muted" style="font-weight:400">'+D.STD[r].name+'</span></th>'+D.MXCOLS.map(function(c){if(r===c)return '<td class="self"></td>';var x=(D.MX[r]||{})[c];if(!x)return '<td></td>';return '<td class="t-'+x[1]+'"><button type="button" data-r="'+r+'" data-c="'+c+'" aria-pressed="false" aria-label="'+D.STD[r].code+' to '+D.STD[c].code+': '+D.TYPES[x[1]]+'"><b class="dr" data-a="'+x[0].split("|")[0]+'" data-b="'+(x[0].split("|")[1]||x[0].split("|")[0])+'">'+code(x[0])+'</b><span>'+x[1]+'</span></button></td>';}).join("")+'</tr>';}).join("");
+  $("#matrix").innerHTML=head+'<tbody>'+body+'</tbody>';
+}
+function showLink(r,c){var x=D.MX[r][c],L=D.LINKS[x[2]-1];$$("#matrix button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.r===r&&b.dataset.c===c));});
+  $("#mx-note").innerHTML='<div class="lbl">'+D.STD[r].code+' pulls on '+D.STD[c].code+' · '+D.TYPES[x[1]]+'</div><h4 style="font-size:17px;margin-bottom:6px">'+L.pair+'</h4><p style="max-width:90ch">'+L.why+'</p><p class="small" style="margin:0;max-width:90ch"><b>Where it is anchored.</b> '+dr(L.anchor)+'</p>';}
+
+/* ---------- version, tabs ---------- */
+function setVer(v){state.ver=v;document.documentElement.setAttribute("data-ver",v);$$(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ver===v));});$$(".dr").forEach(function(s){s.textContent=v==="2023"?s.dataset.a:s.dataset.b;});renderPerimeter();renderFlags();renderLinks();renderViews();save();}
+var VIEWS=["start","workbook","assess","report","frameworks","reference"];
+function go(v,noHash){if(VIEWS.indexOf(v)<0)v="start";$$(".view").forEach(function(s){s.classList.toggle("on",s.id==="v-"+v);});$$(".tab").forEach(function(t){t.setAttribute("aria-selected",String(t.dataset.view===v));});if(!noHash){try{history.replaceState(null,"","#"+v);}catch(e){}}window.scrollTo(0,0);}
+
+/* ---------- export ---------- */
+function csv(){
+  var cols=["#","Matter","Topic","Subtopic","Human rights","Upstream","Own operations","Downstream","Short","Medium","Long","Impact direction","Actual or potential","Scale","Scope","Irremediability","Impact likelihood","Severity","Impact score","Impact material","Risk or opportunity","Magnitude","Financial likelihood","Financial score","Financially material","Material","Override","Override reason","Evidence","Stakeholder input","Policy action target","Notes"];
+  var q=function(v){v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;},yn=function(b){return b?"yes":"no";};
+  var rows=state.matters.map(function(m,ix){var c=calc(m);return [ix+1,m.title,D.STD[m.std].code+" "+D.STD[m.std].name,m.sub,yn(m.hr),yn(m.up),yn(m.own),yn(m.down),yn(m.hs),yn(m.hm),yn(m.hl),m.iOn?m.iKind:"",m.iOn?m.iState:"",m.iOn?m.scale:"",m.iOn?m.scope:"",m.iOn&&m.iKind==="neg"?m.irr:"",m.iOn&&m.iState==="potential"?m.iLik:"",c.sev===null?"":f1(c.sev),c.i===null?"":f1(c.i),yn(c.iMat),m.fOn?m.fKind:"",m.fOn?m.mag:"",m.fOn?m.fLik:"",c.f===null?"":f1(c.f),yn(c.fMat),yn(c.mat),m.ovr,m.ovrWhy,m.evidence,yn(m.stake),m.pat,m.note].map(q).join(",");});
+  return "\ufeff"+["Impact threshold,"+f1(state.tImp)+",Financial threshold,"+f1(state.tFin)+",Codes,ESRS "+state.ver,cols.map(q).join(",")].concat(rows).join("\r\n");
+}
+function exportCsv(){
+  if(!state.matters.length){toast("Nothing to export yet");return;}
+  var data=csv();
+  var fallback=function(){$("#backup").classList.add("on");$("#backup-text").value=data;$("#backup-text").focus();$("#backup-text").select();toast("File saving isn't available here. The CSV is in the box: copy it into a .csv file.");};
+  if(!(window.claude&&typeof window.claude.use==="function")){fallback();return;}
+  window.claude.use("downloads").then(function(dl){if(!dl){fallback();return;}
+    return dl.save({filename:"dma-register.csv",data:data}).then(function(){toast("Saved dma-register.csv");},function(e){if(e&&e.code==="declined")return;if(e&&e.code==="rate_limited"){toast("A save prompt is already open");return;}fallback();});},fallback);
+}
+
+/* tokens must be expanded before any listener is bound to elements inside the views */
+load();
+$$(".view").forEach(function(v){v.innerHTML=dr(v.innerHTML);});
+
+/* ---------- events ---------- */
+function loadExample(){if(state.matters.length&&!state.isExample&&!window.confirm("Replace your register with the example company?"))return;state.matters=D.EXAMPLE.map(norm);state.isExample=true;state.sel=null;state.tImp=3;state.tFin=3;syncThr();save();renderWorkbook();renderEditor();toast("Example company loaded");}
+function syncThr(){$("#t-imp").value=state.tImp;$("#t-fin").value=state.tFin;$("#t-imp-o").textContent=f1(state.tImp);$("#t-fin-o").textContent=f1(state.tFin);}
+function addMatter(){state.matters.push(blank());state.sel=state.matters.length-1;state.isExample=false;save();renderWorkbook();renderEditor();var t=$("#ed-title");if(t){$("#editor").scrollIntoView({block:"start"});t.focus({preventScroll:true});}}
+function edit(ix){state.sel=ix;go("workbook");renderRegister();renderEditor();$("#editor").scrollIntoView({block:"start"});}
+
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-go],.tab,.seg [data-ver],[data-act],[data-edit],[data-out],.sw,.pt,#matrix button,.reg tbody tr");if(!t)return;
+  if(t.dataset.go){e.preventDefault();go(t.dataset.go);if(t.dataset.go==="start"&&t.closest("#situations")){var el=$("#sc-emp");if(el){el.scrollIntoView({block:"center"});el.focus();}}return;}
+  if(t.classList.contains("tab")){go(t.dataset.view);return;}
+  if(t.matches(".seg [data-ver]")){setVer(t.dataset.ver);return;}
+  if(t.dataset.out){$$(".subtab").forEach(function(b){b.setAttribute("aria-selected",String(b===t));});$$(".out").forEach(function(o){o.classList.toggle("on",o.id==="out-"+t.dataset.out);});return;}
+  if(t.dataset.edit!==undefined){e.preventDefault();edit(+t.dataset.edit);return;}
+  if(t.classList.contains("pt")){edit(+t.dataset.ix);return;}
+  if(t.classList.contains("sw")){var k=t.dataset.std;go("workbook");var first=state.matters.findIndex(function(m){return m.std===k;});if(first>-1)edit(first);else{$$(".subtab")[0].click();}return;}
+  if(t.matches("#matrix button")){showLink(t.dataset.r,t.dataset.c);return;}
+  if(t.matches(".reg tbody tr")){edit(+t.dataset.ix);return;}
+  var a=t.dataset.act;
+  if(a==="add")addMatter();else if(a==="example")loadExample();
+  else if(a==="close"){state.sel=null;renderEditor();renderRegister();}
+  else if(a==="del"){if(window.confirm("Delete this matter?")){state.matters.splice(state.sel,1);state.sel=null;state.isExample=false;save();renderEditor();renderWorkbook();}}
+});
+document.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".reg tbody tr")){e.preventDefault();edit(+e.target.dataset.ix);}});
+function onEdit(e){var el=e.target,f=el.dataset&&el.dataset.f;if(!f||state.sel===null)return;var m=state.matters[state.sel];if(!m)return;
+  m[f]=el.type==="checkbox"?el.checked:(el.dataset.num?+el.value:el.value);state.isExample=false;
+  if(f==="std"){m.sub="";renderEditor();}
+  save();lensOut();renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();}
+$("#editor").addEventListener("input",onEdit);$("#editor").addEventListener("change",onEdit);
+["t-imp","t-fin"].forEach(function(id){$("#"+id).addEventListener("input",function(e){state[id==="t-imp"?"tImp":"tFin"]=+e.target.value;syncThr();save();lensOut();renderWorkbook();});});
+$("#add-matter").addEventListener("click",addMatter);
+$("#load-example").addEventListener("click",loadExample);
+$("#load-example-start").addEventListener("click",function(){loadExample();});
+$("#export-csv").addEventListener("click",exportCsv);
+$("#clear-all").addEventListener("click",function(){if(!state.matters.length)return;if(window.confirm("Remove every matter from the register? Export or back up first if you need it.")){state.matters=[];state.sel=null;state.isExample=false;save();renderEditor();renderWorkbook();toast("Register cleared");}});
+$("#toggle-backup").addEventListener("click",function(){var b=$("#backup");b.classList.toggle("on");if(b.classList.contains("on"))$("#backup-text").value=JSON.stringify({tImp:state.tImp,tFin:state.tFin,matters:state.matters},null,1);});
+$("#backup-copy").addEventListener("click",function(){var ta=$("#backup-text");ta.focus();ta.select();var ok=false;try{ok=document.execCommand("copy");}catch(e){}if(navigator.clipboard&&!ok){navigator.clipboard.writeText(ta.value).then(function(){toast("Copied");},function(){toast("Select the text and copy it by hand");});}else toast(ok?"Copied":"Select the text and copy it by hand");});
+$("#backup-restore").addEventListener("click",function(){try{var o=JSON.parse($("#backup-text").value);var arr=Array.isArray(o)?o:o.matters;if(!Array.isArray(arr))throw 0;state.matters=arr.map(norm);if(o.tImp)state.tImp=+o.tImp;if(o.tFin)state.tFin=+o.tFin;state.sel=null;state.isExample=false;syncThr();save();renderEditor();renderWorkbook();toast("Restored "+arr.length+" matters");}catch(e){toast("That text isn't a register backup. Paste the JSON exactly as it was copied.");}});
+function scope(){var e=parseFloat($("#sc-emp").value),r=parseFloat($("#sc-rev").value),o=$("#sc-out"),w=$("#sc-why");
+  if(isNaN(e)||isNaN(r)){o.textContent="Enter both figures";w.textContent="";return;}
+  if(e>1000&&r>450){o.textContent="In scope";w.textContent="Above both thresholds. You report under the CSRD using ESRS, with a double materiality assessment under limited assurance.";}
+  else{o.textContent="Out of mandatory scope";w.textContent="You need to exceed both 1,000 employees and €450m turnover, and you are below "+(e<=1000&&r<=450?"both":e<=1000?"the employee threshold":"the turnover threshold")+". If you reported in the first wave, check whether your Member State has exempted you for 2025 and 2026. Customers and banks in scope may still ask for data, capped at the voluntary standard.";}}
+$("#sc-emp").addEventListener("input",scope);$("#sc-rev").addEventListener("input",scope);
+window.addEventListener("hashchange",function(){go((location.hash||"#start").slice(1),true);});
+
+/* ---------- init ---------- */
+document.documentElement.setAttribute("data-ver",state.ver);
+$$(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ver===state.ver));});
+renderStatic();syncThr();renderWorkbook();renderEditor();
+go((location.hash||"#start").slice(1),true);
+})();
+</script>
+</body>
+</html>
