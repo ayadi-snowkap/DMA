@@ -50,9 +50,6 @@ button,select,input,textarea{font:inherit;color:inherit}
 .tab,.seg button,.subtab{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--fill);border-radius:20px;cursor:pointer;background:var(--panel);color:var(--text);white-space:nowrap;transition:background-color .15s,color .15s}
 .tab:hover,.seg button:hover,.subtab:hover{opacity:.85}
 .tab[aria-selected="true"],.seg button[aria-pressed="true"],.subtab[aria-selected="true"]{background:var(--fill);color:var(--on-fill)}
-.tab i{font-style:normal;font-weight:700;margin-right:7px;opacity:.55}
-.tab[aria-selected="true"] i{opacity:.75}
-.tab-div{align-self:center;width:1px;height:18px;background:var(--line);margin:0 5px;flex:0 0 auto}
 .ver{display:flex;align-items:center;gap:8px}
 .ver-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .seg{display:inline-flex;gap:5px}
@@ -274,64 +271,7 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
 .scope-out{font-family:var(--serif);font-size:24px;line-height:1.15;margin:2px 0 8px}
 .aside-tag{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);padding:9px 12px;border-radius:2px;background:var(--panel);max-width:270px;line-height:1.5}
 .hero{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-/* route map on Start */
-.route{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:20px}
-@media (max-width:1000px){.route{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){.route{grid-template-columns:1fr}}
-.rt{position:relative;padding:12px 14px 13px 16px;border:1.4px solid var(--line);border-radius:2px;background:var(--panel);text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:3px}
-.rt::before{content:"";position:absolute;left:0;top:-1.4px;bottom:-1.4px;width:4px;background:var(--line)}
-.rt.done::before{background:var(--fill)}
-.rt.now::before{background:var(--accent)}
-.rt:hover{background:var(--paper)}
-.rt-n{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted)}
-.rt-t{font-family:var(--serif);font-size:16px;line-height:1.15}
-.rt-o{font-size:12px;color:var(--muted);margin-top:2px}
-.rt-s{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;margin-top:auto;padding-top:9px}
-.rt.done .rt-s{color:var(--fill)}.rt.now .rt-s{color:var(--accent-text)}.rt .rt-s{color:var(--muted)}
-/* file tracker */
-.trk{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--paper-2)}
-.trk:first-child{border-top:0}
-.trk-box{width:16px;height:16px;border:1.4px solid var(--line);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
-.trk.done .trk-box{background:var(--fill);border-color:var(--fill)}
-.trk h4{font-size:13.5px}
-.trk p{margin:2px 0 0;font-size:12px;color:var(--muted)}
-.trk.done h4::after{content:" ✓";color:var(--fill)}
-/* gate */
-.gate{padding:20px 22px;border:1.4px dashed var(--accent);border-radius:3px;background:var(--accent-tint);margin-top:18px}
-.gate h3{margin-bottom:6px}
-/* guided scoring */
-.gq{grid-column:1/-1;border-top:1px solid var(--line);padding-top:10px;margin-top:2px}
-.gq+.gq{border-top:1px solid var(--paper-2)}
-.gq-q{font-family:var(--serif);font-size:14.5px;line-height:1.3;margin-bottom:7px}
-.gq-a{display:flex;flex-direction:column;gap:4px}
-.gq-a label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.4;padding:5px 8px;border:1px solid transparent;border-radius:2px;cursor:pointer}
-.gq-a label:hover{background:var(--paper)}
-.gq-a input{margin-top:2px;accent-color:var(--accent)}
-.gq-a label.on{background:var(--panel);border-color:var(--line)}
-.gq-a .lv{font-family:var(--mono);font-size:10.5px;color:var(--muted);min-width:12px}
-.lens.fin .gq-a input{accent-color:var(--fill)}
-.mode-row{grid-column:1/-1;display:flex;justify-content:flex-end;padding:0 12px 6px}
-.anchor{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.4}
-/* starter library */
-.lib{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-@media (max-width:820px){.lib{grid-template-columns:1fr}}
-.lib label{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border:1.4px solid var(--line);border-radius:2px;background:var(--panel);font-size:12.5px;line-height:1.4;cursor:pointer}
-.lib label:hover{background:var(--paper)}
-.lib label.on{border-color:var(--fill);background:var(--paper)}
-.lib input{margin-top:2px}
-.lib-t{font-family:var(--mono);font-size:10px;color:var(--muted);display:block;margin-bottom:2px}
-/* generated documents */
-.doc{border:1px solid var(--fill);border-radius:4px;background:var(--panel);padding:26px 30px;margin-top:16px;max-width:900px}
-.doc h2{font-size:24px;margin-bottom:2px}
-.doc h3{font-size:16px;margin:20px 0 6px;font-family:var(--sans);font-weight:700}
-.doc p,.doc li{font-size:13px;max-width:none}
-.doc table{font-size:12px;margin:8px 0}
-.doc .meta{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:14px}
-.doc ol,.doc ul{padding-left:20px;margin:6px 0}
-.doc li{margin-bottom:5px}
-.doc .sig{margin-top:22px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-.sens td:last-child{font-family:var(--mono);font-size:11.5px}
-@media print{.top,.btn-row,.subtabs,.tabs{display:none}.view{display:none!important}.view.on{display:block!important;padding:0}.doc{border:0;padding:0}}
+@media print{.top,.btn-row{display:none}.view{display:block!important;padding:20px 0}}
 </style>
 </head>
 <body>
@@ -346,12 +286,10 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
       </div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Sections">
-      <button class="tab" role="tab" data-view="start" aria-selected="true"><i>0</i>Start here</button>
-      <button class="tab" role="tab" data-view="prepare" aria-selected="false"><i>1</i>Prepare</button>
-      <button class="tab" role="tab" data-view="assess" aria-selected="false"><i>2</i>Method</button>
-      <button class="tab" role="tab" data-view="workbook" aria-selected="false"><i>3</i>Workbook</button>
-      <button class="tab" role="tab" data-view="report" aria-selected="false"><i>4</i>Report</button>
-      <span class="tab-div" aria-hidden="true"></span>
+      <button class="tab" role="tab" data-view="start" aria-selected="true">Start here</button>
+      <button class="tab" role="tab" data-view="workbook" aria-selected="false">Workbook</button>
+      <button class="tab" role="tab" data-view="assess" aria-selected="false">Run the assessment</button>
+      <button class="tab" role="tab" data-view="report" aria-selected="false">Turn it into the report</button>
       <button class="tab" role="tab" data-view="frameworks" aria-selected="false">GRI and ISSB</button>
       <button class="tab" role="tab" data-view="reference" aria-selected="false">Reference</button>
     </nav>
@@ -366,33 +304,20 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
   <h1>Your materiality assessment<br><em>decides what you report.</em></h1>
   </div>
   <div class="aside-tag">Rules as of 18 Sep 2026: revised ESRS adopted 3 July 2026, mandatory from FY2027. Switch disclosure codes between versions at the top of the page.</div></div>
-  <p class="lede" style="margin-top:14px">Written for someone who has been handed this job and has not done one before. A process diagram can't do anything for you. What the process leaves behind can: a scored list of sustainability matters, a line drawn through it, and from that line the exact set of disclosures you owe and the ones you are allowed to drop. This page lets you produce those outputs, then gives you the rules behind them. Work through the numbered stages in order.</p>
+  <p class="lede" style="margin-top:14px">A process diagram can't do anything for you. What the process leaves behind can: a scored list of sustainability matters, a line drawn through it, and from that line the exact set of disclosures you owe and the ones you are allowed to drop. This page lets you produce those outputs, then gives you the rules behind them.</p>
 
-  <div class="route" id="route"></div>
-  <p class="small" style="margin-top:12px" id="route-caption"></p>
-  <div class="btn-row" style="margin-top:12px">
-    <button class="btn btn-fill" data-go="prepare">Start at stage 1</button>
-    <button class="btn" id="load-example-start">Load the example company first</button>
+  <div class="board" id="board-start" aria-label="Which ESRS standards are open"></div>
+  <div class="legend">
+    <span><i style="background:var(--accent);border-color:var(--accent)"></i>Open, impact material</span>
+    <span><i style="background:var(--fin);border-color:var(--fin)"></i>Open, financially material</span>
+    <span><i style="background:linear-gradient(90deg,var(--accent) 50%,var(--fin) 50%);border-color:var(--fill)"></i>Open on both</span>
+    <span><i style="background:var(--panel)"></i>Assessed, not material</span>
+    <span><i style="border-style:dashed;background:var(--paper)"></i>Not assessed yet</span>
   </div>
-
-  <div class="block">
-    <h2>Where you are</h2>
-    <p class="lede">A double materiality assessment leaves seven files behind. This list fills in as you work. When you are not sure what to do next, open the first row that is still empty.</p>
-    <div class="frame" style="padding:4px 20px;margin-top:16px" id="tracker"></div>
-  </div>
-
-  <div class="block">
-    <h2>Which standards are open so far</h2>
-    <p class="lede">This is the point of the whole exercise. Each topical standard is a switch, and your scored register throws it.</p>
-    <div class="board" id="board-start" aria-label="Which ESRS standards are open"></div>
-    <div class="legend">
-      <span><i style="background:var(--accent);border-color:var(--accent)"></i>Open, impact material</span>
-      <span><i style="background:var(--fin);border-color:var(--fin)"></i>Open, financially material</span>
-      <span><i style="background:linear-gradient(180deg,var(--accent) 50%,var(--fin) 50%);border-color:var(--fill)"></i>Open on both</span>
-      <span><i style="background:var(--panel)"></i>Assessed, not material</span>
-      <span><i style="border-style:dashed;background:var(--paper)"></i>Not assessed yet</span>
-    </div>
-    <p class="small" style="margin-top:12px" id="board-caption"></p>
+  <p class="small" style="margin-top:14px" id="board-caption"></p>
+  <div class="btn-row" style="margin-top:14px">
+    <button class="btn btn-fill" data-go="workbook">Open the workbook</button>
+    <button class="btn" id="load-example-start">Load the example company</button>
   </div>
 
   <div class="block">
@@ -409,13 +334,13 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
   </div>
 
   <div class="block">
-    <h2>What each file has to contain</h2>
-    <p class="lede">The same seven files, in detail, with the question an assurer asks about each one. Use this when you are filling one in, not when you are deciding what to do next.</p>
+    <h2>What you should have on file when you finish</h2>
+    <p class="lede">Seven files. If you have these, you have done a double materiality assessment, whatever route you took. The workbook on this page produces the fourth and drafts the sixth.</p>
     <div class="scroll frame" style="margin-top:22px"><table id="files-table"></table></div>
   </div>
 
   <div class="block">
-    <h2>If you are not starting at the beginning</h2>
+    <h2>Start from where you are</h2>
     <div id="situations" style="margin-top:18px"></div>
   </div>
 
@@ -456,7 +381,6 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
 <div class="wrap">
   <div class="kicker">The scored register</div>
   <h1 style="font-size:clamp(26px,3.4vw,40px)">The <em>workbook</em></h1>
-  <div id="wb-gate"></div>
   <p class="lede">List your sustainability matters, score each one on both lenses, and the page works out what is material, which standards open, what you then owe, and what an assurer would question. Your entries are saved in this browser only.</p>
 
   <div class="wb-bar">
@@ -470,7 +394,6 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
     </div>
     <div class="btn-row" style="margin-left:auto">
       <button class="btn btn-fill" id="add-matter">Add a matter</button>
-      <button class="btn" id="open-lib">Add from the library</button>
       <button class="btn" id="load-example">Load example</button>
       <button class="btn" id="export-csv">Export CSV</button>
       <button class="btn" id="toggle-backup">Back up or restore</button>
@@ -483,7 +406,6 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
     <div class="btn-row" style="margin-top:8px"><button class="btn btn-sm" id="backup-copy">Copy</button><button class="btn btn-sm" id="backup-restore">Restore from this text</button></div>
   </div>
 
-  <div id="lib-panel"></div>
   <div class="board" id="board-wb" aria-label="Which ESRS standards are open"></div>
 
   <div class="editor" id="editor" aria-live="polite"></div>
@@ -502,88 +424,24 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
     <button class="subtab" role="tab" data-out="perimeter" aria-selected="true">What you must report</button>
     <button class="subtab" role="tab" data-out="flags" aria-selected="false">Checks<span class="ct" id="flag-ct">0</span></button>
     <button class="subtab" role="tab" data-out="links" aria-selected="false">Linked topics<span class="ct" id="link-ct">0</span></button>
-    <button class="subtab" role="tab" data-out="sens" aria-selected="false">Sensitivity</button>
     <button class="subtab" role="tab" data-out="gri" aria-selected="false">GRI view</button>
     <button class="subtab" role="tab" data-out="issb" aria-selected="false">ISSB view</button>
   </div>
   <div class="out on" id="out-perimeter"></div>
   <div class="out" id="out-flags"></div>
   <div class="out" id="out-links"></div>
-  <div class="out" id="out-sens"></div>
   <div class="out" id="out-gri"></div>
   <div class="out" id="out-issb"></div>
 
   <div class="note" style="margin-top:40px"><p><b>What this workbook is and isn't.</b> The scales, formulas and default thresholds are one reasonable convention. ESRS prescribes the criteria (scale, scope, irremediability, likelihood; magnitude, likelihood) and leaves the scales and thresholds to you. Change them to match your own method note, and treat the outputs as a draft for people to challenge, not as a conclusion.</p></div>
 </div>
 </section>
-<!-- ============ PREPARE ============ -->
-<section class="view" id="v-prepare" role="tabpanel">
-<div class="wrap">
-  <div class="kicker">Stage 1 · before you score anything</div>
-  <h1 style="font-size:clamp(26px,3.4vw,40px)">Prepare</h1>
-  <p class="lede">Two pieces of groundwork. Understand what the company does and who it affects, then write down every sustainability matter worth considering. Nothing here involves numbers.</p>
-
-  <div class="note"><p><b>You cannot do this alone, and you are not supposed to.</b> The scoring needs topic experts, finance, risk, procurement, HR and legal in a room. Your job is to run the process and keep the file, not to know everything. There is a brief at the bottom of this page you can send them.</p></div>
-
-  <div class="block">
-    <h2>1a. Understand the context</h2>
-    <p class="lede">Every later judgement rests on this. Get it wrong and you score the wrong things well.</p>
-    <div id="steps-prepare" style="margin-top:18px"></div>
-    <div class="frame" style="padding:14px 18px;margin-top:16px">
-      <label style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;cursor:pointer"><input type="checkbox" data-flag="ctx"> <span><b>Context file is done.</b> I have a business model and value chain map, a site list screened for water stress and biodiversity-sensitive areas, and a stakeholder map.</span></label>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>1b. Build the long list</h2>
-    <p class="lede">The hardest part of a first assessment is not scoring, it is knowing what to put on the list. Start from the library below, delete what doesn't apply, reword the rest in your own language, and add what is specific to your business.</p>
-    <p class="small" style="max-width:80ch">A good entry is a sentence, not a topic. "Climate" tells you nothing. "Emissions embedded in the goods and services we buy" tells you who to ask, what to measure, and where in the chain it sits.</p>
-    <div class="btn-row" style="margin-top:14px">
-      <button class="btn btn-fill" data-go="workbook" id="go-lib">Open the library in the workbook</button>
-    </div>
-    <div class="frame" style="padding:14px 18px;margin-top:16px">
-      <label style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;cursor:pointer"><input type="checkbox" data-flag="list"> <span><b>Long list is done.</b> Every ESRS topic has either a candidate matter or a written reason for ruling it out, and I have added anything specific to our business.</span></label>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>Who to involve, and what they give you</h2>
-    <div class="scroll frame" style="margin-top:14px"><table>
-      <thead><tr><th style="width:200px">Group</th><th>Who they are</th><th>What they give you</th></tr></thead>
-      <tbody>
-        <tr><td class="k">Affected stakeholders</td><td>Workers, value chain workers, communities, consumers. Nature, through credible proxies such as scientific bodies and NGOs.</td><td>Evidence of severity for the impact lens. Unions, works councils and grievance logs count. You do not need a survey for everything.</td></tr>
-        <tr><td class="k">Users of the statement</td><td>Investors, lenders, insurers, key business partners.</td><td>What they price and ask about, which informs the financial threshold and disclosure priorities.</td></tr>
-        <tr><td class="k">Internal experts</td><td>Sustainability, risk, finance, procurement, operations, HR, legal.</td><td>The scores themselves, the value chain view, and the challenge that stops one team's view dominating.</td></tr>
-      </tbody></table></div>
-    <div class="frame" style="padding:14px 18px;margin-top:14px">
-      <label style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;cursor:pointer"><input type="checkbox" data-flag="engage"> <span><b>Engagement log started.</b> I am recording who was consulted, how, what they said, and what changed as a result. This is what [[SBM-2]] is written from.</span></label>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>Brief your colleagues</h2>
-    <p class="lede">This generates a short page from your own settings and register, explaining what you are asking them to do. Send it before the scoring session. Use your browser's print command to save it as a PDF.</p>
-    <div class="btn-row" style="margin-top:12px">
-      <button class="btn btn-fill" id="gen-brief">Generate the colleague brief</button>
-      <button class="btn" id="print-brief">Print or save as PDF</button>
-    </div>
-    <div id="brief"></div>
-  </div>
-
-  <div class="block">
-    <h2 style="font-size:22px">Next</h2>
-    <p>With a context file and a long list, you are ready to decide <i>how</i> you will score. Do not open the workbook first.</p>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-fill" data-go="assess">Go to stage 2: Method</button></div>
-  </div>
-</div>
-</section>
-
 <!-- ============ ASSESS ============ -->
 <section class="view" id="v-assess" role="tabpanel">
 <div class="wrap">
-  <div class="kicker">Stage 2 · decided and dated before any scoring</div>
-  <h1 style="font-size:clamp(26px,3.4vw,40px)">Method</h1>
-  <p class="lede">How you will score, where the line sits, who decides, and who signs it off. Settle this now. A threshold chosen after the results are in is the first thing an assurer looks for, and it is the difference between a judgement and a guess.</p>
+  <div class="kicker">ESRS 1, chapter 3, and EFRAG IG 1</div>
+  <h1 style="font-size:clamp(26px,3.4vw,40px)">Run the <em>assessment</em></h1>
+  <p class="lede">Four steps. For each: what you do, who needs to be in the room, the file you keep, the question the assurer will ask about it, and the usual way it goes wrong.</p>
 
   <div class="frame cols cols-2" style="margin-top:26px">
     <div class="cell">
@@ -596,71 +454,7 @@ input[type=checkbox]{accent-color:var(--fill);width:15px;height:15px}
     </div>
   </div>
 
-  <div class="block">
-    <h2>Your settings</h2>
-    <p class="lede">These four decisions drive everything the workbook does. Change them here, not while you are scoring.</p>
-    <div class="frame" style="padding:18px 20px;margin-top:16px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px 24px">
-        <div>
-          <label class="lbl" for="m-imp">Impact threshold</label>
-          <div class="thr"><input type="range" id="m-imp" min="1" max="5" step="0.1"><output id="m-imp-o"></output></div>
-          <p class="small" style="margin:6px 0 0">A matter at or above this score is impact material. 3.0 is a common starting point. Lower it and you report more.</p>
-        </div>
-        <div>
-          <label class="lbl" for="m-fin">Financial threshold</label>
-          <div class="thr"><input type="range" id="m-fin" min="1" max="5" step="0.1"><output id="m-fin-o"></output></div>
-          <p class="small" style="margin:6px 0 0">Same, for the financial lens. The two do not have to match, and often shouldn't.</p>
-        </div>
-        <div>
-          <label class="lbl" for="m-turn">Net turnover, € million</label>
-          <input class="input" id="m-turn" type="number" min="0" inputmode="numeric" placeholder="e.g. 520">
-          <p class="small" style="margin:6px 0 0">Used to turn financial magnitude into euro bands, so a "4" means the same thing to everyone scoring.</p>
-          <div id="bands" style="margin-top:10px"></div>
-        </div>
-        <div>
-          <label class="lbl" for="m-owner">Who approves this method</label>
-          <input class="input" id="m-owner" placeholder="e.g. CFO and Audit Committee">
-          <label class="lbl" for="m-date" style="margin-top:10px">Date approved</label>
-          <input class="input" id="m-date" type="date">
-          <p class="small" style="margin:6px 0 0">This date must sit before your first score.</p>
-        </div>
-      </div>
-      <div style="margin-top:16px;border-top:1px solid var(--paper-2);padding-top:14px">
-        <label style="display:flex;gap:9px;align-items:flex-start;font-size:13.5px;cursor:pointer"><input type="checkbox" data-flag="method"> <span><b>Method is approved.</b> Scales, thresholds, horizons and roles are agreed and dated, and I have the note on file.</span></label>
-      </div>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>How to keep scores from being arbitrary</h2>
-    <p class="lede">A 1 to 5 dropdown on its own is a guess machine. Five habits are what make the numbers hold up, and the workbook is built around them.</p>
-    <div class="frame cols cols-3" style="margin-top:16px">
-      <div class="cell"><h4>Use the anchors, not your instinct</h4><p>Every criterion in the workbook has wording specific to the topic. "Scope" means people for a labour matter and geography for a water one. Switch on <b>guide me</b> and answer the question instead of picking a number.</p></div>
-      <div class="cell"><h4>Calibrate before you scale up</h4><p>Score three or four matters as a group first, argue them out, and treat those as your benchmark. Load the example company to see thirteen matters with the reasoning written out.</p></div>
-      <div class="cell"><h4>Name a source for every score</h4><p>Measurement, permit, incident log, grievance, benchmark, stakeholder statement. A score with no named source is an opinion, and the workbook flags it.</p></div>
-      <div class="cell"><h4>Score twice, then reconcile</h4><p>Two people score independently. Anything more than one point apart goes to discussion, and the discussion gets written down. That record is what an assurer reads.</p></div>
-      <div class="cell"><h4>Test the line you drew</h4><p>Move each threshold half a point and look at what flips. If a topic's materiality hangs on 0.1, say so rather than pretending to precision. The workbook has a sensitivity tab.</p></div>
-      <div class="cell"><h4>Never net off quietly</h4><p><span class="v26">For actual negative impacts count only mitigation already applied in earlier periods, not this year's remediation. For potential ones, only measures that demonstrably reduce severity or likelihood.</span><span class="v23">ESRS 2023 is silent on gross versus net. Applying the 2026 discipline now is sensible.</span></p></div>
-    </div>
-  </div>
-
-  <div class="block">
-    <h2>Your method note</h2>
-    <p class="lede">File 3 of the seven, and the first thing an assurer opens. This builds it from the settings above. Take it to whoever approves it, before you score.</p>
-    <div class="btn-row" style="margin-top:12px">
-      <button class="btn btn-fill" id="gen-method">Generate the method note</button>
-      <button class="btn" id="print-method">Print or save as PDF</button>
-    </div>
-    <div id="methodnote"></div>
-  </div>
-
-  <div class="block">
-    <h2 style="font-size:22px">Next</h2>
-    <p>With the method approved and dated, you can score. Everything from here happens in the workbook.</p>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-fill" data-go="workbook">Go to stage 3: the workbook</button></div>
-  </div>
-
-  <div class="block"><h2>Stages 3 and 4, for reference</h2><p class="lede">The scoring and reporting stages in the same shape as stage 1. You carry these out in the workbook.</p><div id="steps" style="margin-top:18px"></div></div>
+  <div class="block"><h2>The four steps</h2><div id="steps" style="margin-top:18px"></div></div>
 
   <div class="block">
     <h2>How to score</h2>
@@ -1053,11 +847,11 @@ var FILES=[
  ["7","Sign-off and change log","Minute of the governing body's review and approval. Differences from last year and why.","[[GOV-2|GOV-1]], [[BP-2]]","What did the board challenge?"]
 ];
 var SITUATIONS=[
- ["We have never done one","Start at stage 1. Load the example company first if you want to see what a finished assessment looks like before you begin.","prepare","Go to stage 1"],
+ ["We have never done one","Read the four steps, then load the example company to see what a finished register looks like before you start your own.","assess","Go to the steps"],
  ["We did one under ESRS 2023 and need to know what to change","The changes table lists what moved, and the toggle at the top re-labels every disclosure code on the page.","reference","See what changed"],
- ["We have a material list and need to build the report","Put the list in the workbook to get the requirements each topic opens, then use stage 4 for where everything goes.","report","Go to stage 4"],
+ ["We have a material list and need to build the report","Put the list in the workbook to get the requirements each topic opens, then use the wiring section for where everything goes.","report","Go to reporting"],
  ["We already report under GRI or ISSB","See what carries over and the three traps, then use the GRI and ISSB views in the workbook.","frameworks","Compare frameworks"],
- ["I need to explain this to a board or a colleague","Generate the colleague brief on the Prepare page, or load the example and show them the switchboard.","prepare","Generate a brief"],
+ ["I need to explain this to a board or a colleague","The switchboard and the matrix in the workbook, loaded with the example, make the point faster than any diagram.","workbook","Open the workbook"],
  ["We may have dropped out of scope","Check the thresholds below. If you are out, the voluntary standard is what customers and banks can still ask you for.","start","Check scope"]
 ];
 var STEPS=[
@@ -1184,328 +978,15 @@ window.__DMA={STD_ORDER:STD_ORDER,STD:STD,DRS:DRS,GRI:GRI,MXCOLS:MXCOLS,MX:MX,TY
 <script>
 (function(){
 "use strict";
-/* Guided scoring: one question per criterion, worded for the topic. Answers map to 1..5. */
-function S(q,a){return {q:q,a:a};}
-var LIK=S("How likely is it, over your time horizons?",[
- "Remote. No sign of it here or at comparable companies.",
- "Unlikely. Possible in principle, nothing pointing to it.",
- "Possible. It has happened in your sector or nearby.",
- "Likely. It has happened to you before, or conditions clearly point to it.",
- "Almost certain, or it is already recurring."]);
-var FLIK=S("How likely is the financial effect, over your time horizons?",[
- "Remote. Would need several unlikely things to coincide.",
- "Unlikely, but not dismissible.",
- "Possible. Comparable companies have taken this hit.",
- "Likely. Already visible in forecasts, contracts or pricing.",
- "Almost certain, or already hitting the accounts."]);
-var POS={
- scale:S("At its best, how much good does this do?",[
-  "Barely measurable benefit.","A small improvement for a few people or one site.",
-  "A clear improvement that those affected would notice.","A substantial improvement to livelihoods, health or an ecosystem.",
-  "Transformative: it changes outcomes for a large group or restores an ecosystem."]),
- scope:S("How many people, or how much of the environment, benefit?",[
-  "A handful of people, or one process.","One site, team or product.",
-  "Several sites, a community or a product line.","Most operations, a region, or large groups of people.",
-  "Group-wide and across the value chain, or a whole ecosystem."])
-};
-var GUIDE={
-E1:{scale:S("At its worst, how much does this add to climate change, or expose people and assets to it?",[
- "Emissions or exposure too small to measure meaningfully.",
- "A minor share of your footprint. Nobody is harmed directly.",
- "A visible share of your footprint, or mild disruption to people or assets.",
- "A large share of your footprint, or serious harm from heat, flood, drought or storm.",
- "Your dominant emissions source, or life-threatening exposure for people."]),
- scope:S("How far does it reach?",[
- "One process or one piece of equipment.","One site or one product.",
- "Several sites, or one country's operations.","Most operations, or a whole region.",
- "The entire group and its supply chain, worldwide."]),
- irr:S("If you stopped this tomorrow, how long until the effect is undone?",[
- "The effect stops immediately.","Undone within a year.",
- "Years of active effort to undo.","Decades. Emitted CO2 stays in the atmosphere.",
- "Permanent. Irreversible warming contribution, or assets destroyed for good."]),
- mag:S("What could this do to the business financially?",[
- "Nothing you would notice in the accounts.","Absorbed inside normal cost variation.",
- "Noticeable in one unit's energy, carbon or insurance costs.","Changes group results, financing terms or asset values.",
- "Threatens the business model, a licence, or access to capital."])},
-E2:{scale:S("At its worst, how harmful is what you release?",[
- "Trace amounts, well inside permit limits, no known effect.",
- "Minor releases. Nuisance at most, such as odour or dust.",
- "Releases that noticeably degrade local air, water or soil quality.",
- "Releases causing illness, contamination or lasting damage to habitat.",
- "Acutely toxic or carcinogenic release that could kill or permanently harm."]),
- scope:S("How far does the contamination travel?",[
- "Contained inside the plant boundary.","The immediate site and its perimeter.",
- "The surrounding neighbourhood, river reach or airshed.","A whole region, catchment or country.",
- "Transboundary, or carried worldwide through products or waterways."]),
- irr:S("Can the contamination be cleaned up?",[
- "Cleared at once with routine measures.","Cleaned up within a year.",
- "Years of remediation, at significant cost.","Only partly remediable. Some contamination stays.",
- "Permanent. Persistent substances that do not break down."]),
- mag:S("What is the financial exposure?",[
- "Negligible. Permit fees only.","Absorbed within normal operating costs.",
- "Fines, clean-up or abatement visible in one unit's results.","Group-level clean-up liability, litigation, or a threatened permit.",
- "Site closure, criminal liability, or loss of licence to operate."])},
-E3:{scale:S("At its worst, how much does this strain water?",[
- "Volumes trivial against local availability.","Minor draw on a plentiful supply.",
- "A noticeable draw, or discharge that measurably affects water quality.",
- "Competes with community or farming needs, or degrades a water body.",
- "Deprives people or ecosystems of water they depend on."]),
- scope:S("How large is the water body or population affected?",[
- "One process loop.","One site's supply.","One catchment or basin.",
- "Several basins, or a water-stressed region.","Multiple stressed basins across countries."]),
- irr:S("How quickly does the water system recover?",[
- "Immediately. Water returns to the same body.","Within a season.",
- "Years of reduced availability or quality.","Decades. Aquifer depletion or lasting quality loss.",
- "Permanent. The source or ecosystem does not come back."]),
- mag:S("What is the financial exposure?",[
- "Negligible. Water is cheap and plentiful here.","Minor cost variation.",
- "Rising tariffs, restrictions or treatment costs in one unit.","Production curtailment, or a permit renewal in doubt.",
- "A site cannot operate without water it may not get."])},
-E4:{scale:S("At its worst, how much damage is done to nature?",[
- "No measurable effect on species or habitat.","Minor disturbance. Species recover quickly.",
- "Habitat degraded, or local species populations visibly reduced.",
- "Habitat destroyed, or a protected or declining species seriously harmed.",
- "Local extinction, or destruction of a critical or irreplaceable ecosystem."]),
- scope:S("How much land, sea or how many species?",[
- "A fraction of a hectare, or a single species locally.","One site's footprint.",
- "A landscape, forest block or coastal stretch.","A whole ecoregion or a widespread commodity footprint.",
- "Multiple biodiversity hotspots across countries."]),
- irr:S("Can the ecosystem be restored?",[
- "Recovers on its own within a season.","Restored within a few years.",
- "Restoration takes decades and active management.","Only partial restoration is realistic.",
- "Irreversible. Species lost or ecosystem converted for good."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Minor compliance and survey costs.",
- "Offset, restoration or sourcing costs visible in one unit.","Deforestation rules block a commodity, or permits are refused.",
- "Loss of a core raw material, or of the right to operate at a site."])},
-E5:{scale:S("At its worst, how wasteful or unrecoverable is this?",[
- "Materials fully recovered, effectively no loss.","Minor loss of low-value material.",
- "A material share is landfilled, incinerated or lost.","Large volumes of scarce or critical material lost for good.",
- "Near-total loss of a scarce, critical or hazardous material stream."]),
- scope:S("How much of your material flow does this cover?",[
- "One component or packaging item.","One product line or site.",
- "A significant share of purchased materials.","Most of what you buy or sell.",
- "The whole portfolio and its packaging, group-wide."]),
- irr:S("Can the material be recovered later?",[
- "Recovered in the same cycle.","Recoverable with existing infrastructure.",
- "Recoverable only where collection systems exist.","Technically recoverable, but nowhere it is sold.",
- "Permanently lost. Dissipated, contaminated or landfilled for good."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Minor disposal cost.",
- "Waste fees, packaging levies or material prices visible in one unit.",
- "Extended producer responsibility, plastic taxes or supply scarcity at group level.",
- "A material you cannot secure, or a product you can no longer sell."])},
-S1:{scale:S("At its worst, how badly are your own workers affected?",[
- "Minor inconvenience. No effect on rights or wellbeing.",
- "Irritation or short-lived stress. No lasting harm.",
- "Meaningful harm to wellbeing, pay, health or fair treatment.",
- "Serious injury, sustained discrimination, or pay below a living wage.",
- "Death, permanent disability, or forced labour."]),
- scope:S("How many of your workers are affected?",[
- "A handful of individuals.","One team, shift or site.",
- "A job family, or several sites.","Most of the workforce, or a whole country's operations.",
- "The entire workforce, group-wide."]),
- irr:S("Can it be put right for the people affected?",[
- "Corrected on the spot.","Remedied within weeks, including back pay.",
- "Remedy takes months and does not fully restore the person.",
- "Only partial remedy. Health or career damage persists.",
- "Irreversible. Death, permanent injury or lost years of life."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Normal HR cost variation.",
- "Turnover, absence, recruitment or tribunal costs in one unit.",
- "Group-level litigation, strike action, or inability to staff operations.",
- "Criminal liability, shutdown, or loss of the workforce you depend on."])},
-S2:{scale:S("At its worst, how badly are workers in your value chain affected?",[
- "Conditions meet good practice. No harm identified.",
- "Minor shortfalls against standards. No lasting harm.",
- "Excessive hours, unsafe conditions, or pay below a living wage.",
- "Serious injury, debt bondage, discrimination, or suppression of union rights.",
- "Child labour, forced labour, or death."]),
- scope:S("How many value chain workers are affected?",[
- "One supplier's small team.","One supplier site.",
- "A supplier tier in one country, or a commodity's workforce locally.",
- "A whole sourcing region or commodity worldwide.",
- "The entire supply base across countries."]),
- irr:S("Can it be put right for those workers?",[
- "Corrected immediately by the supplier.","Remedied within months, with back pay.",
- "Remedy is slow and partial. Leverage is limited.",
- "Largely irremediable. You may only be able to exit.",
- "Irreversible. Lost childhood, permanent injury or death."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Minor audit and supplier management cost.",
- "Supplier switching, audit and remediation costs in one category.",
- "Import bans, due diligence penalties, or customer delisting at group level.",
- "Loss of a critical commodity, or a supply chain you cannot legally use."])},
-S3:{scale:S("At its worst, how badly are communities affected?",[
- "No noticeable effect on daily life.","Minor nuisance such as traffic, noise or odour.",
- "Sustained disruption to health, livelihood, access or amenity.",
- "Loss of land, water, livelihood, or serious health effects.",
- "Displacement, violence, or violation of indigenous peoples' rights."]),
- scope:S("How many people, and how concentrated?",[
- "A few immediate neighbours.","One neighbourhood or village.",
- "A town, or several communities around your sites.",
- "A region, or communities across a sourcing footprint.",
- "Many communities across countries."]),
- irr:S("Can community life be restored?",[
- "Restored at once.","Restored within a year, with compensation.",
- "Years to restore, and not fully.","Livelihoods or land largely cannot be restored.",
- "Irreversible. Displacement, cultural loss or lives lost."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Minor community relations spend.",
- "Compensation, delay or local opposition costs at one site.",
- "Project cancellation, litigation or permit refusal at group level.",
- "Loss of social licence to operate."])},
-S4:{scale:S("At its worst, how badly are consumers or end-users affected?",[
- "No effect beyond minor inconvenience.","Annoyance or confusion. No harm.",
- "Misleading information, exclusion, or a privacy breach with real consequences.",
- "Injury, illness, serious financial loss, or exclusion from an essential service.",
- "Death, permanent harm, or mass exposure of sensitive personal data."]),
- scope:S("How many customers are exposed?",[
- "A handful of users.","One product batch or market.",
- "A product line, or one country's customers.","Most of the portfolio, or several markets.",
- "The entire customer base, worldwide."]),
- irr:S("Can it be put right for those affected?",[
- "Fixed on contact.","Refund, recall or correction within weeks.",
- "Harm persists despite remedy. Trust is damaged.",
- "Health or financial harm largely cannot be undone.",
- "Irreversible. Death, permanent injury, or data that cannot be recalled."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Routine complaint handling cost.",
- "Recall, refund or claim costs visible in one unit.",
- "Group-level recall, regulatory fine, or loss of a major market.",
- "Brand collapse, product withdrawal, or criminal liability."])},
-G1:{scale:S("At its worst, how serious is the conduct failure?",[
- "Policy gap with no practical consequence.","Isolated lapse, caught and corrected.",
- "Practice that disadvantages suppliers, distorts a decision, or suppresses concerns.",
- "Corruption, retaliation against a whistleblower, or systematic late payment harming suppliers.",
- "Entrenched bribery, or conduct that causes business failure for others."]),
- scope:S("How widespread is it?",[
- "One transaction or one person.","One team or supplier relationship.",
- "One business unit or country.","Most of the group, or a whole supplier base.",
- "Group-wide practice across markets."]),
- irr:S("Can the damage be undone?",[
- "Corrected at once.","Corrected within a year, with restitution.",
- "Years to rebuild trust and controls.","Reputational and relationship damage largely persists.",
- "Irreversible. Suppliers ruined, or convictions on record."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Minor compliance cost.",
- "Investigation, legal fees or lost contracts in one unit.",
- "Group-level fines, debarment from public contracts, or financing conditions.",
- "Prosecution, disqualification of directors, or loss of the business."])},
-ES:{scale:S("At its worst, how grave is the effect on people or the environment?",[
- "Negligible. No lasting effect.","Minor, short-lived harm.",
- "Moderate harm that those affected would notice.",
- "Serious harm to health, livelihood or ecosystem function.",
- "Death, severe lasting harm, or loss of an ecosystem."]),
- scope:S("How widespread is it?",[
- "One site, a handful of people.","A few sites or a small group.",
- "Several sites, a community or a product line.","Most operations, a region, large groups.",
- "Global, or the whole workforce or customer base."]),
- irr:S("How hard is it to put right?",[
- "Easily reversed at once.","Reversible within a year.",
- "Reversible with effort over years.","Very hard, only partly reversible.","Irreversible."]),
- mag:S("What is the financial exposure?",[
- "Negligible.","Absorbed in normal variation.",
- "Visible in one business unit's results.","Changes group results or financing terms.",
- "Threatens the business model or access to finance."])}
-};
-/* Starter library: candidate matters phrased as sentences. Generic across sectors. */
-var STARTER=[
-["E1","Climate change mitigation","Greenhouse gas emissions from our own sites, fuel use and vehicles"],
-["E1","Climate change mitigation","Emissions embedded in the goods and services we buy"],
-["E1","Climate change mitigation","Emissions from customers using or disposing of our products"],
-["E1","Climate change adaptation","Physical damage or disruption to our sites from flood, storm, heat or fire"],
-["E1","Climate change adaptation","Supply interruption caused by climate effects on suppliers or transport"],
-["E1","Energy","Dependence on fossil energy and exposure to energy price shocks"],
-["E1","Climate change mitigation","Carbon pricing, reporting duties and customer decarbonisation demands"],
-["E2","Pollution of air","Air emissions from combustion, processes or refrigerant leaks"],
-["E2","Pollution of water","Discharges to water from our processes or run-off from our sites"],
-["E2","Pollution of soil","Soil or groundwater contamination from storage, spills or historic use"],
-["E2","Substances of concern","Hazardous substances used in our processes or present in our products"],
-["E2","Substances of very high concern","Substances of very high concern in articles we buy or sell"],
-["E2","Microplastics","Microplastics released by our products, packaging or processes"],
-["E3","Water withdrawals","Water we withdraw at sites located in water-stressed areas"],
-["E3","Water consumption","Water consumed in our supply chain, especially in agriculture or cooling"],
-["E3","Water discharges","Quality and volume of the water we discharge back"],
-["E4","Direct drivers of biodiversity loss","Land use change caused by our sites or by the commodities we source"],
-["E4","Direct drivers of biodiversity loss","Operations or sourcing in or near protected or biodiversity-sensitive areas"],
-["E4","State of species","Effects on threatened species through habitat loss, pollution or harvesting"],
-["E4","Ecosystem services","Our dependence on pollination, soil fertility, water regulation or fisheries"],
-["E5","Resource inflows","Reliance on virgin, scarce or critical raw materials"],
-["E5","Resource outflows","Products and packaging that cannot be reused, repaired or recycled where sold"],
-["E5","Waste","Hazardous and non-hazardous waste we generate, and where it ends up"],
-["S1","Working conditions","Health and safety of people working at our sites"],
-["S1","Working conditions","Wages, working hours and job security, including agency and seasonal workers"],
-["S1","Equal treatment and opportunities","Discrimination, harassment, and pay gaps across our workforce"],
-["S1","Equal treatment and opportunities","Training, development and employability of our people"],
-["S1","Other work-related rights","Freedom of association, collective bargaining and worker consultation"],
-["S1","Other work-related rights","Privacy and monitoring of employees, including use of automated systems"],
-["S2","Working conditions","Health, safety and working hours at supplier sites"],
-["S2","Working conditions","Living wages and income for workers and farmers in our supply chain"],
-["S2","Other work-related rights","Child labour and forced labour risk in lower supply chain tiers"],
-["S2","Other work-related rights","Union rights and grievance channels for value chain workers"],
-["S2","Equal treatment and opportunities","Treatment of migrant, seasonal and agency workers used by suppliers"],
-["S3","Economic, social and cultural rights","Noise, odour, dust, traffic and light affecting neighbours of our sites"],
-["S3","Economic, social and cultural rights","Competition with communities for water, land or other shared resources"],
-["S3","Civil and political rights","Security arrangements and their effect on local people"],
-["S3","Rights of indigenous peoples","Land rights and free, prior and informed consent where we operate or source"],
-["S4","Information-related impacts","Accuracy of our marketing, labelling and product information"],
-["S4","Personal safety","Safety of our products or services for the people who use them"],
-["S4","Information-related impacts","Personal data we collect, and how it is protected and used"],
-["S4","Social inclusion","Affordability and accessibility of what we sell for vulnerable users"],
-["G1","Corporate culture","Tone from the top, incentives, and how ethical concerns are handled"],
-["G1","Whistleblower protection","Whether people can raise concerns safely and what happens when they do"],
-["G1","Corruption and bribery","Bribery and facilitation payment exposure in sales, permits and procurement"],
-["G1","Supplier relationships and payment practices","Payment terms and their effect on small suppliers"],
-["G1","Political engagement and lobbying","Lobbying positions and political contributions"],
-["G1","Animal welfare","Animal welfare in our operations or supply chain"],
-["ES","","Public health or nutrition effects of what we sell"],
-["ES","","Responsible use of artificial intelligence in our products or operations"],
-["ES","","Tax transparency and where we pay tax"],
-["ES","","Security of the systems our customers depend on"]
-];
-/* Worked reasoning for the example company, so scores can be argued against */
-var EXWHY=[
-{i:"Scale 4: a large share of a food group's footprint sits in agriculture and processing, but it is not the single dominant global source. Scope 5: every site and every supplier. Irremediability 4: emitted CO2 persists for decades.",f:"Magnitude 4: carbon pricing and customer Scope 3 requirements already change contract terms at group level. Likelihood 4: this is visible in forecasts now."},
-{i:"Not scored on impact: drought harming us is not an impact we cause. Careful here, the same drought is an E1 adaptation risk and not an impact.",f:"Magnitude 4: crop failure changes group results. Likelihood 3: it has happened to comparable companies in the last five years."},
-{i:"Scale 5: ammonia can kill at the concentrations held on site. Scope 3: the plant and its immediate neighbourhood. Irremediability 4: acute health harm is partly permanent. Likelihood 1: no leak in the plant's history, with interlocks and alarms in place.",f:"Magnitude 3: clean-up, fines and downtime would show in one unit. Likelihood 1: same reasoning as impact."},
-{i:"Scale 3: the withdrawal measurably competes with other users but does not deprive anyone today. Scope 3: one basin. Irremediability 3: the aquifer recovers over years if abstraction drops. Actual, so no likelihood.",f:"Magnitude 3: tariffs and possible restrictions show in one unit. Likelihood 3: permit renewal in three years is a live question."},
-{i:"Scale 5 and irremediability 5: converted primary forest does not come back. Scope 4: a commodity footprint across sourcing regions. Likelihood 3: documented in these commodities, not yet traced to our own volumes.",f:"Magnitude 3: deforestation rules could block a commodity in one category. Likelihood 3: the regulation is in force, our traceability is incomplete."},
-{i:"Scale 3: material lost to landfill, no direct harm to people. Scope 4: most of the portfolio's packaging. Irremediability 3: recoverable only where collection exists. Actual and ongoing.",f:"Magnitude 3: packaging levies and plastic taxes. Likelihood 4: already legislated in our main markets."},
-{i:"Scale 4: pay and hours issues that affect livelihoods. Scope 3: seasonal workers across several sites. Irremediability 3: back pay helps but does not undo the period. Human rights flag on, so likelihood 2 does not pull the score down.",f:"Not scored: the financial consequence is small relative to the group, which is exactly why the impact lens has to be scored separately."},
-{i:"Scale 5 and irremediability 5: lost childhood and forced labour cannot be remedied. Scope 3: a commodity workforce in specific regions. Human rights flag on, so likelihood 3 does not reduce the score.",f:"Magnitude 3: import bans and customer delisting would hit one category hard. Likelihood 2: our audited tier one is clean, tier three is not visible."},
-{i:"Scale 2: nuisance, not harm to health. Scope 1: the immediate neighbours of one plant. Irremediability 1: stops when the process stops. Actual and recurring, so likelihood 5.",f:"Not scored: no plausible financial effect at group level. Still material on impact, which is the point of two lenses."},
-{i:"Scale 5: an allergen reaction can kill. Scope 3: one product line's customers. Irremediability 4: a severe reaction is partly irreversible. Likelihood 2: one recall in five years, with controls since.",f:"Magnitude 5: a national recall plus regulatory action would threaten the business. Likelihood 2: same base rate as the impact."},
-{i:"Positive impact, so no irremediability. Scale 3: a real improvement in diet for those who switch. Scope 4: most of the portfolio could be reformulated. Likelihood 4: the demand trend is established.",f:"Magnitude 4: a growth opportunity that changes group results. Likelihood 4: competitors are already capturing it."},
-{i:"Scale 2: cash flow strain on small farms, not harm to health. Scope 3: a supplier base across several categories. Irremediability 1: paying on time fixes it. Actual, so likelihood 5.",f:"Magnitude 2: absorbed in working capital. Likelihood 2: payment practice reporting exists but penalties are limited."},
-{i:"Scale 3: contribution to diet-related disease, diffuse but real. Scope 4: most of the portfolio. Irremediability 3: health effects build over years. Actual and ongoing. Entity-specific because no ESRS topic covers it squarely.",f:"Magnitude 3: reformulation costs and sugar taxes. Likelihood 3: taxes are spreading across our markets."}
-];
-window.__GUIDE={GUIDE:GUIDE,LIK:LIK,FLIK:FLIK,POS:POS,STARTER:STARTER,EXWHY:EXWHY};
-})();
-</script>
-<script>
-(function(){
-"use strict";
 var D=window.__DMA, $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
 var KEY="dma-workbook-v1";
-var G=window.__GUIDE;
-var BAND=[[0,0.1],[0.1,0.5],[0.5,2],[2,5],[5,null]];
-function money(pc){var t=state.turnover;if(!t)return "";var v=t*pc/100;return v>=1000?(Math.round(v/100)/10)+"bn":v>=1?Math.round(v)+"m":Math.round(v*1000)+"k";}
-function bandText(i){var b=BAND[i],t=state.turnover;
- if(!t)return ["under 0.1% of turnover","0.1 to 0.5% of turnover","0.5 to 2% of turnover","2 to 5% of turnover","over 5% of turnover"][i];
- return b[1]===null?"over €"+money(b[0]):"€"+(b[0]?money(b[0]):"0")+" to €"+money(b[1]);}
-function qset(m,crit){
- if(crit==="lik")return G.LIK;
- if(crit==="fLik")return G.FLIK;
- if(m.iKind==="pos"&&(crit==="scale"||crit==="scope"))return G.POS[crit];
- var g=G.GUIDE[m.std]||G.GUIDE.ES;return g[crit]||G.GUIDE.ES[crit];}
-var state={ver:"2026",tImp:3,tFin:3,matters:[],sel:null,isExample:false,turnover:null,owner:"",mdate:"",flags:{ctx:false,list:false,engage:false,method:false,signoff:false}};
+var state={ver:"2026",tImp:3,tFin:3,matters:[],sel:null,isExample:false};
 
 /* ---------- storage (per-viewer convenience; page works without it) ---------- */
-function load(){try{var raw=localStorage.getItem(KEY);if(!raw)return;var o=JSON.parse(raw);if(o&&typeof o==="object"){["ver","tImp","tFin","isExample","turnover","owner","mdate"].forEach(function(k){if(o[k]!==undefined)state[k]=o[k];});if(o.flags)for(var fk in state.flags){if(o.flags[fk]!==undefined)state.flags[fk]=o.flags[fk];}if(Array.isArray(o.matters))state.matters=o.matters.map(norm);}}catch(e){}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:state.ver,tImp:state.tImp,tFin:state.tFin,matters:state.matters,isExample:state.isExample,turnover:state.turnover,owner:state.owner,mdate:state.mdate,flags:state.flags}));}catch(e){}}
-function blank(){return {title:"",std:"E1",sub:"",hr:false,own:true,up:false,down:false,hs:false,hm:false,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:0,scope:0,irr:0,iLik:0,fOn:true,fKind:"risk",mag:0,fLik:0,evidence:"expert",srcI:"",srcF:"",whyI:"",whyF:"",guided:true,ga:{},scorer:"",sdate:"",stake:false,pat:"no",ovr:"",ovrWhy:"",note:""};}
-function norm(m){var b=blank();for(var k in b){if(m&&m[k]!==undefined)b[k]=m[k];}if(!b.ga||typeof b.ga!=="object")b.ga={};if(!D.STD[b.std]||b.std==="ESRS2")b.std="E1";return b;}
+function load(){try{var raw=localStorage.getItem(KEY);if(!raw)return;var o=JSON.parse(raw);if(o&&typeof o==="object"){["ver","tImp","tFin","isExample"].forEach(function(k){if(o[k]!==undefined)state[k]=o[k];});if(Array.isArray(o.matters))state.matters=o.matters.map(norm);}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({ver:state.ver,tImp:state.tImp,tFin:state.tFin,matters:state.matters,isExample:state.isExample}));}catch(e){}}
+function blank(){return {title:"",std:"E1",sub:"",hr:false,own:true,up:false,down:false,hs:false,hm:false,hl:false,iOn:true,iKind:"neg",iState:"actual",scale:0,scope:0,irr:0,iLik:0,fOn:true,fKind:"risk",mag:0,fLik:0,evidence:"expert",stake:false,pat:"no",ovr:"",ovrWhy:"",note:""};}
+function norm(m){var b=blank();for(var k in b){if(m&&m[k]!==undefined)b[k]=m[k];}if(!D.STD[b.std]||b.std==="ESRS2")b.std="E1";return b;}
 
 /* ---------- helpers ---------- */
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
@@ -1539,44 +1020,6 @@ function statusOf(std){
 }
 var STATE_LABEL={always:"Always on",none:"Not assessed",closed:"Closed",imp:"Open: impact",fin:"Open: financial",both:"Open: both"};
 
-/* ---------- route map and file tracker ---------- */
-function scoredAll(){return state.matters.length>0&&state.matters.every(function(m){return calc(m).scored||m.ovr;});}
-function stageState(){
- var n=state.matters.length, f=state.flags;
- var s0=true, s1=(f.ctx&&f.list)||n>=5, s2=f.method, s3=n>0&&scoredAll(), s4=s3&&f.signoff;
- return [s0,s1,s2,s3,s4];
-}
-var STAGES=[
- ["Stage 0","Orientation","Are you in scope, and which ESRS version applies","start"],
- ["Stage 1","Prepare","Context file and a long list of candidate matters","prepare"],
- ["Stage 2","Method","Scales, thresholds and a dated, approved method note","assess"],
- ["Stage 3","Score","The register: every matter scored, sourced and reconciled","workbook"],
- ["Stage 4","Convert","Material list, reporting index, the standards that open","report"]];
-function renderRoute(){
- var st=stageState(),now=st.indexOf(false);if(now<0)now=4;
- $("#route").innerHTML=STAGES.map(function(s,i){
-  var cls=st[i]?"done":(i===now?"now":"");
-  var lab=st[i]?"Done":(i===now?"You are here":"Not started");
-  return '<button type="button" class="rt '+cls+'" data-go="'+s[3]+'"><span class="rt-n">'+s[0]+'</span><span class="rt-t">'+s[1]+'</span><span class="rt-o">'+s[2]+'</span><span class="rt-s">'+lab+'</span></button>';}).join("");
- $("#route-caption").textContent=now===0?"Nothing recorded yet. Stage 1 is reading and listing, no numbers involved."
-  :"You are at stage "+now+". Each stage leaves a file behind, and the list below shows which you have.";
-}
-function fileState(){
- var f=state.flags,n=state.matters.length,ms=state.matters.map(calc);
- var mat=ms.filter(function(c){return c.mat;}).length;
- return [
-  [f.ctx,"Context file","Value chain map, screened site list, stakeholder map",f.ctx?"Marked done in Prepare":"Tick it off on the Prepare page"],
-  [f.list||n>=5,"Long list",n?n+" matters in the register":"Every matter considered, with topics ruled out and why",n?n+" entries so far":"Add from the library in the workbook"],
-  [f.method,"Method note","Scales, thresholds, horizons, roles, dated before scoring",f.method?"Approved"+(state.mdate?" "+state.mdate:""):"Generate it on the Method page"],
-  [scoredAll()&&n>0,"Scored register","Both lenses scored, sourced and reconciled",n?ms.filter(function(c){return c.scored;}).length+" of "+n+" scored":"Nothing scored yet"],
-  [f.engage,"Engagement log","Who was consulted, what they said, what changed",f.engage?"Marked started":"Start it on the Prepare page"],
-  [scoredAll()&&n>0,"Material list and index","The standards, requirements and datapoints you will report",mat?mat+" material matters":"Follows from the register"],
-  [f.signoff,"Sign-off and change log","Governing body review, and differences from last year",f.signoff?"Recorded":"Tick it off once the board has seen it"]];
-}
-function renderTracker(){
- $("#tracker").innerHTML=fileState().map(function(r,i){
-  return '<div class="trk'+(r[0]?" done":"")+'"><div class="trk-box">'+(r[0]?"✓":"")+'</div><div><h4>'+(i+1)+". "+r[1]+'</h4><p>'+r[2]+'</p></div><div class="small" style="text-align:right;max-width:200px">'+r[3]+'</div></div>';}).join("");
-}
 /* ---------- switchboard ---------- */
 function renderBoards(){
   var html=D.STD_ORDER.map(function(k){var s=statusOf(k),d=D.STD[k];
@@ -1607,14 +1050,6 @@ function renderEditor(){
   var m=state.matters[ix];ed.classList.add("on");
   var stdOpts=D.STD_ORDER.filter(function(k){return k!=="ESRS2";}).map(function(k){return opt(k,D.STD[k].code+" "+D.STD[k].name,m.std);}).join("");
   var subs=[opt("","Whole topic",m.sub)].concat((D.STD[m.std].subs||[]).map(function(s){return opt(s,s,m.sub);})).join("");
-  var gi=m.guided;
-  function crit(cl,label,fld,cur,dis){
-   var q=qset(m,fld==="iLik"?"lik":fld==="fLik"?"fLik":fld);
-   if(!gi)return '<div class="field"><label for="ed-'+fld+'">'+label+'</label>'+sel15(fld,cur)+'<div class="anchor">'+esc(q.a[(cur||1)-1])+'</div></div>';
-   var opts=q.a.map(function(t,k){var v=k+1;return '<label class="'+(String(cur)===String(v)?"on":"")+'"><input type="radio" name="g-'+fld+'" data-f="'+fld+'" data-num="1" value="'+v+'"'+(String(cur)===String(v)?" checked":"")+(dis?" disabled":"")+'><span class="lv">'+v+'</span><span>'+esc(t)+(fld==="mag"?' <span class="muted">('+esc(bandText(k))+')</span>':'')+'</span></label>';}).join("");
-   return '<div class="gq"><div class="gq-q">'+esc(q.q)+'</div><div class="gq-a">'+opts+'</div></div>';
-  }
-  var srcOpts=function(cur){return [["","Not stated"],["measured","Measured data or monitoring"],["permit","Permit, licence or regulatory filing"],["incident","Incident, grievance or complaint log"],["stakeholder","Stakeholder or worker statement"],["benchmark","Sector benchmark or published study"],["supplier","Supplier or customer data"],["expert","Internal expert judgement"]].map(function(o){return opt(o[0],o[1],cur);}).join("");};
   ed.innerHTML='<div class="editor-head"><b>Matter '+(ix+1)+'</b><div class="btn-row"><button class="btn btn-sm" data-act="del">Delete</button><button class="btn btn-sm" data-act="close">Done</button></div></div><div class="editor-body">'
   +'<div class="field c6"><label for="ed-title">The matter, in one sentence</label><input class="input" id="ed-title" data-f="title" value="'+esc(m.title)+'" placeholder="What happens, to whom or what, and where"></div>'
   +'<div class="field c2"><label for="ed-std">Topic</label><select class="input" id="ed-std" data-f="std">'+stdOpts+'</select></div>'
@@ -1622,37 +1057,31 @@ function renderEditor(){
   +'<div class="field c2"><span class="lbl">Flags</span><div class="checks"><label><input type="checkbox" data-f="hr"'+(m.hr?" checked":"")+'>Human-rights impact</label></div></div>'
   +'<div class="field c3"><span class="lbl">Where in the value chain</span><div class="checks"><label><input type="checkbox" data-f="up"'+(m.up?" checked":"")+'>Upstream</label><label><input type="checkbox" data-f="own"'+(m.own?" checked":"")+'>Own operations</label><label><input type="checkbox" data-f="down"'+(m.down?" checked":"")+'>Downstream</label></div></div>'
   +'<div class="field c3"><span class="lbl">Time horizon</span><div class="checks"><label><input type="checkbox" data-f="hs"'+(m.hs?" checked":"")+'>Short</label><label><input type="checkbox" data-f="hm"'+(m.hm?" checked":"")+'>Medium</label><label><input type="checkbox" data-f="hl"'+(m.hl?" checked":"")+'>Long</label></div></div>'
-  +'<div class="mode-row"><label style="display:inline-flex;gap:7px;align-items:center;font-size:12.5px;cursor:pointer"><input type="checkbox" data-f="guided"'+(gi?" checked":"")+'> Guide me through the scoring</label></div>'
-  +'<div class="lens imp"><div class="lens-head"><span>Impact lens</span><label style="font-size:13px"><input type="checkbox" data-f="iOn"'+(m.iOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.iOn?"":" off")+'" id="lens-i">'
-   +'<div class="field"><label for="ed-iKind">Direction</label><select class="input" id="ed-iKind" data-f="iKind">'+opt("neg","Negative: we harm",m.iKind)+opt("pos","Positive: we help",m.iKind)+'</select></div>'
-   +'<div class="field"><label for="ed-iState">Actual or potential</label><select class="input" id="ed-iState" data-f="iState">'+opt("actual","Actual: it happens now",m.iState)+opt("potential","Potential: it could happen",m.iState)+'</select></div>'
-   +crit("imp","Scale","scale",m.scale)
-   +crit("imp","Scope","scope",m.scope)
-   +(m.iKind==="pos"?"":crit("imp","Irremediability","irr",m.irr))
-   +(m.iState==="actual"?"":crit("imp","Likelihood","iLik",m.iLik))
-   +'<div class="field" style="grid-column:1/-1"><label for="ed-srcI">Where the evidence comes from</label><select class="input" id="ed-srcI" data-f="srcI">'+srcOpts(m.srcI)+'</select></div>'
-   +'<div class="field" style="grid-column:1/-1"><label for="ed-whyI">Why this score, in one line</label><input class="input" id="ed-whyI" data-f="whyI" value="'+esc(m.whyI)+'" placeholder="e.g. why a 4 and not a 3"></div>'
+  +'<div class="lens imp"><div class="lens-head"><span>Impact lens</span><label style="font-weight:400;font-size:13px;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-f="iOn"'+(m.iOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.iOn?"":" off")+'" id="lens-i">'
+   +'<div class="field"><label for="ed-iKind">Direction</label><select class="input" id="ed-iKind" data-f="iKind">'+opt("neg","Negative",m.iKind)+opt("pos","Positive",m.iKind)+'</select></div>'
+   +'<div class="field"><label for="ed-iState">Actual or potential</label><select class="input" id="ed-iState" data-f="iState">'+opt("actual","Actual",m.iState)+opt("potential","Potential",m.iState)+'</select></div>'
+   +'<div class="field"><label for="ed-scale">Scale</label>'+sel15("scale",m.scale)+'</div>'
+   +'<div class="field"><label for="ed-scope">Scope</label>'+sel15("scope",m.scope)+'</div>'
+   +'<div class="field"><label for="ed-irr">Irremediability</label>'+sel15("irr",m.irr)+'</div>'
+   +'<div class="field"><label for="ed-iLik">Likelihood</label>'+sel15("iLik",m.iLik)+'</div>'
    +'<div class="lens-out" id="out-i"></div></div></div>'
-  +'<div class="lens fin"><div class="lens-head"><span>Financial lens</span><label style="font-size:13px"><input type="checkbox" data-f="fOn"'+(m.fOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.fOn?"":" off")+'" id="lens-f">'
+  +'<div class="lens fin"><div class="lens-head"><span>Financial lens</span><label style="font-weight:400;font-size:13px;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-f="fOn"'+(m.fOn?" checked":"")+'>Score this lens</label></div><div class="lens-body'+(m.fOn?"":" off")+'" id="lens-f">'
    +'<div class="field" style="grid-column:1/-1"><label for="ed-fKind">Risk or opportunity</label><select class="input" id="ed-fKind" data-f="fKind">'+opt("risk","Risk",m.fKind)+opt("opp","Opportunity",m.fKind)+'</select></div>'
-   +crit("fin","Magnitude","mag",m.mag)
-   +crit("fin","Likelihood","fLik",m.fLik)
-   +'<div class="field" style="grid-column:1/-1"><label for="ed-srcF">Where the evidence comes from</label><select class="input" id="ed-srcF" data-f="srcF">'+srcOpts(m.srcF)+'</select></div>'
-   +'<div class="field" style="grid-column:1/-1"><label for="ed-whyF">Why this score, in one line</label><input class="input" id="ed-whyF" data-f="whyF" value="'+esc(m.whyF)+'" placeholder="e.g. what the magnitude is based on"></div>'
+   +'<div class="field"><label for="ed-mag">Magnitude</label>'+sel15("mag",m.mag)+'</div>'
+   +'<div class="field"><label for="ed-fLik">Likelihood</label>'+sel15("fLik",m.fLik)+'</div>'
    +'<div class="lens-out" id="out-f"></div></div></div>'
-  +'<div class="field c2"><label for="ed-scorer">Scored by</label><input class="input" id="ed-scorer" data-f="scorer" value="'+esc(m.scorer)+'" placeholder="Name or initials"></div>'
-  +'<div class="field c2"><label for="ed-sdate">Date scored</label><input class="input" id="ed-sdate" type="date" data-f="sdate" value="'+esc(m.sdate)+'"></div>'
+  +'<div class="field c2"><label for="ed-evidence">Main evidence</label><select class="input" id="ed-evidence" data-f="evidence">'+opt("measured","Measured data",m.evidence)+opt("estimate","Estimate or sector proxy",m.evidence)+opt("expert","Internal expert judgement",m.evidence)+opt("stakeholder","Stakeholder input",m.evidence)+'</select></div>'
   +'<div class="field c2"><label for="ed-pat">Policy, action and target in place?</label><select class="input" id="ed-pat" data-f="pat">'+opt("yes","Yes, all three",m.pat)+opt("partial","Some",m.pat)+opt("no","None yet",m.pat)+'</select></div>'
   +'<div class="field c2"><span class="lbl">Engagement</span><div class="checks"><label><input type="checkbox" data-f="stake"'+(m.stake?" checked":"")+'>Affected stakeholders informed the score</label></div></div>'
   +'<div class="field c2"><label for="ed-ovr">Override the result</label><select class="input" id="ed-ovr" data-f="ovr">'+opt("","No override",m.ovr)+opt("in","Treat as material",m.ovr)+opt("out","Treat as not material",m.ovr)+'</select></div>'
-  +'<div class="field c2"><label for="ed-ovrWhy">Reason for the override</label><input class="input" id="ed-ovrWhy" data-f="ovrWhy" value="'+esc(m.ovrWhy)+'" placeholder="Required if you override"></div>'
+  +'<div class="field c4"><label for="ed-ovrWhy">Reason for the override</label><input class="input" id="ed-ovrWhy" data-f="ovrWhy" value="'+esc(m.ovrWhy)+'" placeholder="Required if you override"></div>'
   +'<div class="field c6"><label for="ed-note">Notes and sources</label><input class="input" id="ed-note" data-f="note" value="'+esc(m.note)+'"></div>'
   +'</div>';
   lensOut();
 }
 function lensOut(){
   var m=state.matters[state.sel];if(!m)return;var c=calc(m),oi=$("#out-i"),of=$("#out-f");
-  if(oi){
+  if(oi){var ir=$("#ed-irr"),il=$("#ed-iLik");if(ir)ir.disabled=m.iKind==="pos";if(il)il.disabled=m.iState==="actual";
     oi.innerHTML=c.sev===null?"Score scale, scope"+(m.iKind==="neg"?", irremediability":"")+" to get a result.":"Severity <b>"+f1(c.sev)+"</b>"+(c.i===null?". Add a likelihood.":" · score <b>"+f1(c.i)+"</b> against a threshold of "+f1(state.tImp)+(m.hr&&m.iKind==="neg"&&m.iState==="potential"?" · human rights: likelihood not applied":""));}
   if(of)of.innerHTML=c.f===null?"Score magnitude and likelihood to get a result.":"Score <b>"+f1(c.f)+"</b> against a threshold of "+f1(state.tFin);
   $("#lens-i")&&$("#lens-i").classList.toggle("off",!m.iOn);$("#lens-f")&&$("#lens-f").classList.toggle("off",!m.fOn);
@@ -1739,99 +1168,13 @@ function renderViews(){
   $("#out-gri").innerHTML='<p class="small" style="max-width:80ch">GRI asks only the impact question, so this is your register filtered to impact-material matters. Report the process under GRI 3-1, this list under 3-2, and how each is managed under 3-3. The topic standards are a starting map: confirm against the GRI and ESRS interoperability index.</p>'+(imp.length?t(imp.map(function(o){return '<tr><td class="k">'+(o.ix+1)+'</td><td>'+esc(o.m.title)+'</td><td>'+f1(o.c.i===null?0:o.c.i)+'</td><td>'+D.GRI[o.m.std]+'</td></tr>';}).join(""),["#","Material topic","Impact score","Likely GRI topic standards"]):'<p class="muted">No impact-material matters yet.</p>')+(fin.filter(function(o){return !o.c.iMat;}).length?'<p class="small" style="margin-top:12px">Left out of the GRI list because they are material on the financial lens only: '+fin.filter(function(o){return !o.c.iMat;}).map(function(o){return esc(o.m.title);}).join("; ")+'.</p>':'');
   $("#out-issb").innerHTML='<p class="small" style="max-width:80ch">ISSB asks only the investor question, so this is your register filtered to financially material risks and opportunities. IFRS S1 covers all of them; IFRS S2 adds the climate requirements, including scenario analysis, which ESRS 2026 doesn\'t require.</p>'+(fin.length?t(fin.map(function(o){var hz=[o.m.hs?"short":"",o.m.hm?"medium":"",o.m.hl?"long":""].filter(Boolean).join(", ")||"not set";return '<tr><td class="k">'+(o.ix+1)+'</td><td>'+esc(o.m.title)+'</td><td>'+(o.m.fKind==="opp"?"Opportunity":"Risk")+'</td><td>'+f1(o.c.f===null?0:o.c.f)+'</td><td>'+hz+'</td><td>'+(o.m.std==="E1"?"IFRS S1 and S2":"IFRS S1, with SASB industry guidance")+'</td></tr>';}).join(""),["#","Risk or opportunity","Type","Score","Horizon","Standard"]):'<p class="muted">No financially material matters yet.</p>')+(imp.filter(function(o){return !o.c.fMat;}).length?'<p class="small" style="margin-top:12px">Left out of the ISSB list because they are material on the impact lens only: '+imp.filter(function(o){return !o.c.fMat;}).map(function(o){return esc(o.m.title);}).join("; ")+'.</p>':'');
 }
-function renderGate(){
- var g=$("#wb-gate");if(!g)return;
- if(state.flags.method||state.isExample){g.innerHTML="";return;}
- g.innerHTML='<div class="gate"><h3>You have not set a method yet</h3><p style="margin:0 0 10px">Scoring before you have agreed scales, thresholds and who signs them off is the most common way a first assessment fails review. It takes about twenty minutes.</p><div class="btn-row"><button class="btn btn-fill" data-go="assess">Set the method first</button><button class="btn" id="gate-example">Just show me the example</button><button class="btn" id="gate-skip">I know, let me score anyway</button></div></div>';
-}
-function renderWorkbook(){renderGate();renderRoute();renderTracker();renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();renderSens();renderLib();}
+function renderWorkbook(){renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();}
 
-/* ---------- starter library ---------- */
-var libOpen=false;
-function renderLib(){
- var p=$("#lib-panel");if(!p)return;
- if(!libOpen){p.innerHTML="";return;}
- var have={};state.matters.forEach(function(m){have[m.title]=1;});
- var byStd={};G.STARTER.forEach(function(r,i){(byStd[r[0]]=byStd[r[0]]||[]).push([r,i]);});
- var html='<div class="frame" style="padding:18px 20px;margin-top:18px"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap"><div><h3>Candidate matters</h3><p class="small" style="margin:6px 0 0;max-width:70ch">Tick anything that could plausibly apply. Do not filter hard yet, that is what scoring is for. Reword each one in your own language afterwards, and add whatever is specific to your business.</p></div><div class="btn-row"><button class="btn btn-fill" id="lib-add">Add ticked matters</button><button class="btn" id="lib-close">Close</button></div></div>';
- D.STD_ORDER.filter(function(k){return k!=="ESRS2";}).forEach(function(k){
-  if(!byStd[k])return;
-  html+='<h4 style="margin:18px 0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">'+D.STD[k].code+" · "+D.STD[k].name+'</h4><div class="lib">'+byStd[k].map(function(e){
-   var r=e[0],i=e[1],dup=have[r[2]];
-   return '<label class="'+(dup?"on":"")+'"><input type="checkbox" class="lib-c" value="'+i+'"'+(dup?" disabled checked":"")+'><span>'+(r[1]?'<span class="lib-t">'+esc(r[1])+'</span>':'')+esc(r[2])+(dup?' <span class="muted">(already added)</span>':'')+'</span></label>';}).join("")+'</div>';});
- p.innerHTML=html+'</div>';
-}
-/* ---------- sensitivity ---------- */
-function openCount(ti,tf){
- var save=[state.tImp,state.tFin];state.tImp=ti;state.tFin=tf;
- var o={};D.STD_ORDER.forEach(function(k){o[k]=statusOf(k);});
- state.tImp=save[0];state.tFin=save[1];return o;
-}
-function renderSens(){
- var el=$("#out-sens");if(!el)return;
- if(!state.matters.length){el.innerHTML='<p class="muted">Add matters to test where the line falls.</p>';return;}
- var base=openCount(state.tImp,state.tFin);
- var rows=[[-0.5,0],[0.5,0],[0,-0.5],[0,0.5]].map(function(d){
-  var ti=Math.min(5,Math.max(1,state.tImp+d[0])),tf=Math.min(5,Math.max(1,state.tFin+d[1]));
-  var o=openCount(ti,tf),ch=[];
-  D.STD_ORDER.forEach(function(k){if(k==="ESRS2")return;var was=["imp","fin","both"].indexOf(base[k])>-1,now=["imp","fin","both"].indexOf(o[k])>-1;if(was!==now)ch.push((now?"+":"−")+D.STD[k].code);});
-  var lab=d[0]?("Impact threshold "+f1(ti)):("Financial threshold "+f1(tf));
-  return '<tr><td class="k">'+lab+'</td><td>'+(d[0]?(d[0]<0?"half a point lower":"half a point higher"):(d[1]<0?"half a point lower":"half a point higher"))+'</td><td>'+(ch.length?ch.join(", "):"<span class=muted>no change</span>")+'</td></tr>';});
- var borderline=state.matters.map(function(m,ix){return {m:m,ix:ix,c:calc(m)};}).filter(function(o){
-  return (o.c.i!==null&&Math.abs(o.c.i-state.tImp)<=0.3)||(o.c.f!==null&&Math.abs(o.c.f-state.tFin)<=0.3);});
- el.innerHTML='<p class="small" style="max-width:80ch">Move each threshold half a point and see which standards open or close. If a topic flips on a small move, say so in the statement instead of implying the number is precise.</p>'
- +'<div class="scroll frame sens" style="margin-top:12px"><table><thead><tr><th>If you set</th><th>Change</th><th>Standards that flip</th></tr></thead><tbody>'+rows.join("")+'</tbody></table></div>'
- +(borderline.length?'<h4 style="margin:22px 0 8px">Matters sitting within 0.3 of a threshold</h4><p class="small">These are the ones to re-examine, and the ones worth a sentence in the method note.</p><ul class="dash">'+borderline.map(function(o){return '<li><a href="#" data-edit="'+o.ix+'">'+(o.ix+1)+". "+esc(o.m.title||"Untitled")+'</a> — impact '+(o.c.i===null?"–":f1(o.c.i))+', financial '+(o.c.f===null?"–":f1(o.c.f))+'</li>';}).join("")+'</ul>':'<p style="margin-top:18px"><b>No matter sits within 0.3 of a threshold.</b> Your conclusions do not hang on small differences in scoring.</p>');
-}
-/* ---------- generated documents ---------- */
-function esrsVer(){return "ESRS "+state.ver;}
-function scaleTable(){
- return '<table><thead><tr><th>Criterion</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>'+D.SCALES.map(function(r){
-  return '<tr><td class="k">'+r[0]+'</td>'+r.slice(2).map(function(c){return '<td>'+c+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table>';
-}
-function genMethod(){
- var d=state.mdate||"[date to be filled in]",own=esc(state.owner)||"[approver to be filled in]";
- var bands=state.turnover?'<p>Financial magnitude is anchored to net turnover of €'+state.turnover+'m as follows: '+BAND.map(function(b,i){return (i+1)+" = "+bandText(i);}).join("; ")+'.</p>':'<p>Financial magnitude bands are expressed as a share of net turnover: '+BAND.map(function(b,i){return (i+1)+" = "+bandText(i);}).join("; ")+'. Enter a turnover figure on the Method page to express these in euros.</p>';
- $("#methodnote").innerHTML='<div class="doc" id="doc-method"><h2>Double materiality assessment: method note</h2><div class="meta">Draft for approval · '+esrsVer()+' · prepared '+new Date().toISOString().slice(0,10)+'</div>'
- +'<p>This note records how the double materiality assessment was designed, and was agreed before scoring began. It supports ESRS 2 IRO-1.</p>'
- +'<h3>1. Scope and approach</h3><p>The assessment covers impacts, risks and opportunities across the ten ESRS topical standards and any matters specific to the business that no standard covers. Both lenses are assessed: impact materiality, meaning our effect on people and the environment, and financial materiality, meaning the effect of sustainability matters on our cash flows, financial position, performance, cost of capital and access to finance. A matter is material if it crosses the threshold on either lens.</p>'
- +'<h3>2. Criteria and scales</h3><p>Negative impacts are scored on scale, scope and irremediability, averaged to give severity. Positive impacts use scale and scope only. Actual impacts take severity as the score. Potential impacts take the square root of severity multiplied by likelihood. For potential negative human-rights impacts, likelihood is recorded but does not reduce the score, consistent with the UN Guiding Principles. The financial lens takes the square root of magnitude multiplied by likelihood.</p>'+scaleTable()+bands
- +'<h3>3. Thresholds</h3><p>The impact threshold is <b>'+f1(state.tImp)+'</b> and the financial threshold is <b>'+f1(state.tFin)+'</b>, on a scale of 1 to 5. These were set before scoring. A sensitivity check was performed by moving each threshold half a point in each direction; the effect on the reporting perimeter is recorded with the register.</p>'
- +'<h3>4. Time horizons</h3><p>Short term is the reporting period. Medium term runs to five years. Long term is beyond five years. These match the horizons used in financial planning.</p>'
- +'<h3>5. Evidence and judgement</h3><p>Every score names an evidence source: measured data, permits and filings, incident and grievance logs, stakeholder statements, sector benchmarks, supplier or customer data, or internal expert judgement. Where scorers disagreed by more than one point, the difference was discussed and the outcome recorded. Overrides of the calculated result are permitted where stakeholder concern or expert judgement warrants it, and each is recorded with its reason.</p>'
- +'<h3>6. Mitigation</h3><p>For actual negative impacts, only mitigation applied in earlier periods is taken into account. For potential negative impacts, only measures that demonstrably reduce severity or likelihood are taken into account. Remediation carried out during the reporting period does not reduce the score.</p>'
- +'<h3>7. Stakeholders</h3><p>Affected stakeholders and their credible proxies informed the impact scores. Users of the sustainability statement informed the financial threshold. A record of who was consulted, how, and what changed as a result is kept and reported under ESRS 2 SBM-2.</p>'
- +'<h3>8. Roles and approval</h3><p>Topic experts score the impact lens. Finance and risk score the financial lens. The sustainability lead challenges and consolidates. This method was approved by <b>'+own+'</b> on <b>'+d+'</b>.</p>'
- +'<h3>9. Review</h3><p>'+(state.ver==="2026"?"The conclusions are confirmed at each reporting date and the affected parts re-run when circumstances change: acquisitions or disposals, new markets or product lines, new regulation, serious incidents, or a shift in what stakeholders raise.":"The assessment is reviewed annually and re-run when the business, its value chain or its context changes.")+' A change log against the prior year is maintained.</p>'
- +'<div class="sig">Approved by ______________________  Date ____________<br>This note is a draft generated from the workbook settings. Review it before circulating.</div></div>';
- $("#methodnote").scrollIntoView({block:"start"});
-}
-function genBrief(){
- var ms=state.matters,byStd={};ms.forEach(function(m,ix){(byStd[m.std]=byStd[m.std]||[]).push((ix+1)+". "+m.title);});
- var list=Object.keys(byStd).map(function(k){return '<li><b>'+D.STD[k].code+" "+D.STD[k].name+'</b><br>'+byStd[k].map(esc).join("<br>")+'</li>';}).join("");
- $("#brief").innerHTML='<div class="doc" id="doc-brief"><h2>Before our materiality session</h2><div class="meta">Please read this before we meet · about five minutes</div>'
- +'<p>We have to publish a sustainability statement under the EU Corporate Sustainability Reporting Directive. What goes in it is decided by an assessment called double materiality, and I need your help with the part that touches your area.</p>'
- +'<h3>What double materiality means</h3><p>We look at each sustainability matter twice, and it counts if it passes either test.</p><ul><li><b>Impact:</b> does what we do have a significant effect on people or the environment? Severity matters more than how often it happens.</li><li><b>Financial:</b> could this matter significantly affect our cash flows, results, financial position, cost of capital or access to finance?</li></ul><p>The two are scored separately and often disagree. Something can be a serious harm with almost no cost to us, and the reverse. Please do not let one answer drive the other.</p>'
- +'<h3>What I will ask you to do</h3><ol><li>Confirm the matters below are described accurately for your area, and tell me what is missing.</li><li>Score each one from 1 to 5 on the criteria we will walk through. There are anchors for each level, so you are choosing a description rather than a number.</li><li>For each score, name where the evidence comes from: a measurement, a permit, an incident or grievance log, something a stakeholder told us, a sector benchmark, or your own expert judgement. Judgement is acceptable. Unstated is not.</li></ol>'
- +'<h3>What to bring</h3><p>Anything that helps evidence a score: incident and complaint logs, audit findings, permits and their conditions, monitoring data, supplier assessments, customer claims, insurance or provisioning data.</p>'
- +'<h3>Our thresholds</h3><p>A matter counts as material at <b>'+f1(state.tImp)+'</b> or above on impact, or <b>'+f1(state.tFin)+'</b> or above on financial, out of 5. These were set before scoring and we should not move them to suit a result.</p>'
- +(list?'<h3>Matters relevant to this session</h3><ul>'+list+'</ul>':'<h3>Matters</h3><p>The list will be circulated before the session.</p>')
- +'<h3>What happens with the answers</h3><p>Material matters decide which parts of the standards we have to report, what data we then have to collect, and what gets assured. Matters that are not material need a documented reason, not silence. Everything you tell me goes in a file that an external assurer can ask to see.</p>'
- +'<div class="sig">Generated from our workbook on '+new Date().toISOString().slice(0,10)+'.</div></div>';
- $("#brief").scrollIntoView({block:"start"});
-}
-function printDoc(id){
- var el=document.getElementById(id);
- if(!el){toast("Generate the document first");return;}
- window.print();
-}
 /* ---------- static tables ---------- */
-function stepHTML(s){return '<div class="step"><div><div class="step-n">'+s.n+'</div><h3>'+s.t+'</h3><p class="small" style="margin-top:8px">'+s.s+'</p></div><div class="step-grid"><div class="wide"><h4>What you do</h4><p>'+s.do_+'</p></div><div><h4>Who is in the room</h4><p>'+s.who+'</p></div><div><h4>What you file</h4><p>'+s.file+'</p></div><div class="ask"><h4>The assurer asks</h4><p>'+s.ask+'</p></div><div><h4>How it goes wrong</h4><p>'+s.wrong+'</p></div><div class="wide v26"><h4>Lighter under ESRS 2026</h4><p>'+s.v26+'</p></div></div></div>';}
 function renderStatic(){
   $("#files-table").innerHTML='<thead><tr><th>#</th><th>File</th><th>What is in it</th><th>Feeds</th><th>What the assurer asks</th></tr></thead><tbody>'+D.FILES.map(function(r){return '<tr><td class="k">'+r[0]+'</td><td class="k" style="white-space:normal;min-width:150px">'+r[1]+'</td><td style="min-width:280px">'+r[2]+'</td><td style="white-space:nowrap">'+dr(r[3])+'</td><td style="min-width:240px"><i>'+r[4]+'</i></td></tr>';}).join("")+'</tbody>';
   $("#situations").innerHTML=D.SITUATIONS.map(function(s){return '<div class="situ"><div><h4>'+s[0]+'</h4><p>'+s[1]+'</p></div><button class="btn" data-go="'+s[2]+'">'+s[3]+'</button></div>';}).join("");
-  $("#steps-prepare").innerHTML=D.STEPS.slice(0,2).map(stepHTML).join("");
-  $("#steps").innerHTML=D.STEPS.slice(2).map(stepHTML).join("");
+  $("#steps").innerHTML=D.STEPS.map(function(s){return '<div class="step"><div><div class="step-n">'+s.n+'</div><h3>'+s.t+'</h3><p class="small" style="margin-top:8px">'+s.s+'</p></div><div class="step-grid"><div class="wide"><h4>What you do</h4><p>'+s.do_+'</p></div><div><h4>Who is in the room</h4><p>'+s.who+'</p></div><div><h4>What you file</h4><p>'+s.file+'</p></div><div class="ask"><h4>The assurer asks</h4><p>'+s.ask+'</p></div><div><h4>How it goes wrong</h4><p>'+s.wrong+'</p></div><div class="wide v26"><h4>Lighter under ESRS 2026</h4><p>'+s.v26+'</p></div></div></div>';}).join("");
   $("#scales").innerHTML='<thead><tr><th>Criterion</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>'+D.SCALES.map(function(r){return '<tr><td class="k" style="white-space:normal">'+r[0]+'<div class="small muted" style="font-weight:400">'+r[1]+'</div></td>'+r.slice(2).map(function(c){return '<td style="min-width:130px">'+c+'</td>';}).join("")+'</tr>';}).join("")+'</tbody>';
   $("#esrs2-map").innerHTML='<thead><tr><th>Requirement</th><th>What it covers</th><th>What the assessment supplies</th></tr></thead><tbody>'+D.ESRS2MAP.map(function(r){return '<tr><td style="white-space:nowrap">'+dr(r[0])+'</td><td style="min-width:220px">'+r[1]+'</td><td style="min-width:300px">'+r[2]+'</td></tr>';}).join("")+'</tbody>';
   $("#axes").innerHTML='<thead><tr><th>Axis</th><th class="hl">ESRS</th><th>GRI</th><th>IFRS: IASB and ISSB</th></tr></thead><tbody>'+D.AXES.map(function(r){return '<tr><td class="k" style="white-space:normal">'+r[0]+'</td><td class="hl" style="min-width:240px">'+r[1]+'</td><td style="min-width:200px">'+r[2]+'</td><td style="min-width:220px">'+r[3]+'</td></tr>';}).join("")+'</tbody>';
@@ -1849,14 +1192,14 @@ function showLink(r,c){var x=D.MX[r][c],L=D.LINKS[x[2]-1];$$("#matrix button").f
 
 /* ---------- version, tabs ---------- */
 function setVer(v){state.ver=v;document.documentElement.setAttribute("data-ver",v);$$(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ver===v));});$$(".dr").forEach(function(s){s.textContent=v==="2023"?s.dataset.a:s.dataset.b;});renderPerimeter();renderFlags();renderLinks();renderViews();save();}
-var VIEWS=["start","prepare","assess","workbook","report","frameworks","reference"];
+var VIEWS=["start","workbook","assess","report","frameworks","reference"];
 function go(v,noHash){if(VIEWS.indexOf(v)<0)v="start";$$(".view").forEach(function(s){s.classList.toggle("on",s.id==="v-"+v);});$$(".tab").forEach(function(t){t.setAttribute("aria-selected",String(t.dataset.view===v));});if(!noHash){try{history.replaceState(null,"","#"+v);}catch(e){}}window.scrollTo(0,0);}
 
 /* ---------- export ---------- */
 function csv(){
-  var cols=["#","Matter","Topic","Subtopic","Human rights","Upstream","Own operations","Downstream","Short","Medium","Long","Impact direction","Actual or potential","Scale","Scope","Irremediability","Impact likelihood","Severity","Impact score","Impact material","Risk or opportunity","Magnitude","Financial likelihood","Financial score","Financially material","Material","Override","Override reason","Impact evidence","Impact reasoning","Financial evidence","Financial reasoning","Scored by","Date scored","Stakeholder input","Policy action target","Notes"];
+  var cols=["#","Matter","Topic","Subtopic","Human rights","Upstream","Own operations","Downstream","Short","Medium","Long","Impact direction","Actual or potential","Scale","Scope","Irremediability","Impact likelihood","Severity","Impact score","Impact material","Risk or opportunity","Magnitude","Financial likelihood","Financial score","Financially material","Material","Override","Override reason","Evidence","Stakeholder input","Policy action target","Notes"];
   var q=function(v){v=String(v==null?"":v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;},yn=function(b){return b?"yes":"no";};
-  var rows=state.matters.map(function(m,ix){var c=calc(m);return [ix+1,m.title,D.STD[m.std].code+" "+D.STD[m.std].name,m.sub,yn(m.hr),yn(m.up),yn(m.own),yn(m.down),yn(m.hs),yn(m.hm),yn(m.hl),m.iOn?m.iKind:"",m.iOn?m.iState:"",m.iOn?m.scale:"",m.iOn?m.scope:"",m.iOn&&m.iKind==="neg"?m.irr:"",m.iOn&&m.iState==="potential"?m.iLik:"",c.sev===null?"":f1(c.sev),c.i===null?"":f1(c.i),yn(c.iMat),m.fOn?m.fKind:"",m.fOn?m.mag:"",m.fOn?m.fLik:"",c.f===null?"":f1(c.f),yn(c.fMat),yn(c.mat),m.ovr,m.ovrWhy,m.srcI,m.whyI,m.srcF,m.whyF,m.scorer,m.sdate,yn(m.stake),m.pat,m.note].map(q).join(",");});
+  var rows=state.matters.map(function(m,ix){var c=calc(m);return [ix+1,m.title,D.STD[m.std].code+" "+D.STD[m.std].name,m.sub,yn(m.hr),yn(m.up),yn(m.own),yn(m.down),yn(m.hs),yn(m.hm),yn(m.hl),m.iOn?m.iKind:"",m.iOn?m.iState:"",m.iOn?m.scale:"",m.iOn?m.scope:"",m.iOn&&m.iKind==="neg"?m.irr:"",m.iOn&&m.iState==="potential"?m.iLik:"",c.sev===null?"":f1(c.sev),c.i===null?"":f1(c.i),yn(c.iMat),m.fOn?m.fKind:"",m.fOn?m.mag:"",m.fOn?m.fLik:"",c.f===null?"":f1(c.f),yn(c.fMat),yn(c.mat),m.ovr,m.ovrWhy,m.evidence,yn(m.stake),m.pat,m.note].map(q).join(",");});
   return "\ufeff"+["Impact threshold,"+f1(state.tImp)+",Financial threshold,"+f1(state.tFin)+",Codes,ESRS "+state.ver,cols.map(q).join(",")].concat(rows).join("\r\n");
 }
 function exportCsv(){
@@ -1873,21 +1216,13 @@ load();
 $$(".view").forEach(function(v){v.innerHTML=dr(v.innerHTML);});
 
 /* ---------- events ---------- */
-function loadExample(){if(state.matters.length&&!state.isExample&&!window.confirm("Replace your register with the example company?"))return;state.matters=D.EXAMPLE.map(function(m,i){var n=norm(m);n.guided=false;n.whyI=(G.EXWHY[i]||{}).i||"";n.whyF=(G.EXWHY[i]||{}).f||"";n.srcI=n.evidence;n.srcF=n.evidence==="stakeholder"?"expert":n.evidence;n.scorer="Example";n.sdate="2026-03-02";return n;});state.isExample=true;state.turnover=state.turnover||520;state.sel=null;state.tImp=3;state.tFin=3;syncThr();save();renderWorkbook();renderEditor();toast("Example company loaded");}
-function syncThr(){
- [["#t-imp","#t-imp-o",state.tImp],["#m-imp","#m-imp-o",state.tImp],["#t-fin","#t-fin-o",state.tFin],["#m-fin","#m-fin-o",state.tFin]].forEach(function(r){
-  var i=$(r[0]),o=$(r[1]);if(i)i.value=r[2];if(o)o.textContent=f1(r[2]);});
- var t=$("#m-turn");if(t&&state.turnover!==null&&t.value==="")t.value=state.turnover;
- var ow=$("#m-owner");if(ow&&ow.value==="")ow.value=state.owner;
- var dt=$("#m-date");if(dt&&dt.value==="")dt.value=state.mdate;
- var b=$("#bands");if(b)b.innerHTML='<div class="lbl">Magnitude bands</div>'+BAND.map(function(x,i){return '<div class="small"><b>'+(i+1)+'</b> · '+bandText(i)+'</div>';}).join("");
- $$("[data-flag]").forEach(function(c){c.checked=!!state.flags[c.dataset.flag];});
-}
+function loadExample(){if(state.matters.length&&!state.isExample&&!window.confirm("Replace your register with the example company?"))return;state.matters=D.EXAMPLE.map(norm);state.isExample=true;state.sel=null;state.tImp=3;state.tFin=3;syncThr();save();renderWorkbook();renderEditor();toast("Example company loaded");}
+function syncThr(){$("#t-imp").value=state.tImp;$("#t-fin").value=state.tFin;$("#t-imp-o").textContent=f1(state.tImp);$("#t-fin-o").textContent=f1(state.tFin);}
 function addMatter(){state.matters.push(blank());state.sel=state.matters.length-1;state.isExample=false;save();renderWorkbook();renderEditor();var t=$("#ed-title");if(t){$("#editor").scrollIntoView({block:"start"});t.focus({preventScroll:true});}}
 function edit(ix){state.sel=ix;go("workbook");renderRegister();renderEditor();$("#editor").scrollIntoView({block:"start"});}
 
 document.addEventListener("click",function(e){
-  var t=e.target.closest("[data-go],.tab,.seg [data-ver],[data-act],[data-edit],[data-out],.sw,.pt,#matrix button,.reg tbody tr,#lib-add,#lib-close,#gate-skip,#gate-example");if(!t)return;
+  var t=e.target.closest("[data-go],.tab,.seg [data-ver],[data-act],[data-edit],[data-out],.sw,.pt,#matrix button,.reg tbody tr");if(!t)return;
   if(t.dataset.go){e.preventDefault();go(t.dataset.go);if(t.dataset.go==="start"&&t.closest("#situations")){var el=$("#sc-emp");if(el){el.scrollIntoView({block:"center"});el.focus();}}return;}
   if(t.classList.contains("tab")){go(t.dataset.view);return;}
   if(t.matches(".seg [data-ver]")){setVer(t.dataset.ver);return;}
@@ -1897,14 +1232,6 @@ document.addEventListener("click",function(e){
   if(t.classList.contains("sw")){var k=t.dataset.std;go("workbook");var first=state.matters.findIndex(function(m){return m.std===k;});if(first>-1)edit(first);else{$$(".subtab")[0].click();}return;}
   if(t.matches("#matrix button")){showLink(t.dataset.r,t.dataset.c);return;}
   if(t.matches(".reg tbody tr")){edit(+t.dataset.ix);return;}
-  if(t.id==="gate-skip"){state.flags.method=true;save();renderWorkbook();return;}
-  if(t.id==="gate-example"){loadExample();return;}
-  if(t.id==="lib-close"){libOpen=false;renderLib();return;}
-  if(t.id==="lib-add"){
-   var picked=$$(".lib-c:checked:not(:disabled)").map(function(c){return +c.value;});
-   if(!picked.length){toast("Nothing ticked");return;}
-   picked.forEach(function(i){var r=G.STARTER[i],m=blank();m.std=r[0];m.sub=r[1];m.title=r[2];state.matters.push(m);});
-   state.isExample=false;libOpen=false;state.sel=null;save();renderEditor();renderWorkbook();toast("Added "+picked.length+" matters. Reword them in your own language.");return;}
   var a=t.dataset.act;
   if(a==="add")addMatter();else if(a==="example")loadExample();
   else if(a==="close"){state.sel=null;renderEditor();renderRegister();}
@@ -1914,23 +1241,11 @@ document.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" "
 function onEdit(e){var el=e.target,f=el.dataset&&el.dataset.f;if(!f||state.sel===null)return;var m=state.matters[state.sel];if(!m)return;
   m[f]=el.type==="checkbox"?el.checked:(el.dataset.num?+el.value:el.value);state.isExample=false;
   if(f==="std"){m.sub="";renderEditor();}
-  else if(["guided","iKind","iState","iOn","fOn"].indexOf(f)>-1){renderEditor();}
-  save();lensOut();renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();renderSens();renderRoute();renderTracker();}
+  save();lensOut();renderBoards();renderRegister();renderPlot();renderPerimeter();renderFlags();renderLinks();renderViews();}
 $("#editor").addEventListener("input",onEdit);$("#editor").addEventListener("change",onEdit);
 ["t-imp","t-fin"].forEach(function(id){$("#"+id).addEventListener("input",function(e){state[id==="t-imp"?"tImp":"tFin"]=+e.target.value;syncThr();save();lensOut();renderWorkbook();});});
 $("#add-matter").addEventListener("click",addMatter);
 $("#load-example").addEventListener("click",loadExample);
-$("#open-lib").addEventListener("click",function(){libOpen=!libOpen;renderLib();if(libOpen)$("#lib-panel").scrollIntoView({block:"start"});});
-$("#go-lib").addEventListener("click",function(){libOpen=true;setTimeout(function(){renderLib();$("#lib-panel").scrollIntoView({block:"start"});},20);});
-$("#gen-method").addEventListener("click",genMethod);
-$("#print-method").addEventListener("click",function(){printDoc("doc-method");});
-$("#gen-brief").addEventListener("click",genBrief);
-$("#print-brief").addEventListener("click",function(){printDoc("doc-brief");});
-["m-imp","m-fin"].forEach(function(id){var el=$("#"+id);if(!el)return;el.addEventListener("input",function(e){state[id==="m-imp"?"tImp":"tFin"]=+e.target.value;syncThr();save();renderWorkbook();});});
-var mt=$("#m-turn");if(mt)mt.addEventListener("input",function(e){state.turnover=e.target.value===""?null:+e.target.value;save();syncThr();renderEditor();});
-var mo=$("#m-owner");if(mo)mo.addEventListener("input",function(e){state.owner=e.target.value;save();});
-var md=$("#m-date");if(md)md.addEventListener("input",function(e){state.mdate=e.target.value;save();renderTracker();});
-$$("[data-flag]").forEach(function(c){c.addEventListener("change",function(e){state.flags[e.target.dataset.flag]=e.target.checked;save();renderRoute();renderTracker();renderGate();});});
 $("#load-example-start").addEventListener("click",function(){loadExample();});
 $("#export-csv").addEventListener("click",exportCsv);
 $("#clear-all").addEventListener("click",function(){if(!state.matters.length)return;if(window.confirm("Remove every matter from the register? Export or back up first if you need it.")){state.matters=[];state.sel=null;state.isExample=false;save();renderEditor();renderWorkbook();toast("Register cleared");}});
@@ -1947,7 +1262,7 @@ window.addEventListener("hashchange",function(){go((location.hash||"#start").sli
 /* ---------- init ---------- */
 document.documentElement.setAttribute("data-ver",state.ver);
 $$(".seg button").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.ver===state.ver));});
-renderStatic();syncThr();renderWorkbook();renderEditor();renderRoute();renderTracker();
+renderStatic();syncThr();renderWorkbook();renderEditor();
 go((location.hash||"#start").slice(1),true);
 })();
 </script>
